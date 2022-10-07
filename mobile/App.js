@@ -31,8 +31,6 @@ export default function App() {
       
 }
 
-  
-
   useEffect(() => {
     // getData()
     // postData()

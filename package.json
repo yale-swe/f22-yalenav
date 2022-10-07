@@ -1,21 +1,24 @@
 {
-  "name": "mern-example-app",
+  "name": "yalenav",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:yale-swe/mern-example-app.git",
+  "repository": "git@github.com:yale-swe/f22-yalenav.git",
   "author": "wu-json",
   "license": "MIT",
   "scripts": {
-    "build:client": "cd client && yarn build",
+    "build:mobile": "cd mobile && yarn build",
     "build:server": "cd server && yarn build",
-    "clean:all": "rm -rf node_modules && cd server && rm -rf node_modules && cd ../client && rm -rf node_modules",
-    "install:all": "yarn && cd server && yarn && cd ../client && yarn",
-    "install:client": "cd client && yarn",
+    "clean:all": "rm -rf node_modules && cd server && rm -rf node_modules && cd ../mobile && rm -rf node_modules",
+    "install:all": "yarn && cd server && yarn && cd ../mobile && yarn",
+    "install:mobile": "cd mobile && yarn",
     "install:server": "cd server && yarn",
     "dev:env": "docker-compose up",
-    "dev:client": "cd client && yarn start",
+    "dev:mobile": "cd mobile && yarn start",
     "dev:server": "cd server && yarn dev",
-    "test:client": "cd client && yarn test",
+    "test:mobile": "cd mobile && yarn test",
     "test:server": "cd server && yarn test"
+  },
+  "devDependencies": {
+    "react-test-renderer": "18"
   }
 }
