@@ -106,3 +106,8 @@ dist
 # Docker Artifacts
 tmpdata
 build
+
+# Other
+*auth.js
+*.DS_Store
+*.expo

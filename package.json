@@ -6,19 +6,26 @@
   "author": "wu-json",
   "license": "MIT",
   "scripts": {
-    "build:mobile": "cd mobile && yarn build",
+    "build:client": "cd client && yarn build",
     "build:server": "cd server && yarn build",
-    "clean:all": "rm -rf node_modules && cd server && rm -rf node_modules && cd ../mobile && rm -rf node_modules",
-    "install:all": "yarn && cd server && yarn && cd ../mobile && yarn",
-    "install:mobile": "cd mobile && yarn",
+    "clean:all": "rm -rf node_modules && cd server && rm -rf node_modules && cd ../client && rm -rf node_modules",
+    "install:all": "yarn && cd server && yarn && cd ../client && yarn",
+    "install:client": "cd client && yarn",
     "install:server": "cd server && yarn",
     "dev:env": "docker-compose up",
-    "dev:mobile": "cd mobile && yarn start",
+    "dev:client": "cd client && yarn start",
     "dev:server": "cd server && yarn dev",
-    "test:mobile": "cd mobile && yarn test",
+    "test:client": "cd client && yarn test",
     "test:server": "cd server && yarn test"
   },
   "devDependencies": {
     "react-test-renderer": "18"
+  },
+  "dependencies": {
+    "@expo/webpack-config": "^0.16.19",
+    "@rnmapbox/maps": "rnmapbox/maps",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-web": "~0.18.7"
   }
 }
