@@ -1,6 +1,6 @@
 # Yale SWE MERN Example App
 
-## Overview
+## Overview - Graham edit
 
 The MERN stack is an extremely popular development stack, and is composed of the following components:
 
