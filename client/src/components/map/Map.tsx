@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { MAPBOX_AUTH_TOKEN } from "./mapbox.auth.js"
 import MapboxGL from "@rnmapbox/maps";
@@ -11,9 +11,18 @@ interface MapInterface {
 
 export const Map: React.FC<MapInterface> = ({userLoc} : MapInterface) => {
 
-    return (
-        <MapboxGL.MapView style={styles.map} />
-    );
+  const [userCoordinates, setUserCoordinates] = useState([41.3163, 72.9223]);
+
+  return (
+    <View style={styles.page}>
+      <View style={styles.container}>
+        <MapboxGL.MapView style={styles.map}>
+          <MapboxGL.Camera centerCoordinate={userCoordinates} />
+          <MapboxGL.PointAnnotation coordinate={userCoordinates} />
+         </MapboxGL.MapView>
+         </View>
+       </View>
+  );
 }
 
 const styles = StyleSheet.create({
