@@ -111,3 +111,4 @@ build
 *auth.js
 *.DS_Store
 *.expo
+*.vscode

@@ -2,14 +2,16 @@
 
 > YaleNav is the mobile app helping students explore and navigate campus seamlessly.
 
-### Stack
+**Team**: Kyle, Vincent, Graham, Jonathan, Petru, Ali.
+
+## Stack
 
 - MongoDB (NoSQL Database)
 - Express (Backend Framework)
 - React Native (Frontend Framework)
 - Node.js (Backend Runtime)
 
-This application is a MERN-stack application written in TypeScript. It allows you to create and delete Doggos! Run this app locally and experiment to learn the stack better. If you also want to copy this app as the base code for your project, feel free to do so!
+This application is a MERN x RN -stack application written in TypeScript.
 
 ## Running This App Locally
 
@@ -26,4 +28,4 @@ Once you installed all the stuff above, follow these directions:
 3. Open another terminal window and run `yarn dev:server`. This will run the REST API on port `4000`.
 4. Open another terminal window and run `yarn dev:client`. This wll serve the client on port `3000`.
 
-After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app. Have fun making doggos!
+After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app.
