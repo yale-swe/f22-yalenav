@@ -1,12 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Map } from "./src/components"
+import { StatusBar } from "expo-status-bar";
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Map } from "./src/components";
 
-import { API_ENDPOINT } from './config';
+import { API_ENDPOINT } from "./config";
 
 export default function App() {
-  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
@@ -18,12 +17,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {
-        isAuthenticated && <Map userLoc={undefined}/>
-      }
-      {
-        !isAuthenticated && <Text> Please log in </Text> && <StatusBar style="auto" />
-      }
+      {isAuthenticated && (
+        <Map userLoc={undefined} reactNativeMap={false} mapboxMap={true} />
+      )}
+      {!isAuthenticated && <Text> Please log in </Text> && (
+        <StatusBar style="auto" />
+      )}
     </View>
   );
 }
@@ -31,8 +30,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    backgroundColor: "#fff",
   },
 });
