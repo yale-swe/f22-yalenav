@@ -5,7 +5,9 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest",
+    "build": "expo build:ios && expo build:android"
   },
   "dependencies": {
     "@rnmapbox/maps": "^10.0.0-beta.45",
@@ -21,11 +23,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/jest": "^29.1.2",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.69.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "deprecated-react-native-prop-types": "^2.3.0",
-    "typescript": "~4.3.5"
+    "jest": "^29.1.2",
+    "react-test-renderer": "18",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.8.4"
   },
   "private": true
 }
