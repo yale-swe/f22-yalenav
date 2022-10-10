@@ -112,3 +112,4 @@ build
 *.DS_Store
 *.expo
 *.vscode
+*ios

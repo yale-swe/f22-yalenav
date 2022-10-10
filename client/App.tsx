@@ -19,12 +19,11 @@ export default function App() {
   return (
     <View style={styles.container}>
       {
-        isAuthenticated ? 
-          // <Map userLoc={null}/> :
-          <Text> Open up Map.tsx to get the map to render... </Text> :
-          <Text> Please log in </Text>
+        isAuthenticated && <Map userLoc={undefined}/>
       }
-      <StatusBar style="auto" />
+      {
+        !isAuthenticated && <Text> Please log in </Text> && <StatusBar style="auto" />
+      }
     </View>
   );
 }
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });

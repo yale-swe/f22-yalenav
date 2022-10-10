@@ -6,7 +6,7 @@ import MapboxGL from "@rnmapbox/maps";
 MapboxGL.setAccessToken(MAPBOX_AUTH_TOKEN);
 
 interface MapInterface {
-    userLoc: string | null;
+    userLoc: string | undefined;
 }
 
 export const Map: React.FC<MapInterface> = ({userLoc} : MapInterface) => {
@@ -14,14 +14,10 @@ export const Map: React.FC<MapInterface> = ({userLoc} : MapInterface) => {
   const [userCoordinates, setUserCoordinates] = useState([41.3163, 72.9223]);
 
   return (
-    <View style={styles.page}>
-      <View style={styles.container}>
-        <MapboxGL.MapView style={styles.map}>
-          <MapboxGL.Camera centerCoordinate={userCoordinates} />
-          <MapboxGL.PointAnnotation coordinate={userCoordinates} />
-         </MapboxGL.MapView>
-         </View>
-       </View>
+    <MapboxGL.MapView style={styles.map}>
+      <MapboxGL.Camera followZoomLevel={12} centerCoordinate={userCoordinates} />
+      <MapboxGL.PointAnnotation coordinate={userCoordinates} />
+    </MapboxGL.MapView>
   );
 }
 
@@ -30,10 +26,6 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-    },
-    container: {
-      height: 300,
-      width: 300,
     },
     map: {
       flex: 1

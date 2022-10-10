@@ -15,6 +15,7 @@
     "dev:env": "docker-compose up",
     "dev:client": "cd client && yarn start",
     "dev:server": "cd server && yarn dev",
+    "dev:ios": "cd client && yarn run ios",
     "test:client": "cd client && yarn test",
     "test:server": "cd server && yarn test"
   },
