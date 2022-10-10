@@ -10,7 +10,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      var authenticationResponse = true; // TODO: passport cas
+      var authenticationResponse = false; // TODO: passport cas
       setIsAuthenticated(authenticationResponse);
     }
   }, []);
@@ -20,9 +20,11 @@ export default function App() {
       {isAuthenticated && (
         <Map userLoc={undefined} reactNativeMap={false} mapboxMap={true} />
       )}
-      {!isAuthenticated && <Text> Please log in </Text> && (
-        <StatusBar style="auto" />
-      )}
+      {!isAuthenticated && (
+          <Text>
+            Please log in. (TODO: Open App.tsx and create a log in page)
+          </Text>
+        ) && <StatusBar style="auto" />}
     </View>
   );
 }

@@ -10,7 +10,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
 }: ReactNativeMapInterface) => {
   return (
     <View>
-      <Text>Open up ReactNAtiveMap.tsx</Text>
+      <Text>Open up ReactNativeMap.tsx</Text>
     </View>
   );
 };
