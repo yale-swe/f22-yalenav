@@ -15,10 +15,5 @@ export const Map: React.FC<MapInterface> = ({
   reactNativeMap,
   mapboxMap,
 }: MapInterface) => {
-  return (
-    <View>
-      {reactNativeMap && <ReactNativeMap userLoc={userLoc} />}
-      {mapboxMap && <MapboxMap userLoc={userLoc} />}
-    </View>
-  );
+  return <ReactNativeMap userLoc={userLoc} />;
 };
