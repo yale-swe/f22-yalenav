@@ -6,7 +6,6 @@
   "author": "wu-json",
   "license": "MIT",
   "scripts": {
-    "build:client": "cd client && yarn build",
     "build:server": "cd server && yarn build",
     "clean:all": "rm -rf node_modules && cd server && rm -rf node_modules && cd ../client && rm -rf node_modules",
     "install:all": "yarn && cd server && yarn && cd ../client && yarn",
@@ -25,8 +24,11 @@
   "dependencies": {
     "@expo/webpack-config": "^0.16.19",
     "@rnmapbox/maps": "rnmapbox/maps",
+    "expo-constants": "^13.2.4",
     "react-dom": "18.0.0",
     "react-native": "0.69.6",
+    "react-native-elements": "^3.4.2",
+    "react-native-safe-area-context": "^4.4.1",
     "react-native-web": "~0.18.7"
   }
 }

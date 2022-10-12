@@ -18,8 +18,6 @@ jobs:
         run: yarn install:client
       - name: Run Tests
         run: yarn test:client
-      - name: Build
-        run: yarn build:client
 
   test-and-build-server:
     name: Test & Build Server
