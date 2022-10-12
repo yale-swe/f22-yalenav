@@ -6,8 +6,7 @@
     "android": "npx expo run:android",
     "ios": "npx expo run:ios",
     "web": "npx expo start --web",
-    "test": "jest",
-    "build": "npx expo build:ios && npx expo build:android"
+    "test": "jest"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.13",
