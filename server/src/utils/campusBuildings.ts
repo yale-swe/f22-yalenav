@@ -20,12 +20,12 @@ interface BuildingsV2Object {
   LONGITUDE?: Number;
 }
 
-const BUILDINSV2ENDPOINT = `https://gw.its.yale.edu/soa-gateway/buildings/v2/feed?apikey=${YALE_BUILDINGS_AUTH}&type=json`;
+const BUILDINGSV2ENDPOINT = `https://gw.its.yale.edu/soa-gateway/buildings/v2/feed?apikey=${YALE_BUILDINGS_AUTH}&type=json`;
 
 export const getBuildings = async (): Promise<typeof Building[]> => {
   // https://stackoverflow.com/questions/8515872/simple-api-calls-with-node-js-and-express
   return new Promise((resolve, reject) => {
-    request(BUILDINSV2ENDPOINT, async (err, response, body) => {
+    request(BUILDINGSV2ENDPOINT, async (err, response, body) => {
       if (err || response.statusCode !== 200) reject(err);
 
       //parse the response based in interface
