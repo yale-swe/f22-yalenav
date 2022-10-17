@@ -23,11 +23,10 @@ describe("Buildings Tests", () => {
       expect(res.body.buildings).toEqual([]);
     });
     it(`should get 1 building`, async () => {
-      // request all buildings from BuildingsV2
       testBuildings = await Building.create([
         {
-          name: "SMILOW FIELD CENTER",
-          address: "DERBY AVENUE, 249, NEW HAVEN, CT,06511",
+          name: "Smilow Field Center",
+          address: "Derby Avenue, 249, New Haven, Ct, 06511",
           lat: 41.311237,
           lon: -72.959817,
         },
