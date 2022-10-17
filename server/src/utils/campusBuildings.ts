@@ -1,6 +1,7 @@
 import { YALE_BUILDINGS_AUTH } from "../auth";
 import { Building } from "../models";
 import request from "request";
+import { capitalizeWords } from "./general";
 
 // https://developers.yale.edu/buildingsv2
 interface BuildingsV2Object {
@@ -54,9 +55,9 @@ const formatBuildings = (
 
 const formatBuilding = (building: BuildingsV2Object): typeof Building => {
   return new Building({
-    name: building.DESCRIPTION,
-    address: [building.ADDRESS_1, building.ADDRESS_2, building.ADDRESS_3].join(
-      ", "
+    name: capitalizeWords(building.DESCRIPTION),
+    address: capitalizeWords(
+      [building.ADDRESS_1, building.ADDRESS_2, building.ADDRESS_3].join(", ")
     ),
     lat: building.LATITUDE,
     lon: building.LONGITUDE,

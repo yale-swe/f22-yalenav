@@ -41,6 +41,7 @@ describe("Buildings Tests", () => {
       // request all buildings from BuildingsV2 api and convert to Buildings
       let allBuildings: typeof Building[] = await getBuildings();
       let n = allBuildings.length;
+      console.log(allBuildings[0]);
       // add all buildings to db
       testBuildings = await Building.create(allBuildings);
       const res = await request(app).get("/building");
