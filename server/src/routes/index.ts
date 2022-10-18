@@ -5,6 +5,6 @@ import BuildingRoutes from "./buildings";
 const router = Router();
 
 router.use("/doggo", DoggoRoutes);
-router.use("/buildings", BuildingRoutes);
+router.use("/building", BuildingRoutes);
 
 export default router;
