@@ -8,6 +8,7 @@ module.exports = router;
 
 router.get("/", async (_req: Request, res: Response) => {
   const buildings = await Building.find();
+  console.log(buildings);
   if (buildings.length !== 0) {
     res.send({ buildings });
     return;
