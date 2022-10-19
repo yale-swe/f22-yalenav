@@ -5,6 +5,10 @@ export const BuildingSchema = new mongoose.Schema({
     type: "string",
     required: true,
   },
+  abbreviation: {
+    type: "string",
+    required: true,
+  },
   address: {
     type: "string",
     required: true,

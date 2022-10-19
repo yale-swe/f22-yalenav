@@ -6,6 +6,13 @@ import { getBuildings } from "../utils/campusBuildings";
 
 describe("Buildings Tests", () => {
   let testBuildings: typeof Building[] = [];
+  let testBuilding = {
+    name: "Smilow Field Center",
+    address: "Derby Avenue, 249, New Haven, Ct, 06511",
+    abbreviation: "SFC",
+    lat: 41.311237,
+    lon: -72.959817,
+  };
 
   beforeEach(async () => {
     await connectMongoose();
@@ -17,35 +24,27 @@ describe("Buildings Tests", () => {
   });
 
   describe("Get Buildings", () => {
-    it("should get no buildings", async () => {
-      const res = await request(app).get("/building");
-      expect(res.status).toEqual(200);
-      expect(res.body.buildings).toEqual([]);
-    });
-    it(`should get 1 building`, async () => {
-      testBuildings = await Building.create([
-        {
-          name: "Smilow Field Center",
-          address: "Derby Avenue, 249, New Haven, Ct, 06511",
-          lat: 41.311237,
-          lon: -72.959817,
-        },
-      ]);
-      const res = await request(app).get("/building");
-      expect(res.status).toEqual(200);
-      expect(res.body.buildings).toHaveLength(1);
-    });
-
-    it(`should get all buildings`, async () => {
+    it("should get all buildings", async () => {
       // request all buildings from BuildingsV2 api and convert to Buildings
       let allBuildings: typeof Building[] = await getBuildings();
       let n = allBuildings.length;
-      // add all buildings to db
-      testBuildings = await Building.create(allBuildings);
+      // fetch buildings from db
       const res = await request(app).get("/building");
       expect(res.status).toEqual(200);
       // check all are there
       expect(res.body.buildings).toHaveLength(n);
+    });
+  });
+
+  describe("Create Building", () => {
+    it("should create a building", async () => {
+      const res = await request(app).post("/building").send(testBuilding);
+      expect(res.status).toEqual(201);
+      testBuildings = await Promise.all([
+        Building.findOne({ name: testBuilding.name }),
+      ]);
+      expect(testBuildings).toHaveLength(1);
+      expect(testBuildings[0]).toBeTruthy();
     });
   });
 });
