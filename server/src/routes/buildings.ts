@@ -7,8 +7,7 @@ const router = Router();
 module.exports = router;
 
 router.get("/", async (_req: Request, res: Response) => {
-  const buildings = await Building.find();
-  console.log(buildings);
+  let buildings = await Building.find();
   if (buildings.length !== 0) {
     res.send({ buildings });
     return;
@@ -16,7 +15,8 @@ router.get("/", async (_req: Request, res: Response) => {
   // cache all buildings; add them all to db on start up
   let allBuildings: typeof Building[] = await getBuildings();
   await Building.create(allBuildings);
-  res.send({ allBuildings });
+  buildings = await Building.find();
+  res.send({ buildings });
 });
 
 router.post("/", async (req: Request, res: Response) => {
