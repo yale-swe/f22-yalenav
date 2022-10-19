@@ -15,8 +15,7 @@ router.get("/", async (_req: Request, res: Response) => {
   // cache all buildings; add them all to db on start up
   let allBuildings: typeof Building[] = await getBuildings();
   await Building.create(allBuildings);
-  const newlyAddedBuildings = await Building.find();
-  res.send({ newlyAddedBuildings });
+  res.send({ allBuildings });
 });
 
 router.post("/", async (req: Request, res: Response) => {
