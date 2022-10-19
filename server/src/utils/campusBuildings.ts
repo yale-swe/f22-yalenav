@@ -59,6 +59,7 @@ const formatBuilding = (building: BuildingsV2Object): typeof Building => {
     address: capitalizeWords(
       [building.ADDRESS_1, building.ADDRESS_2, building.ADDRESS_3].join(", ")
     ),
+    abbreviation: capitalizeWords(building.BUILDING_ABBR),
     lat: building.LATITUDE,
     lon: building.LONGITUDE,
   });
