@@ -32,6 +32,7 @@ describe("Buildings Tests", () => {
       const res = await request(app).get("/building");
       expect(res.status).toEqual(200);
       // check all are there
+      console.log(res.body.buildings);
       expect(res.body.buildings).toHaveLength(n);
     });
   });
