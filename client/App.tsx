@@ -1,34 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   Keyboard,
+  SafeAreaView,
 } from "react-native";
 
-import { Map, Profile, Search, Shortcut } from "./src/components";
+import { AuthProvider, useAuth } from "./src/contexts/Auth";
+import Navigation from './src/screens/Navigation';
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      var authenticationResponse = false; // TODO: passport cas
-      setIsAuthenticated(authenticationResponse);
-    }
-  }, []);
-
+  
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <Map />
-        <View style={styles.header}>
-          <Search />
-          <Profile />
-        </View>
-        <Shortcut />
-      </View>
-    </TouchableWithoutFeedback>
+    
+
+      <SafeAreaView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <AuthProvider>
+            <Navigation />
+          </AuthProvider>
+          </TouchableWithoutFeedback>
+     
+      </SafeAreaView>
+      
+
+    
   );
 }
 
