@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AuthData} from '../services/authService';
 import {BACKEND} from '../constants';
 import * as AuthSession from 'expo-auth-session';
+import axios from 'axios';
 
 type AuthContextData = {
   authData?: AuthData;
@@ -74,6 +75,13 @@ const AuthProvider: React.FC<Props>= ({children}) => {
   };
 
   const signOut = async () => {
+
+    axios.get<{ success: Boolean }>(`${ BACKEND }/logout`).then( ({data}) => {
+      if(data.success){
+        console.log("Logged out successfully");
+      }
+    })
+
     //Remove data from context, so the App can be notified
     setAuthData(undefined);
 

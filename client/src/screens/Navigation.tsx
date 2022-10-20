@@ -15,7 +15,7 @@ const Navigation = () => {
                 <View style={styles.header}>
                     <Search />
                     <Profile />
-                    <Button onPress={auth.signOut}/>
+                    <Button title="Sign Out" onPress={auth.signOut}/>
                 </View>
                 <Shortcut />
                 
