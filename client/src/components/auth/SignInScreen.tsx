@@ -7,7 +7,6 @@ const SignInScreen = () => {
     const auth = useAuth();
   
     const handleSignInPress = async () => {
-      console.log("sign in")
       auth.signIn();
       
     };

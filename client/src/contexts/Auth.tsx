@@ -1,7 +1,7 @@
 import React, {createContext, useState, useContext, useEffect, ReactNode} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {AuthData} from '../services/authService';
+import {AuthData} from '../../types';
 import {BACKEND} from '../constants';
 import * as AuthSession from 'expo-auth-session';
 import axios from 'axios';
@@ -69,11 +69,9 @@ const AuthProvider: React.FC<Props>= ({children}) => {
 
       // Persist the data in local storage so the user does not need to login ever time they want to use the app.
       AsyncStorage.setItem('@AuthData', JSON.stringify(newAuthData));
-
     }
-    
   };
-
+  
   const signOut = async () => {
 
     axios.get<{ success: Boolean }>(`${ BACKEND }/logout`).then( ({data}) => {

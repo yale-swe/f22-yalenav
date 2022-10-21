@@ -11,7 +11,7 @@ export const Profile: React.FC<ProfileInterface> = ({}: ProfileInterface) => {
       <Button
         style={styles.profile}
         type="clear"
-        icon={<Icon name="user" size={23} color={YALE_HEX} />}
+        icon={<Icon name="user" size={33} color={YALE_HEX} />}
       />
     </View>
   );

@@ -1,46 +1,23 @@
-import {View, StyleSheet} from 'react-native'
+import {TouchableWithoutFeedback, SafeAreaView} from 'react-native'
 import { useAuth } from '../contexts/Auth';
-import { Map, Profile, Search, Shortcut } from "../components";
-import SignInButton from '../components/auth/SignInScreen';
-import { Button } from 'react-native-elements';
+import SignInScreen from '../components/auth/SignInScreen';
+import HomeScreen from './HomeScreen';
+
 
 const Navigation = () => {
     const auth = useAuth();
 
     return (
-        <View>
-            {auth.authData ?  (
-                <View style={styles.container}>
-                <Map />
-                <View style={styles.header}>
-                    <Search />
-                    <Profile />
-                    <Button title="Sign Out" onPress={auth.signOut}/>
-                </View>
-                <Shortcut />
-                
-                </View>
-                ) : 
-                <SignInButton />
+        <TouchableWithoutFeedback>
+           {auth.authData ? 
+             <HomeScreen /> : (
+             <SafeAreaView >
+                 <SignInScreen /> 
+             </SafeAreaView>
+             )
             }
-    </View>
+        </TouchableWithoutFeedback> 
     )
 };
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      backgroundColor: "#fff",
-    },
-    header: {
-      flexDirection: "row",
-      marginTop: "20%",
-      flex: 1,
-      position: "absolute",
-      justifyContent: "space-around",
-    },
-  });
-  
 
 export default Navigation;
