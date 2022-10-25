@@ -40,9 +40,8 @@ export default function HomeScreen() {
         <SafeAreaView style={styles.container}>
             <Map selectedLocation={selectedLocation} />
             <View style={styles.header}>
-            <Search locations={buildings} selectLocation={selectLocation} />
-            <Profile />
-            {/* <Button title="Sign Out" onPress={auth.signOut} /> */}
+                <Search locations={buildings} selectLocation={selectLocation} />
+                <Profile />
             </View>
             <Shortcut />
         </SafeAreaView>
