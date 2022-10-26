@@ -2,7 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { Button } from "react-native-elements";
 import { AntDesign as Icon } from "@expo/vector-icons";
 import { YALE_HEX } from "../../constants";
-import {useAuth} from '../../contexts/Auth';
+import { useAuth } from "../../contexts/Auth";
 
 interface ProfileInterface {}
 
@@ -13,8 +13,8 @@ export const Profile: React.FC<ProfileInterface> = ({}: ProfileInterface) => {
       <Button
         style={styles.profile}
         type="clear"
-        title={auth.authData?.netId}
-        onPress ={auth.signOut}
+        title={auth.authData ? auth.authData.netId : "Sign In"}
+        onPress={auth.signOut}
       />
     </View>
   );
