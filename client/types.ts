@@ -18,3 +18,7 @@ export type ShuttleStop = {
   // lat: number;
   // lon: number;
 };
+
+export type AuthData = {
+  netId: string;
+};
