@@ -1,10 +1,12 @@
-import { AuthProvider } from "./src/contexts/Auth";
-import Navigation from './src/screens/Navigation';
+import {AuthContext, AuthProvider, useAuth} from "./src/contexts/Auth";
+import Navigation from './src/navigation/Navigation';
+import {NavigationContainer} from "@react-navigation/native";
+
 
 export default function App() {
-  return (
-    <AuthProvider>
-      <Navigation />
-    </AuthProvider> 
+    return (
+        <AuthProvider>
+            <Navigation />
+        </AuthProvider>
   );
 }

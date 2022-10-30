@@ -4,10 +4,11 @@ import axios from "axios";
 import { Building } from "../../types";
 
 import { Map, Profile, Search, Shortcut } from "../components";
-import { BACKEND } from "../constants";
+import {BACKEND, YALE_HEX} from "../constants";
 import { useAuth } from "../contexts/Auth";
+import {Button} from "react-native-elements";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const auth = useAuth();
   // Load Yale locations
   const [buildings, setBuildings] = useState<Building[]>([]);
@@ -36,9 +37,15 @@ export default function HomeScreen() {
       <Map selectedLocation={selectedLocation} />
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
-        <Profile />
+        <Button
+            style={styles.profile}
+            type="clear"
+            title={auth.authData ? auth.authData.netId : "Sign In"}
+            onPress={() => navigation.navigate('User Profile')}
+        />
+        <Shortcut />
       </View>
-      <Shortcut />
+
     </>
   );
 }
@@ -50,5 +57,11 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     justifyContent: "space-around",
+  },
+  profile: {
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+    borderRadius: 40,
+    backgroundColor: "white",
   },
 });

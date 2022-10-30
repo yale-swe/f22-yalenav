@@ -14,7 +14,7 @@ export const Profile: React.FC<ProfileInterface> = ({}: ProfileInterface) => {
         style={styles.profile}
         type="clear"
         title={auth.authData ? auth.authData.netId : "Sign In"}
-        onPress={auth.signOut}
+        onPress={() => props.navigation.navigate('User Profile')}
       />
     </View>
   );
