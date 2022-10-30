@@ -1,17 +1,20 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Button } from "react-native-elements";
 import { AntDesign as Icon } from "@expo/vector-icons";
 import { YALE_HEX } from "../../constants";
+import { useAuth } from "../../contexts/Auth";
 
 interface ProfileInterface {}
 
 export const Profile: React.FC<ProfileInterface> = ({}: ProfileInterface) => {
+  const auth = useAuth();
   return (
     <View style={styles.profileComponent}>
       <Button
         style={styles.profile}
         type="clear"
-        icon={<Icon name="user" size={33} color={YALE_HEX} />}
+        title={auth.authData ? auth.authData.netId : "Sign In"}
+        onPress={auth.signOut}
       />
     </View>
   );
