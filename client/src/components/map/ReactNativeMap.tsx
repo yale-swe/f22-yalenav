@@ -18,9 +18,11 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   // https://mapstyle.withgoogle.com/
   const mapStyle = require("./mapStyle.json");
 
-  // const orig = {latitude:41.306237, longitude:-72.929741};
-  // const dest = {latitude: 41.312573, longitude: -72.928726};
-  // const APIKEY = 'AIzaSyAXXjQ9BSLJ3SwDmJKjaCsgGQv1IiRQ9Q8';
+  const orig = {latitude:41.306237, longitude:-72.929741};
+  const dest = {latitude: 41.312573, longitude: -72.928726};
+  const APIKEY = 'AIzaSyAXXjQ9BSLJ3SwDmJKjaCsgGQv1IiRQ9Q8';
+
+
 
   return (
     <MapView
@@ -40,10 +42,10 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
       )}
 
       {
-        origin && destination && 
+        orig && dest && 
         (<RoutingView 
-          routeOrigin={origin} 
-          routeDestination={destination.loc} 
+          routeOrigin={orig} 
+          routeDestination={dest} 
           mode={"walking"}/>
         )}
         

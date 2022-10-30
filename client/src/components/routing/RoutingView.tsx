@@ -16,7 +16,7 @@ interface RoutingInterface {
     // const dest = {latitude: routeDestination.lat,
     //    longitude: routeDestination.lon};
 
-    const APIKEY = 'AIzaSyAXXjQ9BSLJ3SwDmJKjaCsgGQv1IiRQ9Q8';
+    const APIKEY = 'AIzaSyAaFzpWVbgNHe41BXKM04MGOT6Vf_y7tn0';
   
     return (
       <MapViewDirections 
