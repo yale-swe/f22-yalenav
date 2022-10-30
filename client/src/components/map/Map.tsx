@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactNativeMap } from "./ReactNativeMap";
-import { Building, ShuttleStop } from "../../../types";
+import { Building, ShuttleStop, Location } from "../../../types";
 
 interface MapInterface {
   selectedLocation: Building | undefined;
