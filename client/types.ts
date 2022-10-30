@@ -6,3 +6,7 @@ export type Building = {
   lat: number;
   lon: number;
 };
+
+export type AuthData = {
+  netId: string;
+};
