@@ -14,7 +14,7 @@ const Navigation = () => {
   return (
       <NavigationContainer>
         <TouchableWithoutFeedback>
-<AuthStack />
+            {auth.authData ? <AuthStack />: <UnauthStack />}
         </TouchableWithoutFeedback>
       </NavigationContainer>
   );

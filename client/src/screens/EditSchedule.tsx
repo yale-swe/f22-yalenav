@@ -9,32 +9,12 @@ import { useAuth } from "../contexts/Auth";
 import {Button} from "react-native-elements";
 
 // @ts-ignore
-export default function UserProfile({ navigation }) {
+export default function EditSchedule({ navigation }) {
     const auth = useAuth();
     return (
         <>
             <View style={styles.header}>
-                <Text style={styles.heading}>Hello, {auth.authData?.netId}</Text>
-                <Button
-                    style={styles.profile}
-                    type="clear"
-                    title="Go Home"
-                    onPress={() => navigation.navigate('Home')}
-                />
-
-                <Button
-                    style={styles.profile}
-                    type="clear"
-                    title="Sign Out"
-                    onPress={() => auth.signOut()}
-                />
-
-                <Button
-                    style={styles.profile}
-                    type="clear"
-                    title="Edit Schedule"
-                    onPress={() => navigation.navigate('Edit Schedule')}
-                />
+                <Text style={styles.heading}>Edit Schedule Placeholder</Text>
             </View>
         </>
     );

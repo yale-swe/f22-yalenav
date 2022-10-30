@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import axios from "axios";
 import { Building } from "../../types";
 
-import { Map, Profile, Search, Shortcut } from "../components";
+import { Map, Search, Shortcut } from "../components";
 import {BACKEND, YALE_HEX} from "../constants";
 import { useAuth } from "../contexts/Auth";
 import {Button} from "react-native-elements";
@@ -38,15 +38,20 @@ export default function HomeScreen({ navigation }) {
       <Map selectedLocation={selectedLocation} />
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
-        <Button
+        {auth.authData ? <Button
             style={styles.profile}
             type="clear"
-            title={auth.authData ? auth.authData.netId : "Sign In"}
+            title={auth.authData.netId}
             onPress={() => navigation.navigate('User Profile')}
-        />
-        <Shortcut />
-      </View>
+        /> : <Button
+            style={styles.profile}
+            type="clear"
+            title="Sign In"
+            onPress={() => navigation.navigate('Sign In')}
+        />}
 
+      </View>
+      <Shortcut />
     </>
   );
 }
