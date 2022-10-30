@@ -19,5 +19,5 @@ export const ShuttleStopSchema = new mongoose.Schema({
   },
 });
 
-export const ShuttleStop = mongoose.model("Building", ShuttleStopSchema);
+export const ShuttleStop = mongoose.model("ShuttleStop", ShuttleStopSchema);
 export default ShuttleStop;
