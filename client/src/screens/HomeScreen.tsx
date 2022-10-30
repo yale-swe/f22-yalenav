@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import {Keyboard, StyleSheet, TouchableWithoutFeedback, View} from "react-native";
 import axios from "axios";
 import { Building } from "../../types";
 
@@ -7,6 +7,7 @@ import { Map, Search, Shortcut } from "../components";
 import {BACKEND, YALE_HEX} from "../constants";
 import { useAuth } from "../contexts/Auth";
 import {Button} from "react-native-elements";
+
 
 // @ts-ignore
 export default function HomeScreen({ navigation }) {
@@ -35,7 +36,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <>
-      <Map selectedLocation={selectedLocation} />
+      <Map selectedLocation={selectedLocation}/>
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
         {auth.authData ? <Button
@@ -49,7 +50,6 @@ export default function HomeScreen({ navigation }) {
             title="Sign In"
             onPress={() => navigation.navigate('Sign In')}
         />}
-
       </View>
       <Shortcut />
     </>

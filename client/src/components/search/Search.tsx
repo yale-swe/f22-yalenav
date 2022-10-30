@@ -5,12 +5,13 @@ import {
   Text,
   View,
   FlatList,
-  TouchableOpacity,
+  TouchableOpacity, TouchableWithoutFeedback,
 } from "react-native";
 import { YALE_HEX } from "../../constants";
 import { Searchbar } from "react-native-paper";
 import { Building } from "../../../types";
 import { searchFilter } from "../../utils";
+import {Keyboard} from 'react-native'
 
 interface SearchInterface {
   locations: Building[];
