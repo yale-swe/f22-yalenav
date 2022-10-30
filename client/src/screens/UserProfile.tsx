@@ -8,6 +8,7 @@ import {BACKEND, YALE_HEX} from "../constants";
 import { useAuth } from "../contexts/Auth";
 import {Button} from "react-native-elements";
 
+// @ts-ignore
 export default function UserProfile({ navigation }) {
     const auth = useAuth();
     return (
