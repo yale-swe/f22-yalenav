@@ -1,7 +1,7 @@
 import React from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Location, Building, ShuttleStop } from "../../../types";
-import { RoutingView } from "../routing/RoutingView";
+import { RoutingView, RoutingMode } from "../routing/RoutingView";
 
 // To get durations, route distance, etc; pass function to 
 // resultHandler(duration, distance), and it will be called when calculated
@@ -42,7 +42,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
           routeOrigin={origin} 
           routeDestination={destination.loc}
           resultHandler={resultHandler}
-          mode={"walking"}/>
+          mode={RoutingMode.walking}/>
         )}
         
     </MapView>
