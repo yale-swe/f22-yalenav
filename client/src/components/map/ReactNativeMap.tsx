@@ -14,8 +14,6 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   // https://mapstyle.withgoogle.com/
   const mapStyle = require("./mapStyle.json");
   return (
-      // This is what allows us to hide keyboard when use clicks on the map
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} accessible={false}>
     <MapView
       style={{ alignSelf: "stretch", height: "125%" }}
       provider={PROVIDER_GOOGLE}
@@ -35,7 +33,6 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
         />
       )}
     </MapView>
-      </TouchableWithoutFeedback>
   );
 };
 
