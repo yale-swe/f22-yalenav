@@ -8,6 +8,7 @@ import {RootStackParamList} from "../navigation/Navigation";
 
 type EditProp = NativeStackScreenProps<RootStackParamList, 'EditSchedule'>;
 
+// @ts-ignore
 export default function EditSchedule({route, navigation}: EditProp) {
     const auth = useAuth();
     return (

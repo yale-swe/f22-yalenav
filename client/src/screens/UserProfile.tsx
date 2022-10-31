@@ -7,6 +7,7 @@ import {RootStackParamList} from "../navigation/Navigation";
 
 type UserProp = StackScreenProps<RootStackParamList, 'UserProfile'>;
 
+// @ts-ignore
 export default function UserProfile({route, navigation}: UserProp) {
     const auth = useAuth();
     return (
