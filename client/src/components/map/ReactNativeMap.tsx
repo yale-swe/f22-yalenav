@@ -1,7 +1,7 @@
 import React from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Building } from "../../../types";
-import MapBanner from './MapBanner';
+import MapBanner from "./MapBanner";
 
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
@@ -15,29 +15,29 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   const mapStyle = require("./mapStyle.json");
   return (
     <>
-    <MapView
-      style={{ alignSelf: "stretch", height: "125%" }}
-      provider={PROVIDER_GOOGLE}
-      showsUserLocation={true}
-      followsUserLocation={true}
-      initialRegion={yaleUni}
-      customMapStyle={mapStyle}
-    >
-      {selectedLocation && (
-        <Marker
-          coordinate={{
-            latitude: selectedLocation.lat,
-            longitude: selectedLocation.lon,
-          }}
-          title={selectedLocation.name}
-          description={selectedLocation.abbreviation.toUpperCase()}
-        />    
-      )} 
-    </MapView>
-    {selectedLocation ?
-    <MapBanner selectedLocation={selectedLocation}/> : null
-}
-  </>
+      <MapView
+        style={{ alignSelf: "stretch", height: "125%" }}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        followsUserLocation={true}
+        initialRegion={yaleUni}
+        customMapStyle={mapStyle}
+      >
+        {selectedLocation && (
+          <Marker
+            coordinate={{
+              latitude: selectedLocation.lat,
+              longitude: selectedLocation.lon,
+            }}
+            title={selectedLocation.name}
+            description={selectedLocation.abbreviation.toUpperCase()}
+          />
+        )}
+      </MapView>
+      {selectedLocation ? (
+        <MapBanner selectedLocation={selectedLocation} />
+      ) : null}
+    </>
   );
 };
 
