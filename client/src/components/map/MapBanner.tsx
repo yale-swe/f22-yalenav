@@ -49,10 +49,8 @@ const computeDistance = (
   // Radius of earth in kilometers. Use 3956
   // for miles
   let r = 3956;
-
-  // calculate the result, round to nearest hundredths and store the result
-  distanceFromDestination = Math.ceil(c * r * 100) / 100;
-  return distanceFromDestination;
+  distanceFromDestination = c * r;
+  return c * r;
 };
 
 export const MapBanner: React.FC<MapBannerInterface> = ({
@@ -67,7 +65,6 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
       context.value = { y: translateY.value };
     })
     .onUpdate((event) => {
-      console.log(event.translationY);
       //   To create the smoooth animation, consider the previous y value and begin animation from there.
       translateY.value = event.translationY + context.value.y;
       //   Set the max to be a third of the height of the screen so the user cannot pull this banner higher than that
@@ -77,7 +74,6 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     .onEnd(() => {
       // If the user is swiping down on the banner then want to show the little grey line only
       if (translateY.value > -height / 5) {
-        console.log(" IN here");
         translateY.value = withSpring(-50);
       } else {
         // If the user is swiping up on the banner then set the y value to be a third of the screen height.
@@ -113,20 +109,22 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
         <View style={styles.line} />
         {selectedLocation ? (
           <View style={styles.card}>
-            <Text>{selectedLocation.name} is</Text>
-            <Text>
-              {" "}
-              {computeDistance(
-                selectedLocation.lat,
-                selectedLocation.lon,
-                41.3163,
-                -72.922585
-              ) < 1
-                ? distanceFromDestination * 5280 + " Feet"
-                : distanceFromDestination + " Miles"}{" "}
-            </Text>
+            <View style={styles.text}>
+              <Text style={styles.title}>{selectedLocation.name}</Text>
+              <Text>{selectedLocation.address}</Text>
+              <Text>
+                {computeDistance(
+                  selectedLocation.lat,
+                  selectedLocation.lon,
+                  41.3163,
+                  -72.922585
+                ) < 1
+                  ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
+                  : distanceFromDestination.toFixed(2) + " Miles"}
+              </Text>
+            </View>
             <Pressable style={styles.button} onPress={handleNavigation}>
-              <Text style={{ color: "white" }}>Begin Navigation...</Text>
+              <Text style={{ color: "white" }}>Directions</Text>
             </Pressable>
           </View>
         ) : null}
@@ -136,6 +134,13 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  text: {
+    margin: 5,
+  },
   line: {
     width: 75,
     height: 4,
@@ -145,18 +150,16 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   card: {
-    padding: 10,
-    elevation: 2,
+    padding: 5,
+    marginVertical: 40,
     backgroundColor: "#FFF",
-    marginHorizontal: 10,
     height: CARD_HEIGHT,
     width: CARD_WIDTH,
     overflow: "hidden",
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 15,
+    borderRadius: 20,
   },
   scrollView: {
+    zIndex: 1,
     position: "absolute",
     width: "100%",
     height: height,
@@ -165,7 +168,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   button: {
+    position: "absolute",
+    bottom: "30%",
+    alignSelf: "center",
+    alignItems: "center",
     backgroundColor: YALE_HEX,
+    width: "25%",
     borderRadius: 10,
     padding: 10,
   },
