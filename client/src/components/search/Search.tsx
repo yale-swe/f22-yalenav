@@ -34,7 +34,6 @@ export const Search: React.FC<SearchInterface> = ({
     selectLocation(location);
     // update search bar input
     setSearchQuery(location.name);
-    // don't care about search results anymore
     Keyboard.dismiss();
     setQueryComplete(true);
   };
