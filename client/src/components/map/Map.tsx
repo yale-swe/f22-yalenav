@@ -6,15 +6,14 @@ interface MapInterface {
   selectedLocation: Building | undefined;
   destination: Building | ShuttleStop | undefined;
   origin: Location | undefined;
+  resultHandler: Function | undefined;
 }
-
-
 
 // Layer of abstraction to render the map from nodule of our chooising
 export const Map: React.FC<MapInterface> = ({
-  selectedLocation, destination, origin
+  selectedLocation, destination, origin, resultHandler
 }: MapInterface) => {
 
   return <ReactNativeMap selectedLocation={selectedLocation} 
-  destination={destination} origin={origin} />;
+  destination={destination} origin={origin} resultHandler={resultHandler} />;
 };
