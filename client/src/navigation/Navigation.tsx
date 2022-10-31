@@ -1,11 +1,8 @@
-import {TouchableWithoutFeedback, StyleSheet, View, Keyboard} from "react-native";
-import { useAuth } from "../contexts/Auth";
-import SignInScreen from "../components/auth/SignInScreen";
-import HomeScreen from "../screens/HomeScreen";
+import {Keyboard, StyleSheet, TouchableWithoutFeedback} from "react-native";
+import {useAuth} from "../contexts/Auth";
 import AuthStack from "./AuthStack";
 import UnauthStack from "./UnauthStack";
 import {NavigationContainer} from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
 
 export type RootStackParamList = {
     Home: undefined;
@@ -15,22 +12,22 @@ export type RootStackParamList = {
 };
 
 const Navigation = () => {
-  const auth = useAuth();
-  return (
-      <NavigationContainer>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            {auth.authData ? <AuthStack />: <UnauthStack />}
-        </TouchableWithoutFeedback>
-      </NavigationContainer>
-  );
+    const auth = useAuth();
+    return (
+        <NavigationContainer>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                {auth.authData ? <AuthStack/> : <UnauthStack/>}
+            </TouchableWithoutFeedback>
+        </NavigationContainer>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
+    container: {
+        flex: 1,
+        alignItems: "center",
+        backgroundColor: "#fff",
+    },
 });
 
 export default Navigation;
