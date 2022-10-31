@@ -5,9 +5,14 @@ import HomeScreen from "../screens/HomeScreen";
 import AuthStack from "./AuthStack";
 import UnauthStack from "./UnauthStack";
 import {NavigationContainer} from "@react-navigation/native";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+    Home: undefined;
+    EditSchedule: undefined;
+    UserProfile: undefined;
+    SignIn: undefined;
+};
 
 const Navigation = () => {
   const auth = useAuth();

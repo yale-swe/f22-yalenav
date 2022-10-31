@@ -7,11 +7,16 @@ import { Map, Search, Shortcut } from "../components";
 import {BACKEND, YALE_HEX} from "../constants";
 import { useAuth } from "../contexts/Auth";
 import {Button} from "react-native-elements";
+import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from "../navigation/Navigation";
+import {StackNavigationProp} from "@react-navigation/stack";
+import type {StackScreenProps} from "@react-navigation/stack";
 
+type HomeProp = StackScreenProps<RootStackParamList, 'Home'>;
 
-// @ts-ignore
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ route, navigation }: HomeProp) {
   const auth = useAuth();
+
   // Load Yale locations
   const [buildings, setBuildings] = useState<Building[]>([]);
 
@@ -43,12 +48,12 @@ export default function HomeScreen({ navigation }) {
             style={styles.profile}
             type="clear"
             title={auth.authData.netId}
-            onPress={() => navigation.navigate('User Profile')}
+            onPress={() => navigation.navigate('UserProfile')}
         /> : <Button
             style={styles.profile}
             type="clear"
             title="Sign In"
-            onPress={() => navigation.navigate('Sign In')}
+            onPress={() => navigation.navigate('SignIn')}
         />}
       </View>
       <Shortcut />

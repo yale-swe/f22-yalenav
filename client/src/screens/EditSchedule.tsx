@@ -7,9 +7,14 @@ import { Map, Search, Shortcut } from "../components";
 import {BACKEND, YALE_HEX} from "../constants";
 import { useAuth } from "../contexts/Auth";
 import {Button} from "react-native-elements";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../navigation/Navigation";
+
+
+type EditProp = NativeStackScreenProps<RootStackParamList, 'EditSchedule'>;
 
 // @ts-ignore
-export default function EditSchedule({ navigation }) {
+export default function EditSchedule({ route, navigation }: EditProp) {
     const auth = useAuth();
     return (
         <>
@@ -19,7 +24,7 @@ export default function EditSchedule({ navigation }) {
                     style={styles.profile}
                     type="clear"
                     title="Done"
-                    onPress={() => navigation.navigate('User Profile')}
+                    onPress={() => navigation.navigate('UserProfile')}
                 />
             </View>
         </>
