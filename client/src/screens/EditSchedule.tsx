@@ -15,6 +15,12 @@ export default function EditSchedule({ navigation }) {
         <>
             <View style={styles.header}>
                 <Text style={styles.heading}>Edit Schedule Placeholder</Text>
+                <Button
+                    style={styles.profile}
+                    type="clear"
+                    title="Done"
+                    onPress={() => navigation.navigate('User Profile')}
+                />
             </View>
         </>
     );
