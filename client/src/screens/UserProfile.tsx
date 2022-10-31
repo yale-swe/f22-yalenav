@@ -1,11 +1,6 @@
-import { useState, useEffect } from "react";
 import {StyleSheet, Text, View} from "react-native";
-import axios from "axios";
-import { Building } from "../../types";
-
-import { Map, Search, Shortcut } from "../components";
-import {BACKEND, YALE_HEX} from "../constants";
-import { useAuth } from "../contexts/Auth";
+import {YALE_HEX} from "../constants";
+import {useAuth} from "../contexts/Auth";
 import {Button} from "react-native-elements";
 import {StackScreenProps} from "@react-navigation/stack";
 import {RootStackParamList} from "../navigation/Navigation";
@@ -13,7 +8,7 @@ import {RootStackParamList} from "../navigation/Navigation";
 type UserProp = StackScreenProps<RootStackParamList, 'UserProfile'>;
 
 // @ts-ignore
-export default function UserProfile({ route, navigation }: UserProp) {
+export default function UserProfile({route, navigation}: UserProp) {
     const auth = useAuth();
     return (
         <>

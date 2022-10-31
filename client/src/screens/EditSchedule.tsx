@@ -1,11 +1,6 @@
-import { useState, useEffect } from "react";
 import {StyleSheet, Text, View} from "react-native";
-import axios from "axios";
-import { Building } from "../../types";
-
-import { Map, Search, Shortcut } from "../components";
-import {BACKEND, YALE_HEX} from "../constants";
-import { useAuth } from "../contexts/Auth";
+import {YALE_HEX} from "../constants";
+import {useAuth} from "../contexts/Auth";
 import {Button} from "react-native-elements";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigation/Navigation";
@@ -14,7 +9,7 @@ import {RootStackParamList} from "../navigation/Navigation";
 type EditProp = NativeStackScreenProps<RootStackParamList, 'EditSchedule'>;
 
 // @ts-ignore
-export default function EditSchedule({ route, navigation }: EditProp) {
+export default function EditSchedule({route, navigation}: EditProp) {
     const auth = useAuth();
     return (
         <>

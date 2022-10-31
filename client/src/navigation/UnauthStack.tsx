@@ -8,8 +8,8 @@ export const Stack = createStackNavigator<RootStackParamList>();
 export default function UnauthStack() {
     return (
         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
-                <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="SignIn" component={SignInScreen} />
+            <Stack.Screen name="Home" component={HomeScreen}/>
+            <Stack.Screen name="SignIn" component={SignInScreen}/>
         </Stack.Navigator>
-);
+    );
 }
