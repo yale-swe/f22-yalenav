@@ -42,7 +42,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
           routeOrigin={origin} 
           routeDestination={destination.loc}
           resultHandler={resultHandler}
-          mode={RoutingMode.walking}/>
+          mode={RoutingMode.noshuttle}/>
         )}
         
     </MapView>

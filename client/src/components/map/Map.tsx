@@ -9,6 +9,15 @@ interface MapInterface {
   resultHandler: Function | undefined;
 }
 
+// THIS IS JUST HERE AS AN EXAMPLE FOR KYLE:
+// THIS FUNCTION RECIEVES INFORMATION FROM THE ROUTING SERVICE
+function ExampleResultHandler(results : {type: string, duration: number, distance: number}[]) {
+  
+  results.forEach(result => {
+    console.log(result.type, result.duration);
+  });
+}
+
 // Layer of abstraction to render the map from nodule of our chooising
 export const Map: React.FC<MapInterface> = ({
   selectedLocation, destination, origin, resultHandler
