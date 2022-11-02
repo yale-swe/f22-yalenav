@@ -1,54 +1,74 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import {useEffect, useState} from "react";
+import {StyleSheet, View} from "react-native";
 import axios from "axios";
-import { Building } from "../../types";
+import {Building} from "../../types";
 
-import { Map, Profile, Search, Shortcut } from "../components";
-import { BACKEND } from "../constants";
-import { useAuth } from "../contexts/Auth";
+import {Map, Search, Shortcut} from "../components";
+import {BACKEND, YALE_HEX} from "../constants";
+import {useAuth} from "../contexts/Auth";
+import {Button} from "react-native-elements";
+import {RootStackParamList} from "../navigation/Navigation";
+import type {StackScreenProps} from "@react-navigation/stack";
 
-export default function HomeScreen() {
-  const auth = useAuth();
-  // Load Yale locations
-  const [buildings, setBuildings] = useState<Building[]>([]);
+type HomeProp = StackScreenProps<RootStackParamList, 'Home'>;
 
-  useEffect(() => {
-    axios
-      .get<{ buildings: Building[] }>(`${BACKEND}/building`)
-      .then((res) => {
-        setBuildings(res.data.buildings);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [BACKEND]);
+export default function HomeScreen({route, navigation}: HomeProp) {
+    const auth = useAuth();
 
-  // Select location of interest
-  const [selectedLocation, setSelectedLocation] = useState<
-    Building | undefined
-  >();
-  const selectLocation = (location: Building) => {
-    setSelectedLocation(location);
-  };
+    // Load Yale locations
+    const [buildings, setBuildings] = useState<Building[]>([]);
 
-  return (
-    <>
-      <Map selectedLocation={selectedLocation} />
-      <View style={styles.header}>
-        <Search locations={buildings} selectLocation={selectLocation} />
-        <Profile />
-      </View>
-      <Shortcut />
-    </>
-  );
+    useEffect(() => {
+        axios
+            .get<{ buildings: Building[] }>(`${BACKEND}/building`)
+            .then((res) => {
+                setBuildings(res.data.buildings);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [BACKEND]);
+
+    // Select location of interest
+    const [selectedLocation, setSelectedLocation] = useState<Building | undefined>();
+    const selectLocation = (location: Building) => {
+        setSelectedLocation(location);
+    };
+
+    return (
+        <>
+            <Map selectedLocation={selectedLocation}/>
+            <View style={styles.header}>
+                <Search locations={buildings} selectLocation={selectLocation}/>
+                {auth.authData ? <Button
+                    style={styles.profile}
+                    type="clear"
+                    title={auth.authData.netId}
+                    onPress={() => navigation.navigate('UserProfile')}
+                /> : <Button
+                    style={styles.profile}
+                    type="clear"
+                    title="Sign In"
+                    onPress={() => navigation.navigate('SignIn')}
+                />}
+            </View>
+            <Shortcut/>
+        </>
+    );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    marginTop: "12%",
-    flex: 1,
-    position: "absolute",
-    justifyContent: "space-around",
-  },
+    header: {
+        flexDirection: "row",
+        marginTop: "12%",
+        flex: 1,
+        position: "absolute",
+        justifyContent: "space-around",
+    },
+    profile: {
+        borderColor: YALE_HEX,
+        borderWidth: 2,
+        borderRadius: 40,
+        backgroundColor: "white",
+    },
 });
