@@ -30,10 +30,9 @@ export default function HomeScreen() {
   const selectLocation = (location: Building) => {
     setSelectedLocation(location);
   };
-
   return (
     <>
-      <Map selectedLocation={selectedLocation} />
+      <Map selectedLocation={selectedLocation} buildings={buildings} />
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
         <Profile />

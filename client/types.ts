@@ -1,10 +1,15 @@
+export type LatLng = {
+  latitude: number;
+  longitude: number;
+};
+
 export type Building = {
   _id: string;
   name: string;
   address: string;
   abbreviation: string;
-  lat: number;
-  lon: number;
+  coords: LatLng;
+  tile: LatLng[];
 };
 
 export type AuthData = {

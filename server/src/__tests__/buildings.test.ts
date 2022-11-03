@@ -9,9 +9,12 @@ describe("Buildings Tests", () => {
   let testBuilding = {
     name: "Smilow Field Center",
     address: "Derby Avenue, 249, New Haven, Ct, 06511",
+    reference: "3640",
     abbreviation: "SFC",
-    lat: 41.311237,
-    lon: -72.959817,
+    coords: {
+      latitude: 41.311237,
+      longitude: -72.959817,
+    },
   };
 
   beforeEach(async () => {
