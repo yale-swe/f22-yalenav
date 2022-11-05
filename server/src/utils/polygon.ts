@@ -6,7 +6,7 @@ export interface BuildingTiles {
 
 // make a bunch of polygons based on the json
 export const getPolygons = (): BuildingTiles => {
-  const polygonCoords = require("./polygonCoords.json");
+  const polygonCoords = require("../data/polygonCoords.json");
   // map through all locations
   let buildingTiles: BuildingTiles = {};
   polygonCoords.children.locations.map((loc: any): void => {
