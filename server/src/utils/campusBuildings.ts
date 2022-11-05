@@ -41,6 +41,7 @@ export const getBuildings = async (): Promise<typeof Building[]> => {
         buildingsList,
         buildingTiles
       );
+
       resolve(buildings);
     });
   });
@@ -54,7 +55,15 @@ const formatBuildings = (
   return buildingsList
     .filter((b: BuildingsV2Object) => {
       // ensure all have a latitude and longitude
-      return b.DESCRIPTION && b.LATITUDE && b.LONGITUDE;
+      return (
+        b.DESCRIPTION &&
+        b.LATITUDE &&
+        b.LONGITUDE &&
+        b.ADDRESS_1 &&
+        b.ADDRESS_2 &&
+        b.ADDRESS_3 &&
+        b.BUILDING_ABBR
+      );
     })
     .map((b: BuildingsV2Object) => {
       return formatBuilding(b, buildingTiles);
