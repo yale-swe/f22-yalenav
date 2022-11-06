@@ -5,7 +5,7 @@ import {
   Text,
   View,
   FlatList,
-  TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import { YALE_HEX } from "../../constants";
 import { Searchbar } from "react-native-paper";
@@ -21,28 +21,54 @@ export const Search: React.FC<SearchInterface> = ({
   locations,
   selectLocation,
 }: SearchInterface) => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [queryComplete, setQueryComplete] = useState<Boolean>(false);
+  const [resultsVisible, setResultsVisible] = useState<Boolean>(false);
 
-  const onChangeSearch = (query: SetStateAction<string>) =>
+  const onChangeSearch = (query: SetStateAction<string>) => {
+    setQueryComplete(false);
     setSearchQuery(query);
+  };
+
+  const onDoneSearch = (location: Building) => {
+    selectLocation(location);
+    // update search bar input
+    setSearchQuery(location.name);
+    Keyboard.dismiss();
+    setQueryComplete(true);
+  };
 
   const [filteredLocations, setFilteredLocations] = useState<Building[]>([]);
 
   useEffect(() => {
+    // results should be visible (1) search query is non-empty, (2) not done searching
+    setResultsVisible(searchQuery && !queryComplete ? true : false);
+
     const updatedLocations = locations.filter((location) => {
       // utils function to filter the terms
       return searchFilter(location, searchQuery);
     });
+
     setFilteredLocations(updatedLocations);
-  }, [searchQuery]);
+  }, [searchQuery, queryComplete]);
+
+  const fadedBlue = "rgba(210, 230, 255, 0.8)";
+  const fadedWhite = "rgba(255,255,255, 0.8)";
 
   const Result = ({ location }: { location: Building }) => (
     <View>
-      <TouchableOpacity>
-        <Pressable onPress={() => selectLocation(location)}>
-          <Text style={styles.resultComponent}>{location.name}</Text>
-        </Pressable>
-      </TouchableOpacity>
+      <Pressable
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? fadedBlue : fadedWhite,
+            borderRadius: 10,
+          },
+        ]}
+        onPress={() => onDoneSearch(location)}
+      >
+        <Text style={styles.resultTitle}>{location.name}</Text>
+        <Text style={styles.resultInfo}>{location.address}</Text>
+      </Pressable>
     </View>
   );
 
@@ -56,12 +82,14 @@ export const Search: React.FC<SearchInterface> = ({
         onChangeText={onChangeSearch}
         value={searchQuery}
       />
-      <FlatList
-        style={styles.resultsComponent}
-        data={filteredLocations}
-        renderItem={({ item }) => <Result location={item} />}
-        keyExtractor={(item) => item._id}
-      />
+      {resultsVisible && (
+        <FlatList
+          style={styles.resultsComponent}
+          data={filteredLocations}
+          renderItem={({ item }) => <Result location={item} />}
+          keyExtractor={(item) => item._id}
+        />
+      )}
     </View>
   );
 };
@@ -85,8 +113,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "rgba(255,255,255, 0.8)",
   },
-  resultComponent: {
+  resultTitle: {
     padding: "4%",
-    fontSize: 15,
+    paddingBottom: 0,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  resultInfo: {
+    paddingTop: 0,
+    padding: "4%",
+    fontSize: 8,
   },
 });
