@@ -1433,7 +1433,7 @@
 
 "@types/passport-strategy@^0.2.35":
   version "0.2.35"
-  resolved "https://registry.npmjs.org/@types/passport-strategy/-/passport-strategy-0.2.35.tgz"
+  resolved "https://registry.yarnpkg.com/@types/passport-strategy/-/passport-strategy-0.2.35.tgz#e52f5212279ea73f02d9b06af67efe9cefce2d0c"
   integrity sha512-o5D19Jy2XPFoX2rKApykY15et3Apgax00RRLf0RUotPDUsYrQa7x4howLYr9El2mlUApHmCMv5CZ1IXqKFQ2+g==
   dependencies:
     "@types/express" "*"
