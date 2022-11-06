@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Polyline } from "react-native-maps";
-import MapViewDirections, { MapViewDirectionsMode } from "react-native-maps-directions";
+import MapViewDirections from "react-native-maps-directions";
 import { Location } from "../../../types";
 import { APIKEY, YALE_HEX } from "../../constants";
 
@@ -13,6 +13,7 @@ export const enum RoutingMode {
 function getClosestShuttleStop(x : Location) {
   
   // TODO
+  // query database for stops
   
   return {stop: -1, loc: {longitude: 0.0, latitude: 0.0}};
 };
@@ -60,6 +61,8 @@ interface RoutingInterface {
     //   isShuttleRoute = false;
     // }
 
+    let results: {type: string, duration: number, distance: number}[] = [];
+
     // TODO: implement mode switching
     // Include bycicles, walking, and custom mode for routing.
     ////////////////////////////////////////////////////////////
@@ -74,11 +77,21 @@ interface RoutingInterface {
         strokeWidth={4}
         mode={(mode == RoutingMode.biking) ? "BICYCLING" : "WALKING"}
         onReady = {result => {
-          resultHandler && resultHandler(result.duration, result.distance);
+          resultHandler && 
+          results.push({type: (mode == RoutingMode.biking) ? 
+            "BICYCLING" : "WALKING", duration: result.duration, 
+            distance: result.distance});
+          // resultHandler && resultHandler(result.duration, result.distance);
         }}/>
 
-        {isShuttleRoute && <Polyline
+        {isShuttleRoute && 
+        <Polyline
           coordinates={[]} // Plot the bus route here!
+          onLayout={ layout => {
+            resultHandler && 
+            results.push({type: "SHUTTLE", duration: rideInfo.duration, 
+              distance: rideInfo.distance});
+          }}
         />}
 
         {isShuttleRoute && <MapViewDirections 
@@ -87,14 +100,16 @@ interface RoutingInterface {
           apikey={APIKEY}
           mode={"WALKING"} // if it's a shuttle route, it must be walking
           onReady = {result => {
-            resultHandler && resultHandler(result.duration, result.distance);
+            resultHandler && 
+            results.push({type: "WALKING", duration: result.duration, 
+              distance: result.distance});
           }}
         />}
 
       </Component>
     );
 
-    resultHandler([]);
+    resultHandler && resultHandler(results);
 
     return RoutingViews; // (
     //   <Component>
