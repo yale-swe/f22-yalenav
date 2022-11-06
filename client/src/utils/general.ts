@@ -12,3 +12,12 @@ export const searchFilter = (location: Building, searchTerm: String) => {
         searchSubstring(location.abbreviation, searchTerm)
     : 0;
 };
+
+export const getDistance = (location1: Building, location2: Building) => {
+  const latToMiles = 69;
+  const lonToMiles = 54.6;
+  const latDelta = (location2.lat - location1.lat) * latToMiles;
+  const lonDelta = (location2.lon - location1.lon) * lonToMiles;
+  // distance formula
+  return Math.sqrt(Math.pow(latDelta, 2) + Math.pow(lonDelta, 2));
+};

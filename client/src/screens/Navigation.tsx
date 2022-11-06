@@ -1,4 +1,9 @@
-import { TouchableWithoutFeedback, StyleSheet, View } from "react-native";
+import {
+  TouchableWithoutFeedback,
+  Keyboard,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useAuth } from "../contexts/Auth";
 import SignInScreen from "../components/auth/SignInScreen";
 import HomeScreen from "./HomeScreen";
@@ -7,7 +12,7 @@ const Navigation = () => {
   const auth = useAuth();
 
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         {auth.authData ? <HomeScreen /> : <SignInScreen />}
       </View>
