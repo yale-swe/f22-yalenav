@@ -5,9 +5,7 @@ import { Building, ShuttleStop, Location } from "../../../types";
 
 interface MapInterface {
   selectedLocation: Building | undefined;
-  destination: Building | ShuttleStop | undefined;
-  origin: Location | undefined;
-  resultHandler: Function | undefined;
+  origin?: Location | undefined;
 }
 
 // THIS IS JUST HERE AS AN EXAMPLE FOR KYLE:
@@ -22,9 +20,11 @@ function ExampleResultHandler(results : {type: string,
 
 // Layer of abstraction to render the map from nodule of our chooising
 export const Map: React.FC<MapInterface> = ({
-  selectedLocation, destination, origin, resultHandler
+  selectedLocation, origin
 }: MapInterface) => {
 
+  
+
   return <ReactNativeMap selectedLocation={selectedLocation} 
-  destination={destination} origin={origin} resultHandler={resultHandler} />;
+  origin={origin} resultHandler={ExampleResultHandler} />;
 };

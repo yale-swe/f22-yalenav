@@ -9,14 +9,13 @@ import { RoutingView, RoutingMode } from "../routing/RoutingView";
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
   origin: Location | undefined;
-  destination: Building | ShuttleStop | undefined;
   resultHandler?: Function | undefined;
 }
 
 let isNavigating = false;
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
-  selectedLocation, origin, destination, resultHandler
+  selectedLocation, origin, resultHandler
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
   // https://mapstyle.withgoogle.com/
@@ -46,10 +45,10 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
            />
       ) : null}
     
-      {(isNavigating && origin && destination) ?
+      {(isNavigating && origin && selectedLocation) ?
         (<RoutingView 
           routeOrigin={origin} 
-          routeDestination={destination.loc}
+          routeDestination={selectedLocation.loc}
           resultHandler={resultHandler}
           mode={RoutingMode.noshuttle}
           />) : null}
