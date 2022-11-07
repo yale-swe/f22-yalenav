@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactNativeMap } from "./ReactNativeMap";
+import { MapDirectionsLegs } from "react-native-maps-directions";
 import { Building, ShuttleStop, Location } from "../../../types";
 
 interface MapInterface {
@@ -11,10 +12,11 @@ interface MapInterface {
 
 // THIS IS JUST HERE AS AN EXAMPLE FOR KYLE:
 // THIS FUNCTION RECIEVES INFORMATION FROM THE ROUTING SERVICE
-function ExampleResultHandler(results : {type: string, duration: number, distance: number}[]) {
+function ExampleResultHandler(results : {type: string, 
+  duration: number, distance: number,  legs: MapDirectionsLegs}[]) {
   
   results.forEach(result => {
-    console.log(result.type, result.duration);
+    console.log(result.type, result.duration, result.legs.length);
   });
 }
 

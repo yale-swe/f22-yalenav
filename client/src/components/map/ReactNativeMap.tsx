@@ -34,17 +34,16 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
       >
         {selectedLocation && (
           <Marker
-            coordinate={{
-              latitude: selectedLocation.lat,
-              longitude: selectedLocation.lon,
-            }}
+            coordinate={selectedLocation.loc}
             title={selectedLocation.name}
             description={selectedLocation.abbreviation.toUpperCase()}
           />
         )}
       </MapView>
       {selectedLocation ? (
-        <MapBanner selectedLocation={selectedLocation} />
+        <MapBanner selectedLocation={selectedLocation} navigationHandler={
+          function() {isNavigating = true}}
+           />
       ) : null}
     
       {(isNavigating && origin && destination) ?

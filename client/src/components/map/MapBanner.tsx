@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { View, Pressable, Text, StyleSheet, Dimensions } from "react-native";
-import { Building } from "../../../types";
+import { Building, Location } from "../../../types";
 import { YALE_HEX, BACKEND } from "../../constants";
-import axios from "axios";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
@@ -13,6 +11,7 @@ import Animated, {
 
 interface MapBannerInterface {
   selectedLocation: Building | undefined;
+  navigationHandler: Function | undefined;
 }
 
 const { width, height } = Dimensions.get("window");
@@ -24,18 +23,16 @@ let distanceFromDestination: number;
 
 // Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
 const computeDistance = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
+  loc1: Location,
+  loc2: Location
 ) => {
   // The math module contains a function
   // named toRadians which converts from
   // degrees to radians.
-  lon1 = (lon1 * Math.PI) / 180;
-  lon2 = (lon2 * Math.PI) / 180;
-  lat1 = (lat1 * Math.PI) / 180;
-  lat2 = (lat2 * Math.PI) / 180;
+  let lon1 = (loc1.longitude * Math.PI) / 180;
+  let lon2 = (loc2.longitude * Math.PI) / 180;
+  let lat1 = (loc1.latitude * Math.PI) / 180;
+  let lat2 = (loc2.latitude * Math.PI) / 180;
 
   // Haversine formula
   let dlon = lon2 - lon1;
@@ -54,7 +51,7 @@ const computeDistance = (
 };
 
 export const MapBanner: React.FC<MapBannerInterface> = ({
-  selectedLocation,
+  selectedLocation, navigationHandler
 }: MapBannerInterface) => {
   const translateY = useSharedValue(0);
   const context = useSharedValue({ y: 0 });
@@ -86,15 +83,15 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     translateY.value = withSpring(BANNER_HEIGHT);
   });
 
-  const handleNavigation = () => {
-    console.log("Pressed");
+  // const handleNavigation = () => {
+  //   console.log("Pressed");
     // const data = "TODO";
     // axios.post(`${BACKEND}/routes`, data).then(res=>{
 
     // }).catch(error => {
 
     // })
-  };
+  // };
 
   // Changs the y position for the banner and animates it.
   const rBottomSheetStyle = useAnimatedStyle(() => {
@@ -113,17 +110,14 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
               <Text style={styles.title}>{selectedLocation.name}</Text>
               <Text>{selectedLocation.address}</Text>
               <Text>
-                {computeDistance(
-                  selectedLocation.lat,
-                  selectedLocation.lon,
-                  41.3163,
-                  -72.922585
-                ) < 1
+                {computeDistance(selectedLocation.loc,
+                  {latitude: 41.3163, longitude: -72.922585}) < 1
                   ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
                   : distanceFromDestination.toFixed(2) + " Miles"}
               </Text>
             </View>
-            <Pressable style={styles.button} onPress={handleNavigation}>
+            <Pressable style={styles.button} onPress={r => {navigationHandler && 
+              navigationHandler()}}>
               <Text style={{ color: "white" }}>Directions</Text>
             </Pressable>
           </View>
