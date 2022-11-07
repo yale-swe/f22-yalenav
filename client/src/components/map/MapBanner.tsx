@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Pressable, Text, StyleSheet, Dimensions } from "react-native";
 import { Building, Location } from "../../../types";
 import { YALE_HEX } from "../../constants";
+
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
@@ -23,6 +24,7 @@ let distanceFromDestination: number;
 
 // Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
 const computeDistance = (loc1: Location, loc2: Location) => {
+
   // The math module contains a function
   // named toRadians which converts from
   // degrees to radians.
@@ -50,6 +52,7 @@ const computeDistance = (loc1: Location, loc2: Location) => {
 export const MapBanner: React.FC<MapBannerInterface> = ({
   selectedLocation,
   navigationHandler,
+
 }: MapBannerInterface) => {
   const translateY = useSharedValue(0);
   const context = useSharedValue({ y: 0 });
@@ -89,6 +92,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
   // }).catch(error => {
 
   // })
+
   // };
 
   // Changs the y position for the banner and animates it.
@@ -118,6 +122,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
                     longitude: -72.922585,
                   }
                 ) < 1
+
                   ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
                   : distanceFromDestination.toFixed(2) + " Miles"}
               </Text>
@@ -128,6 +133,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
                 navigationHandler && navigationHandler();
               }}
             >
+
               <Text style={{ color: "white" }}>Directions</Text>
             </Pressable>
           </View>

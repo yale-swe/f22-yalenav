@@ -3,6 +3,7 @@ import { Polyline } from "react-native-maps";
 import MapViewDirections, {
   MapDirectionsLegs,
 } from "react-native-maps-directions";
+
 import { Location } from "../../../types";
 import { APIKEY, YALE_HEX } from "../../constants";
 
@@ -72,11 +73,13 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   let RoutingViews = (
     <>
       <MapViewDirections
+
         origin={routeOrigin}
         destination={isShuttleRoute ? originStop.loc : routeDestination}
         apikey={APIKEY}
         strokeColor={YALE_HEX}
         strokeWidth={4}
+
         mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
         onReady={(result) => {
           resultHandler &&
@@ -86,6 +89,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
               distance: result.distance,
               legs: result.legs,
             });
+
           // resultHandler && resultHandler(result.duration, result.distance);
         }}
       />
@@ -159,3 +163,4 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   //   </Component>
   // );
 };
+

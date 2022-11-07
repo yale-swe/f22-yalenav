@@ -5,6 +5,7 @@ import { Location, Building, ShuttleStop } from "../../../types";
 import { RoutingView, RoutingMode } from "../routing/RoutingView";
 
 // To get durations, route distance, etc; pass function to
+
 // resultHandler([{type, duration, distance}]), and it will be called when calculated
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
@@ -18,6 +19,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   selectedLocation,
   origin,
   resultHandler,
+
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
   // https://mapstyle.withgoogle.com/
@@ -39,6 +41,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
               latitude: selectedLocation.lat,
               longitude: selectedLocation.lon,
             }}
+
             title={selectedLocation.name}
             description={selectedLocation.abbreviation.toUpperCase()}
           />
@@ -64,6 +67,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
           mode={RoutingMode.noshuttle}
         />
       ) : null}
+
     </>
   );
 };
