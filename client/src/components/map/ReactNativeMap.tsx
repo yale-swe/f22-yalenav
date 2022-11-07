@@ -1,16 +1,19 @@
 import React from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapBanner from "./MapBanner";
 import { Location, Building, ShuttleStop } from "../../../types";
 import { RoutingView, RoutingMode } from "../routing/RoutingView";
 
 // To get durations, route distance, etc; pass function to 
-// resultHandler(duration, distance), and it will be called when calculated
+// resultHandler([{type, duration, distance}]), and it will be called when calculated
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
   origin: Location | undefined;
   destination: Building | ShuttleStop | undefined;
   resultHandler?: Function | undefined;
 }
+
+let isNavigating = false;
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   selectedLocation, origin, destination, resultHandler
@@ -20,32 +23,38 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   const mapStyle = require("./mapStyle.json");
 
   return (
-    <MapView
-      style={{ alignSelf: "stretch", height: "125%" }}
-      provider={PROVIDER_GOOGLE}
-      showsUserLocation={true}
-      followsUserLocation={true}
-      initialRegion={yaleUni}
-      customMapStyle={mapStyle}
-    >
-      {selectedLocation && (
-        <Marker
-          coordinate={selectedLocation.loc}
-          title={selectedLocation.name}
-          description={selectedLocation.abbreviation.toUpperCase()}
-        />
-      )}
-
-      {
-        origin && destination && 
+    <>
+      <MapView
+        style={{ alignSelf: "stretch", height: "125%" }}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        followsUserLocation={true}
+        initialRegion={yaleUni}
+        customMapStyle={mapStyle}
+      >
+        {selectedLocation && (
+          <Marker
+            coordinate={{
+              latitude: selectedLocation.lat,
+              longitude: selectedLocation.lon,
+            }}
+            title={selectedLocation.name}
+            description={selectedLocation.abbreviation.toUpperCase()}
+          />
+        )}
+      </MapView>
+      {selectedLocation ? (
+        <MapBanner selectedLocation={selectedLocation} />
+      ) : null}
+    
+      {(isNavigating && origin && destination) ?
         (<RoutingView 
           routeOrigin={origin} 
           routeDestination={destination.loc}
           resultHandler={resultHandler}
-          mode={RoutingMode.noshuttle}/>
-        )}
-        
-    </MapView>
+          mode={RoutingMode.noshuttle}
+          />) : null}
+    </>
   );
 };
 
