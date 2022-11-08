@@ -3,7 +3,11 @@ import { View, Pressable, Text, StyleSheet, Dimensions } from "react-native";
 import { Building, Location, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
 
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import {
+  Gesture,
+  GestureDetector,
+  ScrollView,
+} from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -102,8 +106,21 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     if (results && results[0] && results[0].legs && results[0].legs[0].steps) {
       console.log(results[0].legs[0].steps);
       return results[0].legs[0].steps.map((step) => {
+        // Replace all html tags with a space. Add a space because some tags don't have spaces between and causes the text to
+        // not have any space between.
+        let instructions = step.html_instructions.replace(/(<([^>]+)>)/gi, " ");
+
+        // Replace mutliple spaces with a single space
+        instructions = instructions.replace(/\s\s+/g, " ");
+        console.log(instructions);
         return (
-          <Text key={step.html_instructions}>{step.html_instructions}</Text>
+          <View style={{ margin: 5 }} key={step.html_instructions}>
+            <Text>
+              {instructions} for {step.distance.text}
+            </Text>
+
+            <Text>{step.duration.text}</Text>
+          </View>
         );
       });
     }
@@ -144,7 +161,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
             </Pressable>
           </View>
         ) : selectedLocation && isUserNavigating ? (
-          displayDirections()
+          <ScrollView style={styles.card}>{displayDirections()}</ScrollView>
         ) : null}
       </Animated.View>
     </GestureDetector>
@@ -191,9 +208,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: YALE_HEX,
-    width: "25%",
+    width: "40%",
     borderRadius: 10,
-    padding: 10,
+    padding: 20,
   },
 });
 

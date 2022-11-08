@@ -81,6 +81,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
               distance: result.distance,
               legs: result.legs,
             });
+          console.log(`Plain result:`, result);
           resultHandler && resultHandler(results);
         }}
       />
