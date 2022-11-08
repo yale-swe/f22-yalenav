@@ -12,6 +12,13 @@ export type Building = {
   tile: LatLng[];
 };
 
+export type ShuttleStop = {
+  _id: number;
+  name: string;
+  lat: number;
+  lon: number;
+};
+
 export type AuthData = {
   netId: string;
 };

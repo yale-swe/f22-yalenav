@@ -7,6 +7,11 @@ import { Map, Profile, Search, Shortcut } from "../components";
 import { BACKEND } from "../constants";
 import { useAuth } from "../contexts/Auth";
 
+var yaleUni = {
+  latitude: 41.3163,
+  longitude: -72.922585,
+};
+
 export default function HomeScreen() {
   const auth = useAuth();
   // Load Yale locations
@@ -33,7 +38,11 @@ export default function HomeScreen() {
 
   return (
     <>
-      <Map selectedLocation={selectedLocation} buildings={buildings} />
+      <Map
+        selectedLocation={selectedLocation}
+        origin={yaleUni}
+        buildings={buildings}
+      />
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
         <Profile />
