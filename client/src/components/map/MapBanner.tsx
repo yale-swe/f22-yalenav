@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { View, Pressable, Text, StyleSheet, Dimensions } from "react-native";
 import { Building, Location } from "../../../types";
-import { YALE_HEX, BACKEND } from "../../constants";
+import { YALE_HEX } from "../../constants";
+
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
@@ -22,10 +23,8 @@ const BANNER_HEIGHT = -height / 3;
 let distanceFromDestination: number;
 
 // Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
-const computeDistance = (
-  loc1: Location,
-  loc2: Location
-) => {
+const computeDistance = (loc1: Location, loc2: Location) => {
+
   // The math module contains a function
   // named toRadians which converts from
   // degrees to radians.
@@ -51,7 +50,9 @@ const computeDistance = (
 };
 
 export const MapBanner: React.FC<MapBannerInterface> = ({
-  selectedLocation, navigationHandler
+  selectedLocation,
+  navigationHandler,
+
 }: MapBannerInterface) => {
   const translateY = useSharedValue(0);
   const context = useSharedValue({ y: 0 });
@@ -85,12 +86,13 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
 
   // const handleNavigation = () => {
   //   console.log("Pressed");
-    // const data = "TODO";
-    // axios.post(`${BACKEND}/routes`, data).then(res=>{
+  // const data = "TODO";
+  // axios.post(`${BACKEND}/routes`, data).then(res=>{
 
-    // }).catch(error => {
+  // }).catch(error => {
 
-    // })
+  // })
+
   // };
 
   // Changs the y position for the banner and animates it.
@@ -110,14 +112,28 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
               <Text style={styles.title}>{selectedLocation.name}</Text>
               <Text>{selectedLocation.address}</Text>
               <Text>
-                {computeDistance(selectedLocation.loc,
-                  {latitude: 41.3163, longitude: -72.922585}) < 1
+                {computeDistance(
+                  {
+                    latitude: selectedLocation.lat,
+                    longitude: selectedLocation.lon,
+                  },
+                  {
+                    latitude: 41.3163,
+                    longitude: -72.922585,
+                  }
+                ) < 1
+
                   ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
                   : distanceFromDestination.toFixed(2) + " Miles"}
               </Text>
             </View>
-            <Pressable style={styles.button} onPress={r => {navigationHandler && 
-              navigationHandler()}}>
+            <Pressable
+              style={styles.button}
+              onPress={(r) => {
+                navigationHandler && navigationHandler();
+              }}
+            >
+
               <Text style={{ color: "white" }}>Directions</Text>
             </Pressable>
           </View>

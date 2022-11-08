@@ -4,7 +4,8 @@ import MapBanner from "./MapBanner";
 import { Location, Building, ShuttleStop } from "../../../types";
 import { RoutingView, RoutingMode } from "../routing/RoutingView";
 
-// To get durations, route distance, etc; pass function to 
+// To get durations, route distance, etc; pass function to
+
 // resultHandler([{type, duration, distance}]), and it will be called when calculated
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
@@ -15,7 +16,10 @@ interface ReactNativeMapInterface {
 let isNavigating = false;
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
-  selectedLocation, origin, resultHandler
+  selectedLocation,
+  origin,
+  resultHandler,
+
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
   // https://mapstyle.withgoogle.com/
@@ -33,25 +37,37 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
       >
         {selectedLocation && (
           <Marker
-            coordinate={selectedLocation.loc}
+            coordinate={{
+              latitude: selectedLocation.lat,
+              longitude: selectedLocation.lon,
+            }}
+
             title={selectedLocation.name}
             description={selectedLocation.abbreviation.toUpperCase()}
           />
         )}
       </MapView>
       {selectedLocation ? (
-        <MapBanner selectedLocation={selectedLocation} navigationHandler={
-          function() {isNavigating = true}}
-           />
+        <MapBanner
+          selectedLocation={selectedLocation}
+          navigationHandler={function () {
+            isNavigating = true;
+          }}
+        />
       ) : null}
-    
-      {(isNavigating && origin && selectedLocation) ?
-        (<RoutingView 
-          routeOrigin={origin} 
-          routeDestination={selectedLocation.loc}
+
+      {isNavigating && origin && selectedLocation ? (
+        <RoutingView
+          routeOrigin={origin}
+          routeDestination={{
+            latitude: selectedLocation.lat,
+            longitude: selectedLocation.lon,
+          }}
           resultHandler={resultHandler}
           mode={RoutingMode.noshuttle}
-          />) : null}
+        />
+      ) : null}
+
     </>
   );
 };
