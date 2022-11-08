@@ -30,6 +30,7 @@ export default function HomeScreen() {
   const selectLocation = (location: Building) => {
     setSelectedLocation(location);
   };
+
   return (
     <>
       <Map selectedLocation={selectedLocation} buildings={buildings} />

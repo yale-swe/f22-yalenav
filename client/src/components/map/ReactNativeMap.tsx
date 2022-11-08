@@ -1,6 +1,6 @@
 import React from "react";
 import MapView, { Marker, PROVIDER_GOOGLE, Polygon } from "react-native-maps";
-import { Building, LatLng } from "../../../types";
+import { Building } from "../../../types";
 import { YALE_HEX } from "../../constants";
 
 interface ReactNativeMapInterface {

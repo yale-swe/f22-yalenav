@@ -35,7 +35,6 @@ export const getBuildings = async (): Promise<typeof Building[]> => {
       //parse the response based in interface
       let buildingsList: BuildingsV2Object[] =
         JSON.parse(body).ServiceResponse.Buildings;
-
       // convert each buildings into Building instances
       let buildings: typeof Building[] = formatBuildings(
         buildingsList,
