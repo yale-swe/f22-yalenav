@@ -1,9 +1,10 @@
-import {StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {YALE_HEX} from "../constants";
 import {useAuth} from "../contexts/Auth";
 import {Button} from "react-native-elements";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../navigation/Navigation";
+import {ScheduleForm} from "../components/schedule/ScheduleForm";
 
 
 type EditProp = NativeStackScreenProps<RootStackParamList, 'EditSchedule'>;
@@ -12,15 +13,22 @@ export default function EditSchedule({route, navigation}: EditProp) {
     const auth = useAuth();
     return (
         <>
-            <View style={styles.header}>
-                <Text style={styles.heading}>Edit Schedule Placeholder</Text>
+            <ScrollView contentContainerStyle={styles.header}
+                        keyboardShouldPersistTaps='handled'>
+                <Text style={styles.heading}>Edit Schedule</Text>
+                <ScheduleForm />
                 <Button
                     style={styles.profile}
                     type="clear"
-                    title="Done"
+                    title="Back"
                     onPress={() => navigation.navigate('UserProfile')}
+                    containerStyle={{
+                        width: 200,
+                        marginHorizontal: 50,
+                        marginVertical: 10,
+                    }}
                 />
-            </View>
+            </ScrollView>
         </>
     );
 }
@@ -41,10 +49,12 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
     },
     heading: {
-        textAlign: 'center', // <-- the magic
+        textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 18,
-        marginTop: 0,
+        marginBottom: 20,
+        marginTop: 10,
         width: 200,
     },
+
 });
