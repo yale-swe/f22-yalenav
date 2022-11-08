@@ -17,6 +17,7 @@
     "expo": "~46.0.13",
     "expo-auth-session": "^3.7.1",
     "expo-constants": "~13.2.4",
+    "expo-location": "^14.3.0",
     "expo-random": "^12.3.0",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
