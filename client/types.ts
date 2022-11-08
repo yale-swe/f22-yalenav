@@ -22,3 +22,11 @@ export type ShuttleStop = {
 export type AuthData = {
   netId: string;
 };
+
+import { MapDirectionsLegs } from "react-native-maps-directions";
+export type Results = {
+  type: string;
+  duration: number;
+  distance: number;
+  legs?: MapDirectionsLegs;
+};

@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Polyline } from "react-native-maps";
 import MapViewDirections, {
   MapDirectionsLegs,
 } from "react-native-maps-directions";
-
-import { Location } from "../../../types";
+import { Location, Results } from "../../../types";
 import { APIKEY, YALE_HEX } from "../../constants";
 
 export const enum RoutingMode {
@@ -59,12 +58,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   //   isShuttleRoute = false;
   // }
 
-  let results: {
-    type: string;
-    duration: number;
-    distance: number;
-    legs?: MapDirectionsLegs;
-  }[] = [];
+  let results: Array<Results> = [];
 
   // TODO: implement mode switching
   // Include bycicles, walking, and custom mode for routing.
@@ -73,13 +67,11 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   let RoutingViews = (
     <>
       <MapViewDirections
-
         origin={routeOrigin}
         destination={isShuttleRoute ? originStop.loc : routeDestination}
         apikey={APIKEY}
         strokeColor={YALE_HEX}
         strokeWidth={4}
-
         mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
         onReady={(result) => {
           resultHandler &&
@@ -89,8 +81,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
               distance: result.distance,
               legs: result.legs,
             });
-
-          // resultHandler && resultHandler(result.duration, result.distance);
+          resultHandler && resultHandler(results);
         }}
       />
 
@@ -128,39 +119,10 @@ export const RoutingView: React.FC<RoutingInterface> = ({
     </>
   );
 
-  // Calls the result handler with the information; presented in
-  // [{type, duration, distance}, {...}, ...]
-  resultHandler && resultHandler(results);
+  // // Calls the result handler with the information; presented in
+  // // [{type, duration, distance}, {...}, ...]
+  // resultHandler && resultHandler(results);
 
-  return RoutingViews; // (
-  //   <Component>
-  //     <MapViewDirections
-  //     origin={routeOrigin}
-  //     destination={(isShuttleRoute) ? dest1 : routeDestination}
-  //     apikey={APIKEY}
-  //     strokeColor={YALE_HEX}
-  //     strokeWidth={4}
-  //     mode={(mode == RoutingMode.biking) ? "BICYCLING" : "WALKING"}
-  //     onReady = {result => {
-  //       resultHandler && resultHandler(result.duration, result.distance);
-  //     }}/>
-
-  //     {isShuttleRoute && <Polyline
-  //       coordinates={[]} // Plot the bus route here!
-
-  //     />}
-
-  //     {isShuttleRoute && <MapViewDirections
-  //       origin={orig2}
-  //       destination={routeDestination}
-  //       apikey={APIKEY}
-  //       mode={(mode == RoutingMode.biking) ? "BICYCLING" : "WALKING"}
-  //       onReady = {result => {
-  //         resultHandler && resultHandler(result.duration, result.distance);
-  //       }}
-  //     />}
-
-  //   </Component>
-  // );
+  return RoutingViews;
 };
-
+export default RoutingView;

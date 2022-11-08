@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Pressable, Text, StyleSheet, Dimensions } from "react-native";
-import { Building, Location } from "../../../types";
+import { Building, Location, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
 
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -13,6 +13,7 @@ import Animated, {
 interface MapBannerInterface {
   selectedLocation: Building | undefined;
   navigationHandler: Function | undefined;
+  results: Array<Results> | undefined;
 }
 
 const { width, height } = Dimensions.get("window");
@@ -24,7 +25,6 @@ let distanceFromDestination: number;
 
 // Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
 const computeDistance = (loc1: Location, loc2: Location) => {
-
   // The math module contains a function
   // named toRadians which converts from
   // degrees to radians.
@@ -52,11 +52,17 @@ const computeDistance = (loc1: Location, loc2: Location) => {
 export const MapBanner: React.FC<MapBannerInterface> = ({
   selectedLocation,
   navigationHandler,
-
+  results,
 }: MapBannerInterface) => {
   const translateY = useSharedValue(0);
   const context = useSharedValue({ y: 0 });
+  const [isUserNavigating, setIsUserNavigating] = useState(false);
+  // If the user searches a new location
+  useEffect(() => {
+    setIsUserNavigating(false);
+  }, [selectedLocation]);
 
+  // Handles the logic for moving the banner up and down to designated positions.
   const gesture = Gesture.Pan()
     .onStart(() => {
       // To create a smooth animation we start the movement from the previous y value.
@@ -84,17 +90,6 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     translateY.value = withSpring(BANNER_HEIGHT);
   });
 
-  // const handleNavigation = () => {
-  //   console.log("Pressed");
-  // const data = "TODO";
-  // axios.post(`${BACKEND}/routes`, data).then(res=>{
-
-  // }).catch(error => {
-
-  // })
-
-  // };
-
   // Changs the y position for the banner and animates it.
   const rBottomSheetStyle = useAnimatedStyle(() => {
     return {
@@ -102,11 +97,23 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     };
   });
 
+  const displayDirections = () => {
+    console.log("display", results);
+    if (results && results[0] && results[0].legs && results[0].legs[0].steps) {
+      console.log(results[0].legs[0].steps);
+      return results[0].legs[0].steps.map((step) => {
+        return (
+          <Text key={step.html_instructions}>{step.html_instructions}</Text>
+        );
+      });
+    }
+  };
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View style={[styles.scrollView, rBottomSheetStyle]}>
         <View style={styles.line} />
-        {selectedLocation ? (
+        {selectedLocation && !isUserNavigating ? (
           <View style={styles.card}>
             <View style={styles.text}>
               <Text style={styles.title}>{selectedLocation.name}</Text>
@@ -122,7 +129,6 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
                     longitude: -72.922585,
                   }
                 ) < 1
-
                   ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
                   : distanceFromDestination.toFixed(2) + " Miles"}
               </Text>
@@ -131,12 +137,14 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
               style={styles.button}
               onPress={(r) => {
                 navigationHandler && navigationHandler();
+                setIsUserNavigating(true);
               }}
             >
-
               <Text style={{ color: "white" }}>Directions</Text>
             </Pressable>
           </View>
+        ) : selectedLocation && isUserNavigating ? (
+          displayDirections()
         ) : null}
       </Animated.View>
     </GestureDetector>
