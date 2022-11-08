@@ -1,4 +1,4 @@
-export type Location = {
+export type LatLng = {
   latitude: number;
   longitude: number;
 };
@@ -8,8 +8,8 @@ export type Building = {
   name: string;
   address: string;
   abbreviation: string;
-  lat: number;
-  lon: number;
+  coords: LatLng;
+  tile: LatLng[];
 };
 
 export type ShuttleStop = {

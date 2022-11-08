@@ -9,7 +9,7 @@ import { useAuth } from "../contexts/Auth";
 
 var yaleUni = {
   latitude: 41.3163,
-  longitude: -72.922585
+  longitude: -72.922585,
 };
 
 export default function HomeScreen() {
@@ -38,7 +38,11 @@ export default function HomeScreen() {
 
   return (
     <>
-      <Map selectedLocation={selectedLocation} origin={yaleUni} />
+      <Map
+        selectedLocation={selectedLocation}
+        origin={yaleUni}
+        buildings={buildings}
+      />
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
         <Profile />
