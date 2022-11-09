@@ -70,7 +70,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
         origin={routeOrigin}
         destination={isShuttleRoute ? originStop.loc : routeDestination}
         apikey={APIKEY}
-        strokeColor={YALE_HEX}
+        strokeColor="#FF0000"
         strokeWidth={4}
         mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
         onReady={(result) => {
