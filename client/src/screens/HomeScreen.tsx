@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Linking, Alert } from "react-native";
 import axios from "axios";
-import { Building } from "../../types";
+import { Building, LatLng } from "../../types";
 
 import { Map, Profile, Search, Shortcut } from "../components";
 import { BACKEND } from "../constants";
@@ -14,7 +14,7 @@ var yaleUni = {
 };
 
 export default function HomeScreen() {
-  const [location, setLocation] = useState<Location>();
+  const [location, setLocation] = useState<LatLng>();
 
   const auth = useAuth();
   // Load Yale locations

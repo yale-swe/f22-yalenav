@@ -4,7 +4,7 @@ import MapViewDirections, {
   MapDirectionsLegs,
 } from "react-native-maps-directions";
 
-import { Location } from "../../../types";
+import { LatLng } from "../../../types";
 import { APIKEY, YALE_HEX } from "../../constants";
 
 export const enum RoutingMode {
@@ -13,7 +13,7 @@ export const enum RoutingMode {
   biking,
 }
 
-function getClosestShuttleStop(x: Location) {
+function getClosestShuttleStop(x: LatLng) {
   // TODO
   // query database for stops
 
@@ -34,8 +34,8 @@ function getRideInfoBetween(origStop: Number, endStop: Number) {
 
 // routes between locations using specified mode
 interface RoutingInterface {
-  routeOrigin: Location;
-  routeDestination: Location;
+  routeOrigin: LatLng;
+  routeDestination: LatLng;
   mode?: RoutingMode | undefined;
   resultHandler?: Function | undefined;
 }
@@ -73,13 +73,11 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   let RoutingViews = (
     <>
       <MapViewDirections
-
         origin={routeOrigin}
         destination={isShuttleRoute ? originStop.loc : routeDestination}
         apikey={APIKEY}
         strokeColor={YALE_HEX}
         strokeWidth={4}
-
         mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
         onReady={(result) => {
           resultHandler &&
@@ -163,4 +161,3 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   //   </Component>
   // );
 };
-

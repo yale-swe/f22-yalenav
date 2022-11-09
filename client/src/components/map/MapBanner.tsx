@@ -8,7 +8,7 @@ import {
   Linking,
   Dimensions,
 } from "react-native";
-import { Building, Location } from "../../../types";
+import { Building, LatLng } from "../../../types";
 import { YALE_HEX } from "../../constants";
 import * as Loc from "expo-location";
 
@@ -31,7 +31,7 @@ const BANNER_HEIGHT = -height / 3;
 let distanceFromDestination: number;
 
 // Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
-const computeDistance = (loc1: Location, loc2: Location) => {
+const computeDistance = (loc1: LatLng, loc2: LatLng) => {
   // The math module contains a function
   // named toRadians which converts from
   // degrees to radians.
@@ -77,7 +77,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
   navigationHandler,
 }: MapBannerInterface) => {
   // State for holding onto user's coords. Inital state set to Yale University.
-  const [userLocation, setUserLocation] = useState<Location>({
+  const [userLocation, setUserLocation] = useState<LatLng>({
     latitude: 41.3163,
     longitude: -72.922585,
   });
@@ -194,8 +194,8 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
               <Text>{selectedLocation.address}</Text>
               <Text>
                 {computeDistance(userLocation, {
-                  latitude: selectedLocation.lat,
-                  longitude: selectedLocation.lon,
+                  latitude: selectedLocation.coords.latitude,
+                  longitude: selectedLocation.coords.longitude,
                 }) < 1
                   ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
                   : distanceFromDestination.toFixed(2) + " Miles"}
