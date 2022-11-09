@@ -14,7 +14,7 @@ var yaleUni = {
 };
 
 export default function HomeScreen() {
-  const [location, setLocation] = useState<LatLng>();
+  const [origin, setOrigin] = useState<LatLng>();
 
   const auth = useAuth();
   // Load Yale locations
@@ -32,9 +32,12 @@ export default function HomeScreen() {
         );
         return;
       } else {
-        console.log("Location access granted!!");
+        console.log("Location access granted!");
         let loc = await Location.getCurrentPositionAsync({});
-        console.log(loc);
+        setOrigin({
+          latitude: loc.coords.latitude,
+          longitude: loc.coords.longitude,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -68,7 +71,7 @@ export default function HomeScreen() {
     <>
       <Map
         selectedLocation={selectedLocation}
-        origin={yaleUni}
+        origin={origin}
         buildings={buildings}
       />
       <View style={styles.header}>

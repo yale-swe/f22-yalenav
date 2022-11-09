@@ -1,3 +1,5 @@
+import { MapDirectionsLegs } from "react-native-maps-directions";
+
 export type LatLng = {
   latitude: number;
   longitude: number;
@@ -23,7 +25,6 @@ export type AuthData = {
   netId: string;
 };
 
-import { MapDirectionsLegs } from "react-native-maps-directions";
 export type Results = {
   type: string;
   duration: number;
