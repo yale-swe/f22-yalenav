@@ -1,8 +1,8 @@
-import React from "react";
-import { YALE_HEX } from "../../constants";
+import React, { useEffect, useState } from "react";
 import MapView, { Polygon, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapBanner from "./MapBanner";
-import { LatLng, Building, ShuttleStop } from "../../../types";
+import { LatLng, Building, ShuttleStop, Results } from "../../../types";
+import { YALE_HEX } from "../../constants";
 import { RoutingView, RoutingMode } from "../routing/RoutingView";
 
 // To get durations, route distance, etc; pass function to
@@ -12,20 +12,28 @@ interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
   buildings: Building[];
   origin: LatLng | undefined;
-  resultHandler?: Function | undefined;
 }
-
-let isNavigating = false;
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   selectedLocation,
   buildings,
   origin,
-  resultHandler,
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
   // https://mapstyle.withgoogle.com/
   const mapStyle = require("./mapStyle.json");
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [results, setResults] = useState<Results[]>();
+
+  // When the user changes the location, toggle off
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [selectedLocation]);
+
+  const passResults = (childData: Array<Results>) => {
+    setResults(childData);
+    console.log(childData);
+  };
 
   return (
     <>
@@ -47,6 +55,17 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
             description={selectedLocation.abbreviation.toUpperCase()}
           />
         )}
+        {isNavigating && origin && selectedLocation ? (
+          <RoutingView
+            routeOrigin={origin}
+            routeDestination={{
+              latitude: selectedLocation.coords.latitude,
+              longitude: selectedLocation.coords.longitude,
+            }}
+            resultHandler={passResults}
+            mode={RoutingMode.noshuttle}
+          />
+        ) : null}
         <>
           {buildings
             .filter((b: Building) => b.tile.length)
@@ -60,21 +79,10 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
       {selectedLocation ? (
         <MapBanner
           selectedLocation={selectedLocation}
-          navigationHandler={function () {
-            isNavigating = true;
+          navigationHandler={() => {
+            setIsNavigating(true);
           }}
-        />
-      ) : null}
-
-      {isNavigating && origin && selectedLocation ? (
-        <RoutingView
-          routeOrigin={origin}
-          routeDestination={{
-            latitude: selectedLocation.coords.latitude,
-            longitude: selectedLocation.coords.longitude,
-          }}
-          resultHandler={resultHandler}
-          mode={RoutingMode.noshuttle}
+          results={results}
         />
       ) : null}
     </>

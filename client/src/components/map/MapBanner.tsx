@@ -7,55 +7,27 @@ import {
   Alert,
   Linking,
   Dimensions,
+  FlatList,
 } from "react-native";
-import { Building, LatLng } from "../../../types";
+import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
 import * as Loc from "expo-location";
-
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { computeDistance } from "../../utils";
+import {
+  Gesture,
+  GestureDetector,
+  ScrollView,
+} from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 
-interface MapBannerInterface {
-  selectedLocation: Building | undefined;
-  navigationHandler: Function | undefined;
-}
-
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = height / 4;
 const CARD_WIDTH = width;
 const BANNER_HEIGHT = -height / 3;
-let distanceFromDestination: number;
-
-// Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
-const computeDistance = (loc1: LatLng, loc2: LatLng) => {
-  // The math module contains a function
-  // named toRadians which converts from
-  // degrees to radians.
-
-  let lon1 = (loc1.longitude * Math.PI) / 180;
-  let lon2 = (loc2.longitude * Math.PI) / 180;
-  let lat1 = (loc2.latitude * Math.PI) / 180;
-  let lat2 = (loc2.latitude * Math.PI) / 180;
-
-  // Haversine formula
-  let dlon = lon2 - lon1;
-  let dlat = lat2 - lat1;
-  let a =
-    Math.pow(Math.sin(dlat / 2), 2) +
-    Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
-
-  let c = 2 * Math.asin(Math.sqrt(a));
-
-  // Radius of earth in kilometers. Use 3956
-  // for miles
-  let r = 3956;
-  distanceFromDestination = c * r;
-  return c * r;
-};
 
 const sendSettingNotification = () => {
   Alert.alert(
@@ -72,15 +44,25 @@ const sendSettingNotification = () => {
   );
 };
 
+interface MapBannerInterface {
+  selectedLocation: Building | undefined;
+  navigationHandler: Function | undefined;
+  results: Array<Results> | undefined;
+}
+
 export const MapBanner: React.FC<MapBannerInterface> = ({
   selectedLocation,
   navigationHandler,
+  results,
 }: MapBannerInterface) => {
   // State for holding onto user's coords. Inital state set to Yale University.
   const [userLocation, setUserLocation] = useState<LatLng>({
     latitude: 41.3163,
     longitude: -72.922585,
   });
+
+  const [distanceFromDestination, setDistanceFromDestination] =
+    useState<number>();
 
   const updateUserLocation = async () => {
     // Get the coords and update userLocation state
@@ -93,7 +75,6 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
 
   const getUserLocation = async () => {
     let { granted, canAskAgain } = await Loc.getForegroundPermissionsAsync();
-    console.log(granted, canAskAgain);
 
     // If the canAskAgain attribute is false then the user should be directed to the settings to change thier permissions
     // per expo-locations documentation
@@ -105,7 +86,6 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
       // (ie selecting any one of the options in settings besides never)
       setTimeout(async () => {
         let { status } = await Loc.requestForegroundPermissionsAsync();
-        console.log(status);
         if (status == "granted") {
           await updateUserLocation();
         }
@@ -126,18 +106,31 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
       return;
     } else {
       await updateUserLocation();
-      console.log(userLocation);
     }
   };
 
   // Get's called every time the component renders
   useEffect(() => {
     getUserLocation();
+    if (selectedLocation) {
+      setDistanceFromDestination(
+        computeDistance(userLocation, {
+          latitude: selectedLocation.coords.latitude,
+          longitude: selectedLocation.coords.longitude,
+        })
+      );
+    }
   }, [selectedLocation]);
 
   const translateY = useSharedValue(0);
   const context = useSharedValue({ y: 0 });
+  const [isUserNavigating, setIsUserNavigating] = useState(false);
+  // If the user searches a new location
+  useEffect(() => {
+    setIsUserNavigating(false);
+  }, [selectedLocation]);
 
+  // Handles the logic for moving the banner up and down to designated positions.
   const gesture = Gesture.Pan()
     .onStart(() => {
       // To create a smooth animation we start the movement from the previous y value.
@@ -165,17 +158,6 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     translateY.value = withSpring(BANNER_HEIGHT);
   });
 
-  // const handleNavigation = () => {
-  //   console.log("Pressed");
-  // const data = "TODO";
-  // axios.post(`${BACKEND}/routes`, data).then(res=>{
-
-  // }).catch(error => {
-
-  // })
-
-  // };
-
   // Changs the y position for the banner and animates it.
   const rBottomSheetStyle = useAnimatedStyle(() => {
     return {
@@ -183,33 +165,84 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     };
   });
 
+  const displayDirections = () => {
+    if (results && results[0] && results[0].legs && results[0].legs[0].steps) {
+      const duration = results[0].duration;
+
+      const navigationResults = results[0].legs[0].steps.map(
+        (step: any, i: number) => {
+          // Replace all html tags with a space. Add a space because some tags don't have spaces between and causes the text to
+          // not have any space between.
+          let instructions = step.html_instructions.replace(
+            /(<([^>]+)>)/gi,
+            " "
+          );
+          // Replace mutliple spaces with a single space
+          instructions = instructions.replace(/\s\s+/g, " ");
+          instructions = instructions.replace("Restricted usage road", " ");
+          return (
+            <View key={i} style={{ flexDirection: "column" }}>
+              <Text style={{ alignSelf: "center", padding: 10 }}>
+                {instructions}
+              </Text>
+              <Text style={{ alignSelf: "center", padding: 5, color: "grey" }}>
+                {step.duration.text} ↓ {step.distance.text}
+              </Text>
+            </View>
+          );
+        }
+      );
+
+      return (
+        <View style={{ flex: 1, flexDirection: "row" }}>
+          <View style={styles.timeContainer}>
+            <Text style={styles.timeText}>{Math.ceil(duration)}</Text>
+            <Text style={styles.timeText}>min</Text>
+          </View>
+
+          <View style={styles.stepsContainer}>{navigationResults}</View>
+        </View>
+      );
+    }
+  };
+
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View style={[styles.scrollView, rBottomSheetStyle]}>
         <View style={styles.line} />
-        {selectedLocation ? (
+        {selectedLocation && !isUserNavigating ? (
           <View style={styles.card}>
             <View style={styles.text}>
               <Text style={styles.title}>{selectedLocation.name}</Text>
-              <Text>{selectedLocation.address}</Text>
-              <Text>
-                {computeDistance(userLocation, {
-                  latitude: selectedLocation.coords.latitude,
-                  longitude: selectedLocation.coords.longitude,
-                }) < 1
-                  ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
-                  : distanceFromDestination.toFixed(2) + " Miles"}
+              <Text style={{ alignSelf: "center", fontSize: 15, padding: 5 }}>
+                {selectedLocation.address}
+              </Text>
+              <Text
+                style={{
+                  alignSelf: "center",
+                  fontStyle: "italic",
+                  paddingBottom: 5,
+                }}
+              >
+                {distanceFromDestination
+                  ? distanceFromDestination < 1
+                    ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
+                    : distanceFromDestination.toFixed(2) + " Miles"
+                  : ""}
               </Text>
             </View>
             <Pressable
               style={styles.button}
               onPress={(r) => {
                 navigationHandler && navigationHandler();
+                setIsUserNavigating(true);
               }}
             >
               <Text style={{ color: "white" }}>Directions</Text>
             </Pressable>
           </View>
+        ) : selectedLocation && isUserNavigating ? (
+          <ScrollView style={styles.card}>{displayDirections()}</ScrollView>
         ) : null}
       </Animated.View>
     </GestureDetector>
@@ -217,9 +250,27 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
 };
 
 const styles = StyleSheet.create({
+  timeContainer: {
+    flex: 0.3,
+    padding: 20,
+    paddingLeft: 30,
+    flexDirection: "column",
+  },
+  timeText: {
+    alignSelf: "center",
+    fontWeight: "bold",
+    fontSize: 30,
+  },
+  stepsContainer: {
+    flex: 0.7,
+    alignSelf: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    alignSelf: "center",
   },
   text: {
     margin: 5,
@@ -256,9 +307,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: YALE_HEX,
-    width: "25%",
+    width: "40%",
     borderRadius: 10,
-    padding: 10,
+    padding: 20,
   },
 });
 
