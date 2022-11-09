@@ -12,7 +12,10 @@ passport.use(
       version: "CAS2.0",
       ssoBaseURL: "https://secure.its.yale.edu/cas",
     },
-    function (profile, done) {
+    function (
+      profile: { user: any },
+      done: (arg0: any, arg1: { netId: any }) => void
+    ) {
       console.log("verify user: ", profile);
       done(null, {
         netId: profile.user,
@@ -34,7 +37,7 @@ passport.deserializeUser(function (netId, done) {
 const casLogin = function (
   req: express.Request,
   res: express.Response,
-  next: express.NextFunction,
+  next: express.NextFunction
 ) {
   passport.authenticate("cas", function (err, user) {
     if (err) {
@@ -50,14 +53,11 @@ const casLogin = function (
       }
 
       if (req.query.redirect) {
-        
         let redirectURL = req.query.redirect as string;
-       
-          
+
         const netId = user.netId ? user.netId : null;
         console.log(netId);
-        return res.redirect(`${redirectURL}?netId=${netId}`)
-
+        return res.redirect(`${redirectURL}?netId=${netId}`);
       }
       return res.redirect("/check");
     });
@@ -79,8 +79,10 @@ export default (app: express.Express) => {
   app.get("/cas", casLogin);
 
   app.get("/logout", (req, res, next) => {
-    req.logOut(function(err){
-      if (err) { return next(err); }
+    req.logOut(function (err) {
+      if (err) {
+        return next(err);
+      }
     });
     return res.json({ success: true });
   });

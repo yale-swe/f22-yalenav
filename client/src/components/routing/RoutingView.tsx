@@ -3,7 +3,7 @@ import { Polyline } from "react-native-maps";
 import MapViewDirections, {
   MapDirectionsLegs,
 } from "react-native-maps-directions";
-import { Location, Results } from "../../../types";
+import { LatLng, Results } from "../../../types";
 import { APIKEY, YALE_HEX } from "../../constants";
 
 export const enum RoutingMode {
@@ -12,7 +12,7 @@ export const enum RoutingMode {
   biking,
 }
 
-function getClosestShuttleStop(x: Location) {
+function getClosestShuttleStop(x: LatLng) {
   // TODO
   // query database for stops
 
@@ -33,8 +33,8 @@ function getRideInfoBetween(origStop: Number, endStop: Number) {
 
 // routes between locations using specified mode
 interface RoutingInterface {
-  routeOrigin: Location;
-  routeDestination: Location;
+  routeOrigin: LatLng;
+  routeDestination: LatLng;
   mode?: RoutingMode | undefined;
   resultHandler?: Function | undefined;
 }

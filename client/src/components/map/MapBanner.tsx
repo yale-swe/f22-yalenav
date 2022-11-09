@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Pressable, Text, StyleSheet, Dimensions } from "react-native";
-import { Building, Location, Results } from "../../../types";
+import {
+  View,
+  Pressable,
+  Text,
+  StyleSheet,
+  Alert,
+  Linking,
+  Dimensions,
+} from "react-native";
+import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
+import * as Loc from "expo-location";
 
 import {
   Gesture,
@@ -24,17 +33,17 @@ const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = height / 4;
 const CARD_WIDTH = width;
 const BANNER_HEIGHT = -height / 3;
-
 let distanceFromDestination: number;
 
 // Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
-const computeDistance = (loc1: Location, loc2: Location) => {
+const computeDistance = (loc1: LatLng, loc2: LatLng) => {
   // The math module contains a function
   // named toRadians which converts from
   // degrees to radians.
+
   let lon1 = (loc1.longitude * Math.PI) / 180;
   let lon2 = (loc2.longitude * Math.PI) / 180;
-  let lat1 = (loc1.latitude * Math.PI) / 180;
+  let lat1 = (loc2.latitude * Math.PI) / 180;
   let lat2 = (loc2.latitude * Math.PI) / 180;
 
   // Haversine formula
@@ -53,11 +62,85 @@ const computeDistance = (loc1: Location, loc2: Location) => {
   return c * r;
 };
 
+const sendSettingNotification = () => {
+  Alert.alert(
+    "Please enable location in settings.",
+    "YaleNav needs your location to provide routing details. The estimated distance is using Yale University's approximate location.",
+    [
+      {
+        text: "Okay",
+        onPress: () => {
+          Linking.openURL("app-settings:");
+        },
+      },
+    ]
+  );
+};
+
 export const MapBanner: React.FC<MapBannerInterface> = ({
   selectedLocation,
   navigationHandler,
   results,
 }: MapBannerInterface) => {
+  // State for holding onto user's coords. Inital state set to Yale University.
+  const [userLocation, setUserLocation] = useState<LatLng>({
+    latitude: 41.3163,
+    longitude: -72.922585,
+  });
+
+  const updateUserLocation = async () => {
+    // Get the coords and update userLocation state
+    const loc = await Loc.getCurrentPositionAsync({});
+    setUserLocation({
+      latitude: loc.coords.latitude,
+      longitude: loc.coords.longitude,
+    });
+  };
+
+  const getUserLocation = async () => {
+    let { granted, canAskAgain } = await Loc.getForegroundPermissionsAsync();
+    console.log(granted, canAskAgain);
+
+    // If the canAskAgain attribute is false then the user should be directed to the settings to change thier permissions
+    // per expo-locations documentation
+    if (!granted && !canAskAgain) {
+      sendSettingNotification();
+
+      // Need to change in the future but couldn't tell when the user would redirect back from settings to the app so used a
+      // timeout for 10 seconds and then prompt the user for permission again if they allow us the ability to ask again
+      // (ie selecting any one of the options in settings besides never)
+      setTimeout(async () => {
+        let { status } = await Loc.requestForegroundPermissionsAsync();
+        console.log(status);
+        if (status == "granted") {
+          await updateUserLocation();
+        }
+        return;
+      }, 10000);
+
+      // If the user doesn't let us use their location, alert them they will not have access to all the features (change in future to ask again potentially)
+    } else if (!granted) {
+      Alert.alert(
+        "YaleNav Requires Your Location!",
+        "For the full experience of using YaleNav, we require your location in order to perform the routing!"
+      );
+      let { status } = await Loc.requestForegroundPermissionsAsync();
+
+      if (status == "granted") {
+        await updateUserLocation();
+      }
+      return;
+    } else {
+      await updateUserLocation();
+      console.log(userLocation);
+    }
+  };
+
+  // Get's called every time the component renders
+  useEffect(() => {
+    getUserLocation();
+  }, [selectedLocation]);
+
   const translateY = useSharedValue(0);
   const context = useSharedValue({ y: 0 });
   const [isUserNavigating, setIsUserNavigating] = useState(false);
@@ -136,16 +219,10 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
               <Text style={styles.title}>{selectedLocation.name}</Text>
               <Text>{selectedLocation.address}</Text>
               <Text>
-                {computeDistance(
-                  {
-                    latitude: selectedLocation.lat,
-                    longitude: selectedLocation.lon,
-                  },
-                  {
-                    latitude: 41.3163,
-                    longitude: -72.922585,
-                  }
-                ) < 1
+                {computeDistance(userLocation, {
+                  latitude: selectedLocation.coords.latitude,
+                  longitude: selectedLocation.coords.longitude,
+                }) < 1
                   ? (distanceFromDestination * 5280).toFixed(2) + " Feet"
                   : distanceFromDestination.toFixed(2) + " Miles"}
               </Text>

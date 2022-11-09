@@ -46,3 +46,22 @@ jobs:
           MONGO_URI: mongodb://user:pass@mongodb:27017/mydatabase?authSource=admin
       - name: Build
         run: yarn build:server
+
+  prettier:
+    name: Prettify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+          # Fetch changes to previous commit
+          fetch-depth: 0
+      - name: Run Prettier
+        uses: creyD/prettier_action@v4.2
+        with:
+          # Update current commit with prettified changed files
+          prettier_options: --write **/*.{tsx,js,md}
+          same_commit: True
+          only_changed: True

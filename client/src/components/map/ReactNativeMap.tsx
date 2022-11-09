@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Polygon, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import MapBanner from "./MapBanner";
-import { Location, Building, ShuttleStop, Results } from "../../../types";
+import { LatLng, Building, ShuttleStop, Results } from "../../../types";
+import { YALE_HEX } from "../../constants";
 import { RoutingView, RoutingMode } from "../routing/RoutingView";
 
 // To get durations, route distance, etc; pass function to
@@ -9,11 +10,13 @@ import { RoutingView, RoutingMode } from "../routing/RoutingView";
 // resultHandler([{type, duration, distance}]), and it will be called when calculated
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
-  origin: Location | undefined;
+  buildings: Building[];
+  origin: LatLng | undefined;
 }
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   selectedLocation,
+  buildings,
   origin,
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
@@ -45,8 +48,8 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
         {selectedLocation && (
           <Marker
             coordinate={{
-              latitude: selectedLocation.lat,
-              longitude: selectedLocation.lon,
+              latitude: selectedLocation.coords.latitude,
+              longitude: selectedLocation.coords.longitude,
             }}
             title={selectedLocation.name}
             description={selectedLocation.abbreviation.toUpperCase()}
@@ -56,13 +59,22 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
           <RoutingView
             routeOrigin={origin}
             routeDestination={{
-              latitude: selectedLocation.lat,
-              longitude: selectedLocation.lon,
+              latitude: selectedLocation.coords.latitude,
+              longitude: selectedLocation.coords.longitude,
             }}
             resultHandler={passResults}
             mode={RoutingMode.noshuttle}
           />
         ) : null}
+        <>
+          {buildings
+            .filter((b: Building) => b.tile.length)
+            .map((b: Building, i: number) => {
+              return (
+                <Polygon coordinates={b.tile} fillColor={YALE_HEX} key={i} />
+              );
+            })}
+        </>
       </MapView>
       {selectedLocation ? (
         <MapBanner
