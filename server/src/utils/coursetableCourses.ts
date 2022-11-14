@@ -5,7 +5,7 @@ interface CoursetableObject {
   title: String;
   course_code: String;
   locations_summary: String;
-  times_by_day: Map<String, String[]>;
+  times_summary: String;
 }
 
 const COURSETABLENDPOINT = `https://api.coursetable.com/api/static/catalogs/202203.json`;
@@ -34,6 +34,6 @@ const formatCourse = (course: CoursetableObject): typeof Course => {
     title: course.title,
     course_code: course.course_code,
     locations_summary: course.locations_summary,
-    times_by_day: course.times_by_day,
+    schedule: course.times_summary,
   });
 };

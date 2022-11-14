@@ -13,8 +13,9 @@ export const CourseSchema = new mongoose.Schema({
     type: "string",
     required: true,
   },
-  times_by_day: {
-    type: { name: "string", dic: {} },
+  schedule: {
+    type: "string",
+    required: true,
   },
 });
 
