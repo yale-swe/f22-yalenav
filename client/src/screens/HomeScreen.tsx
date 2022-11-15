@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Linking, Alert } from "react-native";
 import axios from "axios";
 import { Building, LatLng } from "../../types";
+import { CampusSpots } from "../components/search/CampusSpots";
 
 import { Map, Profile, Search, Shortcut } from "../components";
 import { BACKEND } from "../constants";
@@ -75,7 +76,12 @@ export default function HomeScreen() {
         buildings={buildings}
       />
       <View style={styles.header}>
-        <Search locations={buildings} selectLocation={selectLocation} />
+        <View>
+          <Search locations={buildings} selectLocation={selectLocation} />
+          <View style={{ alignSelf: "center" }}>
+            <CampusSpots />
+          </View>
+        </View>
         <Profile />
       </View>
       <Shortcut />
@@ -91,4 +97,5 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "space-around",
   },
+  campusSpots: {},
 });
