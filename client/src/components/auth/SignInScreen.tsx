@@ -12,7 +12,7 @@ const SignInScreen = () => {
 
   return (
     <View style={styles.view}>
-      <Image style={styles.logo} source={Logo} />
+      {/* <Image style={styles.logo} source={Logo} /> */}
       <Pressable style={styles.container} onPress={handleSignInPress}>
         <Text style={styles.text}>Sign In</Text>
       </Pressable>
@@ -22,7 +22,7 @@ const SignInScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "75%%",
+    width: "75%",
     padding: 20,
     borderRadius: 5,
     marginVertical: 5,
@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
     color: "white",
   },
   view: {
+    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
   },
   logo: {

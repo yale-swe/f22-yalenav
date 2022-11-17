@@ -82,21 +82,23 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
       />
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
-        {auth.authData ? (
-          <Button
-            style={styles.profile}
-            type="clear"
-            title={auth.authData.netId}
-            onPress={() => navigation.navigate("UserProfile")}
-          />
-        ) : (
-          <Button
-            style={styles.profile}
-            type="clear"
-            title="Sign In"
-            onPress={() => navigation.navigate("SignIn")}
-          />
-        )}
+        <View style={styles.profileComponent}>
+          {auth.authData ? (
+            <Button
+              style={styles.profile}
+              type="clear"
+              title={auth.authData.netId}
+              onPress={() => navigation.navigate("UserProfile")}
+            />
+          ) : (
+            <Button
+              style={styles.profile}
+              type="clear"
+              title="Sign In"
+              onPress={() => navigation.navigate("SignIn")}
+            />
+          )}
+        </View>
       </View>
       <Shortcut />
     </>
@@ -111,7 +113,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "space-around",
   },
-
+  profileComponent: {
+    padding: "2%",
+    paddingRight: "4%",
+  },
   profile: {
     borderColor: YALE_HEX,
     borderWidth: 2,
