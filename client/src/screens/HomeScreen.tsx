@@ -21,6 +21,9 @@ export default function HomeScreen() {
   // Load Yale locations
   const [buildings, setBuildings] = useState<Building[]>([]);
 
+  const [buildingsToRender, setBuildingsToRender] =
+    useState<Array<Building>>(buildings);
+
   const getUserLocation = async () => {
     try {
       // Request for the users permissions for using their location
@@ -54,6 +57,7 @@ export default function HomeScreen() {
       .get<{ buildings: Building[] }>(`${BACKEND}/building`)
       .then((res) => {
         setBuildings(res.data.buildings);
+        setBuildingsToRender(res.data.buildings);
       })
       .catch((err) => {
         console.log(err);
@@ -74,12 +78,16 @@ export default function HomeScreen() {
         selectedLocation={selectedLocation}
         origin={origin}
         buildings={buildings}
+        buildingsToRender={buildingsToRender}
       />
       <View style={styles.header}>
         <View>
           <Search locations={buildings} selectLocation={selectLocation} />
           <View style={{ alignSelf: "center" }}>
-            <CampusSpots />
+            <CampusSpots
+              allBuildings={buildings}
+              setBuildingsToRender={setBuildingsToRender}
+            />
           </View>
         </View>
         <Profile />

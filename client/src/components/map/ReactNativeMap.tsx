@@ -12,12 +12,14 @@ interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
   buildings: Building[];
   origin: LatLng | undefined;
+  buildingsToRender: Building[];
 }
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   selectedLocation,
   buildings,
   origin,
+  buildingsToRender,
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
   // https://mapstyle.withgoogle.com/
@@ -67,7 +69,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
           />
         ) : null}
         <>
-          {buildings
+          {buildingsToRender
             .filter((b: Building) => b.tile.length)
             .map((b: Building, i: number) => {
               return (
