@@ -3,17 +3,23 @@ import { StyleSheet, View, Linking, Alert } from "react-native";
 import axios from "axios";
 import { Building, LatLng } from "../../types";
 
-import { Map, Profile, Search, Shortcut } from "../components";
-import { BACKEND } from "../constants";
+import { Map, Search, Shortcut } from "../components";
+import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import * as Location from "expo-location";
+
+import { Button } from "react-native-elements";
+import { RootStackParamList } from "../navigation/Navigation";
+import type { StackScreenProps } from "@react-navigation/stack";
+
+type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
 var yaleUni = {
   latitude: 41.3163,
   longitude: -72.922585,
 };
 
-export default function HomeScreen() {
+export default function HomeScreen({ route, navigation }: HomeProp) {
   const [origin, setOrigin] = useState<LatLng>();
 
   const auth = useAuth();
@@ -76,7 +82,23 @@ export default function HomeScreen() {
       />
       <View style={styles.header}>
         <Search locations={buildings} selectLocation={selectLocation} />
-        <Profile />
+        <View style={styles.profileComponent}>
+          {auth.authData ? (
+            <Button
+              style={styles.profile}
+              type="clear"
+              title={auth.authData.netId}
+              onPress={() => navigation.navigate("UserProfile")}
+            />
+          ) : (
+            <Button
+              style={styles.profile}
+              type="clear"
+              title="Sign In"
+              onPress={() => navigation.navigate("SignIn")}
+            />
+          )}
+        </View>
       </View>
       <Shortcut />
     </>
@@ -90,5 +112,15 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "absolute",
     justifyContent: "space-around",
+  },
+  profileComponent: {
+    padding: "2%",
+    paddingRight: "4%",
+  },
+  profile: {
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+    borderRadius: 40,
+    backgroundColor: "white",
   },
 });

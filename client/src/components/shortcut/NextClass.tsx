@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     marginTop: "190%",
     flex: 1,
     position: "absolute",
+    alignSelf: "center",
   },
   nextClass: {
     padding: "6%",

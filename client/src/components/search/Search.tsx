@@ -14,6 +14,7 @@ import { searchFilter } from "../../utils";
 
 interface SearchInterface {
   locations: Building[];
+
   selectLocation(location: Building): any;
 }
 

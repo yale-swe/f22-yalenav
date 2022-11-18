@@ -72,7 +72,7 @@ const formatBuildings = (
 const formatBuilding = (
   building: BuildingsV2Object,
   buildingTiles: BuildingTiles
-): typeof Building => {
+): any => {
   return new Building({
     name: capitalizeWords(building.DESCRIPTION),
     address: capitalizeWords(
