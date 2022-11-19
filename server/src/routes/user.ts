@@ -29,7 +29,28 @@ router.post("/", async (req: Request, res: Response) => {
   const addedCourse = await Course.findOne({
     course_code: course_code.toString(),
   });
+
+  // invalid course
+  if (!addedCourse)
+    return res
+      .status(400)
+      .send({ message: `Course with code ${course_code} does not exist.` });
+
+  const existingUser = await User.findOne({ netid: netid });
+
+  // duplicate course
+  if (
+    existingUser.courses.some((c) => {
+      return c.course_code === addedCourse.course_code;
+    })
+  ) {
+    return res
+      .status(400)
+      .send({ message: `Already have ${course_code} in your schedule.` });
+  }
+
   const update = { $push: { courses: addedCourse } };
+
   const oldUser = await User.findOneAndUpdate(filter, update);
   const user = await User.findOne({ netid: oldUser.netid });
   res.status(201).send({ user });
