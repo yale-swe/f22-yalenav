@@ -40,19 +40,5 @@ const BuildingSchema = new mongoose.Schema({
   ],
 });
 
-export type LatLng = mongoose.Document & {
-  longitude: number;
-  latitude: number;
-};
-
-export type Building = mongoose.Document & {
-  name: string;
-  abbreviation: string;
-  reference: string;
-  address: string;
-  coords: LatLng;
-  tile: LatLng[];
-};
-
-export const Building = mongoose.model<Building>("Building", BuildingSchema);
+export const Building = mongoose.model("Building", BuildingSchema);
 export default Building;
