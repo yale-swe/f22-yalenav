@@ -38,16 +38,4 @@ describe("Buildings Tests", () => {
       expect(res.body.buildings).toHaveLength(n);
     });
   });
-
-  describe("Create Building", () => {
-    it("should create a building", async () => {
-      const res = await request(app).post("/building").send(testBuilding);
-      expect(res.status).toEqual(201);
-      testBuildings = await Promise.all([
-        Building.findOne({ name: testBuilding.name }),
-      ]);
-      expect(testBuildings).toHaveLength(1);
-      expect(testBuildings[0]).toBeTruthy();
-    });
-  });
 });

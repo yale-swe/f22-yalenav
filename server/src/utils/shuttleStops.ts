@@ -17,7 +17,7 @@ interface ShuttleStopObj {
   fields?: String;
 }
 
-const SHUTTLESTOPENDPOINT = 'https://yaleshuttle.doublemap.com/map/v2/stops';
+const SHUTTLESTOPENDPOINT = "https://yaleshuttle.doublemap.com/map/v2/stops";
 
 export const getStops = async (): Promise<typeof ShuttleStop[]> => {
   // https://stackoverflow.com/questions/8515872/simple-api-calls-with-node-js-and-express
@@ -38,9 +38,7 @@ export const getStops = async (): Promise<typeof ShuttleStop[]> => {
 };
 
 // from BuildingsV2 format to Mongoose format
-const formatStops = (
-  stopList: ShuttleStopObj[]
-): typeof ShuttleStop[] => {
+const formatStops = (stopList: ShuttleStopObj[]): typeof ShuttleStop[] => {
   return stopList
     .filter((s: ShuttleStopObj) => {
       // ensure all have a latitude and longitude
@@ -49,11 +47,11 @@ const formatStops = (
     .map((s: ShuttleStopObj) => formatStop(s));
 };
 
-const formatStop = (stop: ShuttleStopObj): typeof ShuttleStop => {
+const formatStop = (stop: ShuttleStopObj): any => {
   return new ShuttleStop({
     name: capitalizeWords(stop.name),
     lat: stop.latitude,
     lon: stop.longitude,
-    id: stop.id
+    id: stop.id,
   });
 };

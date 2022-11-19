@@ -29,7 +29,7 @@ const formatCourses = (coursesList: CoursetableObject[]): typeof Course[] => {
     });
 };
 
-const formatCourse = (course: CoursetableObject): typeof Course => {
+const formatCourse = (course: CoursetableObject): any => {
   return new Course({
     title: course.title,
     course_code: course.course_code,
