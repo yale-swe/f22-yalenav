@@ -33,6 +33,7 @@ export type Results = {
 };
 
 export type Course = {
+  _id: string;
   title: string;
   course_code: string;
   locations_summary: string;
@@ -47,5 +48,5 @@ export type User = {
   year: String;
   curriculum: String;
   college: String;
-  courses?: Array<Course>;
+  courses?: Course[];
 };

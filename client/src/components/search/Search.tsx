@@ -1,16 +1,16 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
-  StyleSheet,
-  Pressable,
-  Text,
-  View,
   FlatList,
   Keyboard,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { YALE_HEX } from "../../constants";
 import { Searchbar } from "react-native-paper";
 import { Building } from "../../../types";
-import { searchFilter } from "../../utils";
+import { YALE_HEX } from "../../constants";
+import { searchFilterBuildings } from "../../utils";
 
 interface SearchInterface {
   locations: Building[];
@@ -47,7 +47,7 @@ export const Search: React.FC<SearchInterface> = ({
 
     const updatedLocations = locations.filter((location) => {
       // utils function to filter the terms
-      return searchFilter(location, searchQuery);
+      return searchFilterBuildings(location, searchQuery);
     });
 
     setFilteredLocations(updatedLocations);
