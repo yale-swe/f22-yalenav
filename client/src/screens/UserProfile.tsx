@@ -1,68 +1,70 @@
 import { StyleSheet, Text, View } from "react-native";
-import { YALE_HEX, YALIES_KEY } from "../constants";
+import { YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { Button } from "react-native-elements";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/Navigation";
 import { SetStateAction, useEffect, useState } from "react";
 import { Ionicons as Icon } from "@expo/vector-icons";
-
-const fetch = require("node-fetch");
+import { User } from "../../types";
+import { BACKEND } from "../constants";
+import axios from "axios";
 
 type UserProp = StackScreenProps<RootStackParamList, "UserProfile">;
 
 export default function UserProfile({ route, navigation }: UserProp) {
   const auth = useAuth();
-  const [isLoading, setLoading] = useState(true);
-  const [UserData, setUserData] = useState([]);
-  const netid = auth.authData?.netId;
+  const [profile, setProfile] = useState<User | undefined>(undefined);
+  const netid = auth.authData?.netId ?? "";
   useEffect(() => {
-    fetch("https://yalies.io/api/people", {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + YALIES_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: netid,
-        page: 1,
-        page_size: 1,
-      }),
-    })
-      .then((response: { json: () => any }) => response.json())
-      .then((json: SetStateAction<never[]>[]) => setUserData(json[0]))
-      .catch((error: any) => console.error(error))
-      .finally(() => setLoading(false));
-  }, []);
+    axios
+      .get<{ user: User }>(`${BACKEND}/user?netid=${netid}`)
+      .then((res) => {
+        setProfile(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [BACKEND]);
 
   return (
     <>
-      <View style={styles.view}>
-        <Text style={styles.heading}>Hey, {UserData.first_name} 👋</Text>
-        <Text style={styles.info}>
-          {UserData.school}, {UserData.college}, {UserData.year}
-        </Text>
-        <View style={styles.selection}>
-          <Button
-            style={styles.profile}
-            type="clear"
-            title="Edit Schedule"
-            onPress={() => navigation.navigate("EditSchedule")}
-          />
-          <Button
-            style={styles.profile}
-            type="clear"
-            title="Sign Out"
-            onPress={() => auth.signOut()}
-          />
-          <Button
-            style={styles.profile}
-            type="clear"
-            icon={<Icon name="home" size={24} color={YALE_HEX} />}
-            onPress={() => navigation.navigate("Home")}
-          />
+      {profile && (
+        <View style={styles.view}>
+          <Text style={styles.heading}>Hey, {profile.first_name} 👋</Text>
+          <Text style={styles.info}>
+            {profile.school}, {profile.college}, {profile.year}
+          </Text>
+          <View style={styles.selection}>
+            <Button
+              style={styles.profile}
+              type="clear"
+              title="Edit Schedule"
+              onPress={() => navigation.navigate("EditSchedule")}
+            />
+            <Button
+              style={styles.profile}
+              type="clear"
+              title="Sign Out"
+              onPress={() => auth.signOut()}
+            />
+            <Button
+              style={styles.profile}
+              type="clear"
+              icon={<Icon name="home" size={24} color={YALE_HEX} />}
+              onPress={() => navigation.navigate("Home")}
+            />
+          </View>
         </View>
-      </View>
+      )}
+      {!profile && (
+        <View style={styles.view}>
+          <Text style={styles.heading}>Uh oh... 😬</Text>
+          <Text style={styles.info}>
+            Looks like we're having some trouble fetching your information.
+          </Text>
+        </View>
+      )}
     </>
   );
 }
