@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const ShuttleStopSchema = new mongoose.Schema({
+const ShuttleStopSchema = new mongoose.Schema({
   name: {
     type: "string",
     required: true,

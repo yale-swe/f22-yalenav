@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const CourseSchema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
   title: {
     type: "string",
     required: true,

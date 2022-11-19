@@ -19,19 +19,4 @@ router.get("/", async (_req: Request, res: Response) => {
   res.send({ buildings });
 });
 
-router.post("/", async (req: Request, res: Response) => {
-  const { name, address, reference, abbreviation, coords, tile } = req.body;
-  const building = await Building.create({
-    name,
-    address,
-    reference,
-    abbreviation,
-    coords,
-    tile,
-  });
-  res.status(201).send({
-    building,
-  });
-});
-
 export default router;
