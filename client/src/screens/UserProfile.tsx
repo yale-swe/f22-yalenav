@@ -1,36 +1,32 @@
+import { Ionicons as Icon } from "@expo/vector-icons";
+import { StackScreenProps } from "@react-navigation/stack";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-elements";
+import { User } from "../../types";
 import { YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
-import { Button } from "react-native-elements";
-import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../navigation/Navigation";
-import { SetStateAction, useEffect, useState } from "react";
-import { Ionicons as Icon } from "@expo/vector-icons";
-import { User } from "../../types";
-import { BACKEND } from "../constants";
-import axios from "axios";
+import { getUser } from "../utils";
 
 type UserProp = StackScreenProps<RootStackParamList, "UserProfile">;
 
 export default function UserProfile({ route, navigation }: UserProp) {
   const auth = useAuth();
   const [profile, setProfile] = useState<User | undefined>(undefined);
-  const netid = auth.authData?.netId ?? "";
   useEffect(() => {
-    axios
-      .get<{ user: User }>(`${BACKEND}/user?netid=${netid}`)
-      .then((res) => {
-        setProfile(res.data.user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [BACKEND]);
+    const netid = auth.authData?.netId ?? "";
+    const updateProfile = async () => {
+      const updatedProfile = await getUser(netid);
+      if (updatedProfile) setProfile(updatedProfile);
+    };
+    updateProfile();
+  }, [profile]);
 
   return (
-    <>
-      {profile && (
-        <View style={styles.view}>
+    <View style={styles.view}>
+      {profile ? (
+        <>
           <Text style={styles.heading}>Hey, {profile.first_name} 👋</Text>
           <Text style={styles.info}>
             {profile.school}, {profile.college}, {profile.year}
@@ -40,7 +36,9 @@ export default function UserProfile({ route, navigation }: UserProp) {
               style={styles.profile}
               type="clear"
               title="Edit Schedule"
-              onPress={() => navigation.navigate("EditSchedule")}
+              onPress={() =>
+                navigation.navigate("EditSchedule", { user: profile })
+              }
             />
             <Button
               style={styles.profile}
@@ -55,17 +53,16 @@ export default function UserProfile({ route, navigation }: UserProp) {
               onPress={() => navigation.navigate("Home")}
             />
           </View>
-        </View>
-      )}
-      {!profile && (
-        <View style={styles.view}>
+        </>
+      ) : (
+        <>
           <Text style={styles.heading}>Uh oh... 😬</Text>
           <Text style={styles.info}>
             Looks like we're having some trouble fetching your information.
           </Text>
-        </View>
+        </>
       )}
-    </>
+    </View>
   );
 }
 

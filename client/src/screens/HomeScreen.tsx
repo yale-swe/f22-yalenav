@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, View, Linking, Alert } from "react-native";
+import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
+import * as Location from "expo-location";
+import { useEffect, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import { Button } from "react-native-elements";
 import { Building, LatLng } from "../../types";
-
 import { Map, Search, Shortcut } from "../components";
 import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
-import * as Location from "expo-location";
-
-import { Button } from "react-native-elements";
 import { RootStackParamList } from "../navigation/Navigation";
-import type { StackScreenProps } from "@react-navigation/stack";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -108,7 +106,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    marginTop: "12%",
+    paddingTop: "12%",
     flex: 1,
     position: "absolute",
     justifyContent: "space-around",

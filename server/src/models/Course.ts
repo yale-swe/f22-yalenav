@@ -19,5 +19,12 @@ export const CourseSchema = new mongoose.Schema({
   },
 });
 
+export type ICourse = {
+  title: String;
+  course_code: String;
+  locations_summary: String;
+  schedule: String;
+};
+
 export const Course = mongoose.model("Course", CourseSchema);
 export default Course;

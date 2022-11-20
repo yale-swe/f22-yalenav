@@ -1,61 +1,56 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { YALE_HEX } from "../constants";
-import { useAuth } from "../contexts/Auth";
-import { Button } from "react-native-elements";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation/Navigation";
+import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import { ScheduleForm } from "../components/schedule/ScheduleForm";
+import { YALE_HEX } from "../constants";
+import { RootStackParamList } from "../navigation/Navigation";
 
 type EditProp = NativeStackScreenProps<RootStackParamList, "EditSchedule">;
 
 export default function EditSchedule({ route, navigation }: EditProp) {
-  const auth = useAuth();
+  const user = route.params.user;
   return (
-    <>
-      <ScrollView
-        contentContainerStyle={styles.header}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Text style={styles.heading}>Edit Schedule</Text>
-        <ScheduleForm />
+    <View style={styles.header}>
+      <View style={{ flexDirection: "row" }}>
         <Button
-          style={styles.profile}
+          style={styles.back}
           type="clear"
-          title="Back"
-          onPress={() => navigation.navigate("UserProfile")}
+          title="←"
+          onPress={() => navigation.goBack()}
           containerStyle={{
-            width: 200,
-            marginHorizontal: 50,
-            marginVertical: 10,
+            width: "20%",
           }}
         />
-      </ScrollView>
-    </>
+        <Text style={styles.heading}>Edit Schedule</Text>
+      </View>
+      <ScheduleForm user={user} />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
+    paddingTop: "12%",
     alignItems: "center",
     flexDirection: "column",
     flex: 1,
-    justifyContent: "center",
     display: "flex",
-    maxWidth: 400,
     backgroundColor: "white",
   },
-  profile: {
+  back: {
+    color: YALE_HEX,
     borderColor: YALE_HEX,
-    borderWidth: 2,
     borderRadius: 40,
     backgroundColor: "white",
+    alignSelf: "center",
   },
   heading: {
-    textAlign: "center",
+    width: "80%",
+    marginTop: 30,
+    marginBottom: 20,
+    padding: "15%",
     fontWeight: "bold",
     fontSize: 18,
-    marginBottom: 20,
-    marginTop: 10,
-    width: 200,
+    paddingVertical: 15,
   },
 });

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { CourseSchema } from ".";
+import { CourseSchema, ICourse } from ".";
 
 const UserSchema = new mongoose.Schema({
   first_name: {
@@ -44,7 +44,7 @@ export type IUser = {
   year: String;
   curriculum: String;
   college: String;
-  courses?: Array<any>;
+  courses?: Array<ICourse>;
 };
 
 export const User = mongoose.model("User", UserSchema);
