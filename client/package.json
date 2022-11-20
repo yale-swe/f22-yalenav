@@ -23,6 +23,7 @@
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "expo-web-browser": "^11.0.0",
+    "moment": "^2.29.4",
     "passport": "^0.6.0",
     "passport-cas": "^0.1.1",
     "react": "18.0.0",

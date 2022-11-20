@@ -8,8 +8,7 @@ import { SearchResult } from "./SearchResult";
 
 interface SearchInterface {
   locations: Building[];
-
-  selectLocation(location: Building): any;
+  selectLocation: Function;
 }
 
 export const Search: React.FC<SearchInterface> = ({
