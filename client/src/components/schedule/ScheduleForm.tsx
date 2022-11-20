@@ -66,15 +66,11 @@ export const ScheduleForm: React.FC<ScheduleFormInterface> = ({
   };
 
   const onDoneSearch = (course: Course) => {
-    setSelectedCourse(course);
-
+    setSearchQuery("");
     editSchedule(user, course, "add");
     Keyboard.dismiss();
     setQueryComplete(true);
   };
-
-  // Select course
-  const [selectedCourse, setSelectedCourse] = useState<Course | undefined>();
 
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
 
