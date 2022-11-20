@@ -28,7 +28,7 @@ export const searchFilterBuildings = (
     : 0;
 };
 
-export const limitString = (str: String, n: number) => {
+export const limitString = (str: string, n: number): string => {
   // https://stackoverflow.com/questions/1199352/smart-way-to-truncate-long-strings
   return str.length > n ? str.slice(0, n) + "... " : str;
 };

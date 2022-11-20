@@ -1,16 +1,10 @@
 import { SetStateAction, useEffect, useState } from "react";
-import {
-  FlatList,
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, Keyboard, StyleSheet, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { Building } from "../../../types";
 import { YALE_HEX } from "../../constants";
 import { searchFilterBuildings } from "../../utils";
+import { SearchResult } from "./SearchResult";
 
 interface SearchInterface {
   locations: Building[];
@@ -53,26 +47,6 @@ export const Search: React.FC<SearchInterface> = ({
     setFilteredLocations(updatedLocations);
   }, [searchQuery, queryComplete]);
 
-  const fadedBlue = "rgba(210, 230, 255, 0.8)";
-  const fadedWhite = "rgba(255,255,255, 0.8)";
-
-  const Result = ({ location }: { location: Building }) => (
-    <View>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? fadedBlue : fadedWhite,
-            borderRadius: 10,
-          },
-        ]}
-        onPress={() => onDoneSearch(location)}
-      >
-        <Text style={styles.resultTitle}>{location.name}</Text>
-        <Text style={styles.resultInfo}>{location.address}</Text>
-      </Pressable>
-    </View>
-  );
-
   return (
     <View style={styles.searchComponent}>
       <Searchbar
@@ -87,7 +61,14 @@ export const Search: React.FC<SearchInterface> = ({
         <FlatList
           style={styles.resultsComponent}
           data={filteredLocations}
-          renderItem={({ item }) => <Result location={item} />}
+          renderItem={({ item }) => (
+            <SearchResult
+              obj={item}
+              title={item.name}
+              info={item.address}
+              onDoneSearch={onDoneSearch}
+            />
+          )}
           keyExtractor={(item) => item._id}
         />
       )}
@@ -113,16 +94,5 @@ const styles = StyleSheet.create({
     paddingRight: "4%",
     borderRadius: 20,
     backgroundColor: "rgba(255,255,255, 0.8)",
-  },
-  resultTitle: {
-    padding: "4%",
-    paddingBottom: 0,
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  resultInfo: {
-    paddingTop: 0,
-    padding: "4%",
-    fontSize: 8,
   },
 });

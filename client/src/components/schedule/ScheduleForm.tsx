@@ -1,12 +1,5 @@
 import { SetStateAction, useEffect, useState } from "react";
-import {
-  FlatList,
-  Keyboard,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, Keyboard, StyleSheet, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { Course, User } from "../../../types";
 import { YALE_HEX } from "../../constants";
@@ -17,6 +10,7 @@ import {
   limitString,
   searchFilterCourses,
 } from "../../utils";
+import { SearchResult } from "../search/SearchResult";
 import { CourseListing } from "./CourseListing";
 
 interface ScheduleFormInterface {
@@ -96,26 +90,6 @@ export const ScheduleForm: React.FC<ScheduleFormInterface> = ({
     setFilteredCourses(updatedCourses);
   }, [searchQuery, queryComplete]);
 
-  const fadedBlue = "rgba(210, 230, 255, 0.8)";
-  const fadedWhite = "rgba(255,255,255, 0.8)";
-
-  const Result = ({ course }: { course: Course }) => (
-    <View>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? fadedBlue : fadedWhite,
-            borderRadius: 10,
-          },
-        ]}
-        onPress={() => onDoneSearch(course)}
-      >
-        <Text style={styles.resultTitle}>{course.course_code}</Text>
-        <Text style={styles.resultInfo}>{limitString(course.title, 50)}</Text>
-      </Pressable>
-    </View>
-  );
-
   return (
     <View>
       <Searchbar
@@ -130,7 +104,14 @@ export const ScheduleForm: React.FC<ScheduleFormInterface> = ({
         <FlatList
           style={styles.resultsComponent}
           data={filteredCourses}
-          renderItem={({ item }) => <Result course={item} />}
+          renderItem={({ item }) => (
+            <SearchResult
+              obj={item}
+              title={item.course_code}
+              info={limitString(item.title, 50)}
+              onDoneSearch={onDoneSearch}
+            />
+          )}
           keyExtractor={(item) => item._id}
         />
       ) : (
@@ -172,17 +153,6 @@ const styles = StyleSheet.create({
   resultsComponent: {
     borderRadius: 20,
     backgroundColor: "rgba(255,255,255, 0.8)",
-  },
-  resultTitle: {
-    padding: "4%",
-    paddingBottom: 0,
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  resultInfo: {
-    paddingTop: 0,
-    padding: "4%",
-    fontSize: 8,
   },
   courseListings: {
     padding: 10,
