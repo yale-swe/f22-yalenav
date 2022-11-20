@@ -1,36 +1,46 @@
-import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-elements";
 import { Ionicons as Icon } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
+import { Button } from "react-native-elements";
+import { User } from "../../../types";
 import { YALE_HEX } from "../../constants";
+import { useAuth } from "../../contexts/Auth";
+import { getUser, nextClass } from "../../utils";
 
-interface NextClassInterface {}
+interface NextClassInterface {
+  selectNextClass: Function;
+}
 
-export const NextClass: React.FC<
-  NextClassInterface
-> = ({}: NextClassInterface) => {
+export const NextClass: React.FC<NextClassInterface> = ({
+  selectNextClass,
+}: NextClassInterface) => {
+  // temp
+  const auth = useAuth();
+  const [profile, setProfile] = useState<User | undefined>(undefined);
+  useEffect(() => {
+    const netid = auth.authData?.netId ?? "";
+    const updateProfile = async () => {
+      const updatedProfile = await getUser(netid);
+      if (updatedProfile) setProfile(updatedProfile);
+    };
+    updateProfile();
+  }, [profile]);
+
   return (
-    <View style={styles.footer}>
-      <Button
-        style={styles.nextClass}
-        type="clear"
-        icon={<Icon name="book-outline" size={24} color={YALE_HEX} />}
-      />
-    </View>
+    <Button
+      style={styles.nextClass}
+      type="clear"
+      icon={<Icon name="book-outline" size={24} color={YALE_HEX} />}
+      onPress={() => {
+        selectNextClass(nextClass(profile));
+      }}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  footer: {
-    marginTop: "190%",
-    flex: 1,
-    position: "absolute",
-    alignSelf: "center",
-  },
   nextClass: {
-    padding: "6%",
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-    borderRadius: 40,
+    padding: "2%",
     backgroundColor: "white",
   },
 });
