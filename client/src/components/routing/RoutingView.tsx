@@ -1,34 +1,71 @@
 import React, { Component, useEffect } from "react";
 import { Polyline } from "react-native-maps";
-import MapViewDirections, {
-  MapDirectionsLegs,
-} from "react-native-maps-directions";
-import { LatLng, Results } from "../../../types";
-import { APIKEY, YALE_HEX } from "../../constants";
+import MapViewDirections, { MapDirectionsLegs}
+ from "react-native-maps-directions";
+import axios from "axios";
+import { LatLng, Results, ShuttleStop } from "../../../types";
+import { APIKEY, BACKEND, YALE_HEX } from "../../constants";
 
 export const enum RoutingMode {
   shuttle,
-  noshuttle,
+  walkonly,
   biking,
+};
+
+function absDistance(lat1 : number, lon1 : number,
+     lat2 : number, lon2 : number) {
+  return Math.abs(lat1 - lat2) + Math.abs(lon1 - lon2);
 }
+
+let shuttlestops = Array<ShuttleStop>();
 
 function getClosestShuttleStop(x: LatLng) {
   // TODO
   // query database for stops
+  if (shuttlestops.length == 0)
+    useEffect(
+      () => {
+      axios
+        .get<{ shuttlestops: ShuttleStop[] }>(`${BACKEND}/building`)
+        .then((res) => {
+          shuttlestops = res.data.shuttlestops;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, [BACKEND]);
+  
+  let closestStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
+  let minDist = Infinity;
+  shuttlestops.forEach(stop => {
+    let curDist = absDistance(stop.lat, stop.lon, x.latitude, x.longitude);
+    if (curDist < minDist) {
+      minDist = curDist;
+      closestStop = stop;
+    }
+  });
 
-  return { stop: -1, loc: { longitude: 0.0, latitude: 0.0 } };
+  return closestStop;
 }
 
 function getShuttleRouteBetween(origStop: Number, endStop: Number) {
   // TODO
   // Query DoubleMap API
-  //
+  axios.get("https://yaleshuttle.doublemap.com/map/v2/eta", 
+    {params: [{'stop':'1'}]});
+
 
   return [];
 }
 
 function getRideInfoBetween(origStop: Number, endStop: Number) {
-  return { duration: 0.0, distance: 0.0 };
+
+  
+  return { duration: 0.0, distance: 0.0, bus_id: 0 };
+}
+
+function locFromStop(stop : ShuttleStop) {
+  return {latitude: stop.lat, longitude: stop.lon};
 }
 
 // routes between locations using specified mode
@@ -51,8 +88,13 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   let isShuttleRoute = mode == RoutingMode.shuttle;
   let originStop = getClosestShuttleStop(routeOrigin);
   let destStop = getClosestShuttleStop(routeDestination);
-  let lines = getShuttleRouteBetween(originStop.stop, destStop.stop);
-  let rideInfo = getRideInfoBetween(originStop.stop, destStop.stop);
+
+  if (originStop._id == destStop._id)
+    // closest 
+    isShuttleRoute = false;
+
+  let rideInfo = getRideInfoBetween(originStop._id, destStop._id);
+  let lines = getShuttleRouteBetween(originStop._id, destStop._id, rideInfo.bus_id);
 
   // if (shuttleEnd - shuttleStart < 0) {
   //   isShuttleRoute = false;
@@ -68,7 +110,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
     <>
       <MapViewDirections
         origin={routeOrigin}
-        destination={isShuttleRoute ? originStop.loc : routeDestination}
+        destination={isShuttleRoute ? locFromStop(originStop) : routeDestination}
         apikey={APIKEY}
         strokeColor="#FF0000"
         strokeWidth={4}
@@ -102,7 +144,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
 
       {isShuttleRoute && (
         <MapViewDirections
-          origin={destStop.loc}
+          origin={locFromStop(destStop)}
           destination={routeDestination}
           apikey={APIKEY}
           mode={"WALKING"} // if it's a shuttle route, it must be walking
