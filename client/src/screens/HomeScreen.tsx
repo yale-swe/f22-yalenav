@@ -4,11 +4,12 @@ import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button } from "react-native-elements";
-import { Building, LatLng } from "../../types";
-import { Map, Search, Shortcut } from "../components";
+import { Building, Course, LatLng } from "../../types";
+import { Map, NavigationBar, Search } from "../components";
 import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
+import { getCourseLocation } from "../utils";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -71,6 +72,14 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
     setSelectedLocation(location);
   };
 
+  const selectNextClass = (course: Course | undefined) => {
+    if (!course) return;
+    // find course based on rendered buildings
+    const courseBuilding = getCourseLocation(course, buildings);
+    if (!courseBuilding) return;
+    selectLocation(courseBuilding);
+  };
+
   return (
     <>
       <Map
@@ -98,7 +107,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
           )}
         </View>
       </View>
-      <Shortcut />
+      <NavigationBar selectNextClass={selectNextClass} />
     </>
   );
 }
