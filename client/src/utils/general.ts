@@ -24,7 +24,8 @@ export const searchFilterBuildings = (
   return searchTerm
     ? searchSubstring(location.name, searchTerm) ||
         searchSubstring(location.address, searchTerm) ||
-        searchSubstring(location.abbreviation, searchTerm)
+        searchSubstring(location.abbreviation, searchTerm) ||
+        searchSubstring(location.type, searchTerm)
     : 0;
 };
 

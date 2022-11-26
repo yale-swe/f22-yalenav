@@ -8,6 +8,7 @@ export type LatLng = {
 export type Building = {
   _id: string;
   name: string;
+  type: string;
   address: string;
   abbreviation: string;
   coords: LatLng;
