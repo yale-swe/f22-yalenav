@@ -3402,7 +3402,7 @@ const stilesMock: Building = {
   ],
 };
 
-const berkley: Building = {
+const berkleyMock: Building = {
   _id: "636af734cd21662437d3d908",
   abbreviation: "Bk",
   address: "Elm Street, 205, New Haven, Ct, 06511",
@@ -4768,6 +4768,520 @@ const branfordMock: Building = {
   ],
 };
 
+const tdMock: Building = {
+  _id: "636af734cd21662437d3ddff",
+  abbreviation: "Td",
+  address: "Temple Street, 345, New Haven, Ct, 06511",
+  coords: {
+    latitude: 41.31028,
+    longitude: -72.923764,
+  },
+  name: "Timothy Dwight Coll.",
+  tile: [
+    {
+      latitude: 41.31005375233632,
+      longitude: -72.92435333132745,
+    },
+    {
+      latitude: 41.310437558561375,
+      longitude: -72.92407773435117,
+    },
+    {
+      latitude: 41.31044158801107,
+      longitude: -72.92409047484398,
+    },
+    {
+      latitude: 41.310527213758206,
+      longitude: -72.92402476072313,
+    },
+    {
+      latitude: 41.310521673272106,
+      longitude: -72.92400866746904,
+    },
+    {
+      latitude: 41.31084503540096,
+      longitude: -72.92377598583698,
+    },
+    {
+      latitude: 41.31055995298474,
+      longitude: -72.92307324707508,
+    },
+    {
+      latitude: 41.31017916957966,
+      longitude: -72.92334951460361,
+    },
+    {
+      latitude: 41.31020687215107,
+      longitude: -72.92341589927675,
+    },
+    {
+      latitude: 41.31018370272851,
+      longitude: -72.92343266308308,
+    },
+    {
+      latitude: 41.3102355820763,
+      longitude: -72.92355738580228,
+    },
+    {
+      latitude: 41.31031768231903,
+      longitude: -72.9237424582243,
+    },
+    {
+      latitude: 41.3103876941008,
+      longitude: -72.92368948459627,
+    },
+    {
+      latitude: 41.31027940246412,
+      longitude: -72.9234252870083,
+    },
+    {
+      latitude: 41.31052671007768,
+      longitude: -72.92324021458626,
+    },
+    {
+      latitude: 41.31072012311761,
+      longitude: -72.9237136244774,
+    },
+    {
+      latitude: 41.31047233813437,
+      longitude: -72.92389685157106,
+    },
+    {
+      latitude: 41.31046714539988,
+      longitude: -72.92388253030369,
+    },
+    {
+      latitude: 41.31037983342077,
+      longitude: -72.92394928561407,
+    },
+    {
+      latitude: 41.310388872145175,
+      longitude: -72.92396056844156,
+    },
+    {
+      latitude: 41.310120316332664,
+      longitude: -72.92415817246365,
+    },
+    {
+      latitude: 41.31007238864878,
+      longitude: -72.92404487729074,
+    },
+    {
+      latitude: 41.31008044759309,
+      longitude: -72.92403683066368,
+    },
+    {
+      latitude: 41.31006285652583,
+      longitude: -72.92399226251293,
+    },
+    {
+      latitude: 41.31005198009591,
+      longitude: -72.92399806829053,
+    },
+    {
+      latitude: 41.31002202022447,
+      longitude: -72.92392417788507,
+    },
+    {
+      latitude: 41.31009196887136,
+      longitude: -72.92387715016959,
+    },
+    {
+      latitude: 41.310100603803235,
+      longitude: -72.92387809771755,
+    },
+    {
+      latitude: 41.31011020379992,
+      longitude: -72.92386930326758,
+    },
+    {
+      latitude: 41.310113500370655,
+      longitude: -72.92386257613545,
+    },
+    {
+      latitude: 41.31014710993783,
+      longitude: -72.92383346015413,
+    },
+    {
+      latitude: 41.31015785797166,
+      longitude: -72.92383689084092,
+    },
+    {
+      latitude: 41.31016746828935,
+      longitude: -72.92383157160658,
+    },
+    {
+      latitude: 41.310168803246874,
+      longitude: -72.92382257153805,
+    },
+    {
+      latitude: 41.310204984323526,
+      longitude: -72.92379424070533,
+    },
+    {
+      latitude: 41.310213412651706,
+      longitude: -72.92379263177281,
+    },
+    {
+      latitude: 41.31022387686111,
+      longitude: -72.92378880621982,
+    },
+    {
+      latitude: 41.31022442136983,
+      longitude: -72.92377770281746,
+    },
+    {
+      latitude: 41.3102834319236,
+      longitude: -72.92373910546304,
+    },
+    {
+      latitude: 41.31027638036935,
+      longitude: -72.92372032999992,
+    },
+    {
+      latitude: 41.310300557123554,
+      longitude: -72.92370356619358,
+    },
+    {
+      latitude: 41.3102355820763,
+      longitude: -72.92355738580228,
+    },
+    {
+      latitude: 41.3099842438807,
+      longitude: -72.9237411171198,
+    },
+    {
+      latitude: 41.309976688609304,
+      longitude: -72.92373038828374,
+    },
+    {
+      latitude: 41.30993689749889,
+      longitude: -72.92375855147839,
+    },
+    {
+      latitude: 41.30994596382998,
+      longitude: -72.92377799749376,
+    },
+    {
+      latitude: 41.30986738891867,
+      longitude: -72.92383767664433,
+    },
+    {
+      latitude: 41.309858322576666,
+      longitude: -72.92381688952447,
+    },
+    {
+      latitude: 41.30981601296393,
+      longitude: -72.92385041713716,
+    },
+    {
+      latitude: 41.309863359433514,
+      longitude: -72.92395971715452,
+    },
+    {
+      latitude: 41.309903654274144,
+      longitude: -72.92393155395985,
+    },
+    {
+      latitude: 41.30991120955398,
+      longitude: -72.92395368218422,
+    },
+    {
+      latitude: 41.3098824994859,
+      longitude: -72.9239758104086,
+    },
+    {
+      latitude: 41.309897610049624,
+      longitude: -72.92401604354383,
+    },
+    {
+      latitude: 41.30992682379622,
+      longitude: -72.92399793863298,
+    },
+    {
+      latitude: 41.31002050917113,
+      longitude: -72.92422726750375,
+    },
+    {
+      latitude: 41.31000640600503,
+      longitude: -72.92423732578754,
+    },
+  ],
+};
+
+const jeMock: Building = {
+  _id: "636af735cd21662437d3e64e",
+  abbreviation: "Je",
+  address: "High Street, 68, New Haven, Ct, 06511",
+  coords: {
+    latitude: 41.309104,
+    longitude: -72.930527,
+  },
+  name: "Jonathan Edwards Col",
+  tile: [
+    {
+      latitude: 41.30881921069174,
+      longitude: -72.93122246861459,
+    },
+    {
+      latitude: 41.30878193734505,
+      longitude: -72.93111920356752,
+    },
+    {
+      latitude: 41.309364205030086,
+      longitude: -72.9307021200657,
+    },
+    {
+      latitude: 41.30935413123891,
+      longitude: -72.93067395687105,
+    },
+    {
+      latitude: 41.30932088771699,
+      longitude: -72.93069273233415,
+    },
+    {
+      latitude: 41.3090891899722,
+      longitude: -72.93008252978326,
+    },
+    {
+      latitude: 41.30906199061773,
+      longitude: -72.93010532855989,
+    },
+    {
+      latitude: 41.30903529494395,
+      longitude: -72.93004363775255,
+    },
+    {
+      latitude: 41.30903882078828,
+      longitude: -72.93004229664803,
+    },
+    {
+      latitude: 41.30903025802314,
+      longitude: -72.93002083897592,
+    },
+    {
+      latitude: 41.30902119156473,
+      longitude: -72.93002754449846,
+    },
+    {
+      latitude: 41.3090055771056,
+      longitude: -72.92998932302,
+    },
+    {
+      latitude: 41.30901413987397,
+      longitude: -72.92998462915422,
+    },
+    {
+      latitude: 41.3090055771056,
+      longitude: -72.92995646595956,
+    },
+    {
+      latitude: 41.30899902910549,
+      longitude: -72.9299618303776,
+    },
+    {
+      latitude: 41.3089763629462,
+      longitude: -72.92989946901798,
+    },
+    {
+      latitude: 41.309032272791534,
+      longitude: -72.92986460030079,
+    },
+    {
+      latitude: 41.30902169525688,
+      longitude: -72.92983777821064,
+    },
+    {
+      latitude: 41.308807625734914,
+      longitude: -72.92999066412449,
+    },
+    {
+      latitude: 41.308829284565576,
+      longitude: -72.93004095554353,
+    },
+    {
+      latitude: 41.30884741753454,
+      longitude: -72.93003626167774,
+    },
+    {
+      latitude: 41.30885849879088,
+      longitude: -72.93006710708143,
+    },
+    {
+      latitude: 41.308845906453975,
+      longitude: -72.93007582426073,
+    },
+    {
+      latitude: 41.30886655788519,
+      longitude: -72.93012611567976,
+    },
+    {
+      latitude: 41.308879150218104,
+      longitude: -72.93011873960496,
+    },
+    {
+      latitude: 41.30889224624172,
+      longitude: -72.93015226721764,
+    },
+    {
+      latitude: 41.30888116499113,
+      longitude: -72.93016366660596,
+    },
+    {
+      latitude: 41.308902320104266,
+      longitude: -72.93021261692049,
+    },
+    {
+      latitude: 41.30891541612325,
+      longitude: -72.93020658195019,
+    },
+    {
+      latitude: 41.308928512139595,
+      longitude: -72.93023876845838,
+    },
+    {
+      latitude: 41.308912897658274,
+      longitude: -72.93025352060795,
+    },
+    {
+      latitude: 41.30908062721368,
+      longitude: -72.93067127466203,
+    },
+    {
+      latitude: 41.30903982817234,
+      longitude: -72.93069876730442,
+    },
+    {
+      latitude: 41.309055088464916,
+      longitude: -72.93070619928586,
+    },
+    {
+      latitude: 41.3090275270675,
+      longitude: -72.93081756334688,
+    },
+    {
+      latitude: 41.30891375289727,
+      longitude: -72.930774944889,
+    },
+    {
+      latitude: 41.308907598398115,
+      longitude: -72.930756406804,
+    },
+    {
+      latitude: 41.308916024711294,
+      longitude: -72.93073969194666,
+    },
+    {
+      latitude: 41.308931085695384,
+      longitude: -72.93073827054288,
+    },
+    {
+      latitude: 41.30892961396778,
+      longitude: -72.93072317615953,
+    },
+    {
+      latitude: 41.30893322639003,
+      longitude: -72.93070178126983,
+    },
+    {
+      latitude: 41.30894514448606,
+      longitude: -72.93069659152935,
+    },
+    {
+      latitude: 41.30894725634335,
+      longitude: -72.93067829450592,
+    },
+    {
+      latitude: 41.30885245446945,
+      longitude: -72.93044596910478,
+    },
+    {
+      latitude: 41.308845906453975,
+      longitude: -72.93042786419392,
+    },
+    {
+      latitude: 41.30881719591678,
+      longitude: -72.93044529855253,
+    },
+    {
+      latitude: 41.30881669222305,
+      longitude: -72.93046005070211,
+    },
+    {
+      latitude: 41.30874818983709,
+      longitude: -72.93043322861195,
+    },
+    {
+      latitude: 41.308744663977045,
+      longitude: -72.93044932186605,
+    },
+    {
+      latitude: 41.30873056053494,
+      longitude: -72.93045938014986,
+    },
+    {
+      latitude: 41.3087139386171,
+      longitude: -72.93045200407505,
+    },
+    {
+      latitude: 41.308707894282314,
+      longitude: -72.9304338991642,
+    },
+    {
+      latitude: 41.308710916449776,
+      longitude: -72.93042652308942,
+    },
+    {
+      latitude: 41.30868875388507,
+      longitude: -72.93037422001362,
+    },
+    {
+      latitude: 41.30868170215836,
+      longitude: -72.93037354946138,
+    },
+    {
+      latitude: 41.30867465043089,
+      longitude: -72.93036751449108,
+    },
+    {
+      latitude: 41.308670620871965,
+      longitude: -72.93035209178926,
+    },
+    {
+      latitude: 41.308675154125716,
+      longitude: -72.93032929301262,
+    },
+    {
+      latitude: 41.30876178958118,
+      longitude: -72.93026961386204,
+    },
+    {
+      latitude: 41.308624784621955,
+      longitude: -72.9299296438694,
+    },
+    {
+      latitude: 41.30869832408439,
+      longitude: -72.92987868189813,
+    },
+    {
+      latitude: 41.30870940536608,
+      longitude: -72.92990349233152,
+    },
+    {
+      latitude: 41.30880258879652,
+      longitude: -72.92984515428545,
+    },
+    {
+      latitude: 41.30902169525688,
+      longitude: -72.92969830334187,
+    },
+    {
+      latitude: 41.309459762338626,
+      longitude: -72.9307588445954,
+    },
+  ],
+};
+
 export const colleges: Array<Building> = [
   franklinMock,
   morseMock,
@@ -4780,4 +5294,7 @@ export const colleges: Array<Building> = [
   trumbellMock,
   sillimanMock,
   stilesMock,
+  berkleyMock,
+  tdMock,
+  jeMock,
 ];

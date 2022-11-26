@@ -67,9 +67,6 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
       .catch((err) => {
         console.log(err);
       });
-    console.log(
-      buildings.filter((value) => value.name.includes("Schwarzman"))[0]
-    );
   }, [BACKEND]);
 
   // Select location of interest
