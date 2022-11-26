@@ -1,18 +1,14 @@
+import * as Loc from "expo-location";
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Pressable,
-  Text,
-  StyleSheet,
   Alert,
-  Linking,
   Dimensions,
-  FlatList,
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { Building, LatLng, Results } from "../../../types";
-import { YALE_HEX } from "../../constants";
-import * as Loc from "expo-location";
-import { computeDistance } from "../../utils";
 import {
   Gesture,
   GestureDetector,
@@ -23,11 +19,15 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { Building, LatLng, Results } from "../../../types";
+import { YALE_HEX } from "../../constants";
+import { computeDistance } from "../../utils";
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = height / 4;
 const CARD_WIDTH = width;
-const BANNER_HEIGHT = -height / 3;
+const BANNER_HEIGHT = -height / 2.9;
+const COLLAPSED_BANNER_HEIGHT = -height / 7;
 
 const sendSettingNotification = () => {
   Alert.alert(
@@ -146,7 +146,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     .onEnd(() => {
       // If the user is swiping down on the banner then want to show the little grey line only
       if (translateY.value > -height / 5) {
-        translateY.value = withSpring(-50);
+        translateY.value = withSpring(COLLAPSED_BANNER_HEIGHT);
       } else {
         // If the user is swiping up on the banner then set the y value to be a third of the screen height.
         translateY.value = withSpring(BANNER_HEIGHT);
@@ -284,7 +284,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   card: {
-    padding: 5,
     marginVertical: 40,
     backgroundColor: "#FFF",
     height: CARD_HEIGHT,
@@ -300,6 +299,8 @@ const styles = StyleSheet.create({
     top: height,
     backgroundColor: "white",
     borderRadius: 25,
+    borderColor: YALE_HEX,
+    borderWidth: 2,
   },
   button: {
     position: "absolute",

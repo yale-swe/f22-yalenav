@@ -1,6 +1,21 @@
-import { Building, LatLng } from "../../types";
+import { Building, Course, LatLng } from "../../types";
 
-export const searchFilter = (location: Building, searchTerm: String) => {
+export const searchFilterCourses = (course: Course, searchTerm: String) => {
+  // simplest algorithm around: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
+  const searchSubstring = (str1: String, str2: String) => {
+    return str1.toUpperCase().indexOf(str2.toUpperCase()) > -1;
+  };
+  // search across course title and course code
+  return searchTerm
+    ? searchSubstring(course.title, searchTerm) ||
+        searchSubstring(course.course_code, searchTerm)
+    : 0;
+};
+
+export const searchFilterBuildings = (
+  location: Building,
+  searchTerm: String
+) => {
   // simplest algorithm around: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
   const searchSubstring = (str1: String, str2: String) => {
     return str1.toUpperCase().indexOf(str2.toUpperCase()) > -1;
@@ -11,6 +26,11 @@ export const searchFilter = (location: Building, searchTerm: String) => {
         searchSubstring(location.address, searchTerm) ||
         searchSubstring(location.abbreviation, searchTerm)
     : 0;
+};
+
+export const limitString = (str: string, n: number): string => {
+  // https://stackoverflow.com/questions/1199352/smart-way-to-truncate-long-strings
+  return str.length > n ? str.slice(0, n) + "... " : str;
 };
 
 export const getDistance = (location1: Building, location2: Building) => {
@@ -48,4 +68,13 @@ export const computeDistance = (loc1: LatLng, loc2: LatLng): number => {
   // for miles
   let r = 3956;
   return c * r;
+};
+
+// https://stackoverflow.com/questions/4878756/how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
+export const capitalizeWords = (s: String) => {
+  return s
+    .toLowerCase()
+    .split(" ")
+    .map((s: String) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(" ");
 };

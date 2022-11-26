@@ -31,3 +31,22 @@ export type Results = {
   distance: number;
   legs?: MapDirectionsLegs;
 };
+
+export type Course = {
+  _id: string;
+  title: string;
+  course_code: string;
+  locations_summary: string;
+  schedule: string;
+};
+
+export type User = {
+  first_name: String;
+  last_name: String;
+  netid: String;
+  school: String;
+  year: String;
+  curriculum: String;
+  college: String;
+  courses?: Course[];
+};

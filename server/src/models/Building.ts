@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const LatLngSchema = new mongoose.Schema({
+const LatLngSchema = new mongoose.Schema({
   latitude: {
     type: "number",
     required: true,
@@ -11,7 +11,7 @@ export const LatLngSchema = new mongoose.Schema({
   },
 });
 
-export const BuildingSchema = new mongoose.Schema({
+const BuildingSchema = new mongoose.Schema({
   name: {
     type: "string",
     required: true,

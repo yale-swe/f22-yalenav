@@ -1,20 +1,25 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, View, Linking, Alert } from "react-native";
+import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
-import { Building, LatLng } from "../../types";
 import { CampusSpots } from "../components/search/CampusSpots";
-
-import { Map, Profile, Search, Shortcut } from "../components";
-import { BACKEND } from "../constants";
-import { useAuth } from "../contexts/Auth";
+import { Map, NavigationBar, Search, Shortcut } from "../components";
 import * as Location from "expo-location";
+import { useEffect, useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
+import { Button } from "react-native-elements";
+import { Building, Course, LatLng } from "../../types";
+import { BACKEND, YALE_HEX } from "../constants";
+import { useAuth } from "../contexts/Auth";
+import { RootStackParamList } from "../navigation/Navigation";
+import { getCourseLocation } from "../utils";
+
+type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
 var yaleUni = {
   latitude: 41.3163,
   longitude: -72.922585,
 };
 
-export default function HomeScreen() {
+export default function HomeScreen({ route, navigation }: HomeProp) {
   const [origin, setOrigin] = useState<LatLng>();
 
   const auth = useAuth();
@@ -62,6 +67,9 @@ export default function HomeScreen() {
       .catch((err) => {
         console.log(err);
       });
+    console.log(
+      buildings.filter((value) => value.name.includes("Schwarzman"))[0]
+    );
   }, [BACKEND]);
 
   // Select location of interest
@@ -70,6 +78,14 @@ export default function HomeScreen() {
   >();
   const selectLocation = (location: Building) => {
     setSelectedLocation(location);
+  };
+
+  const selectNextClass = (course: Course | undefined) => {
+    if (!course) return;
+    // find course based on rendered buildings
+    const courseBuilding = getCourseLocation(course, buildings);
+    if (!courseBuilding) return;
+    selectLocation(courseBuilding);
   };
 
   return (
@@ -90,9 +106,25 @@ export default function HomeScreen() {
             />
           </View>
         </View>
-        <Profile />
+        <View style={styles.profileComponent}>
+          {auth.authData ? (
+            <Button
+              style={styles.profile}
+              type="clear"
+              title={auth.authData.netId}
+              onPress={() => navigation.navigate("UserProfile")}
+            />
+          ) : (
+            <Button
+              style={styles.profile}
+              type="clear"
+              title="Sign In"
+              onPress={() => navigation.navigate("SignIn")}
+            />
+          )}
+        </View>
       </View>
-      <Shortcut />
+      <NavigationBar selectNextClass={selectNextClass} />
     </>
   );
 }
@@ -100,10 +132,19 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    marginTop: "12%",
+    paddingTop: "12%",
     flex: 1,
     position: "absolute",
     justifyContent: "space-around",
   },
-  campusSpots: {},
+  profileComponent: {
+    padding: "2%",
+    paddingRight: "4%",
+  },
+  profile: {
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+    borderRadius: 40,
+    backgroundColor: "white",
+  },
 });

@@ -1,8 +1,8 @@
+import request from "request";
 import { YALE_BUILDINGS_AUTH } from "../auth";
 import { Building } from "../models";
-import request from "request";
 import { capitalizeWords } from "./general";
-import { getPolygons, BuildingTiles } from "./polygon";
+import { BuildingTiles, getPolygons } from "./polygon";
 
 // https://developers.yale.edu/buildingsv2
 interface BuildingsV2Object {
@@ -72,14 +72,14 @@ const formatBuildings = (
 const formatBuilding = (
   building: BuildingsV2Object,
   buildingTiles: BuildingTiles
-): typeof Building => {
+): any => {
   return new Building({
     name: capitalizeWords(building.DESCRIPTION),
     address: capitalizeWords(
       [building.ADDRESS_1, building.ADDRESS_2, building.ADDRESS_3].join(", ")
     ),
     reference: building.BUILDING.valueOf(),
-    abbreviation: capitalizeWords(building.BUILDING_ABBR),
+    abbreviation: building.BUILDING_ABBR,
     coords: {
       latitude: building.LATITUDE,
       longitude: building.LONGITUDE,

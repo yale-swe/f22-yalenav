@@ -1,5 +1,6 @@
 export { Map } from "./map/Map";
-export { Profile } from "./profile/Profile";
+export { NavigationBar } from "./navigation-bar/NavigationBar";
+export { ScheduleForm } from "./schedule/ScheduleForm";
 export { Search } from "./search/Search";
 //  note we are importing it as the 'shortcut' since it's the first/only one
 export { NextClass as Shortcut } from "./shortcut/NextClass";
