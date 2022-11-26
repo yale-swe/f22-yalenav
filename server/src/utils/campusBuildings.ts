@@ -56,6 +56,7 @@ const formatBuildings = (
       // ensure all have a latitude and longitude
       return (
         b.DESCRIPTION &&
+        b.USAGE_DESCRIPTION &&
         b.LATITUDE &&
         b.LONGITUDE &&
         b.ADDRESS_1 &&
@@ -75,6 +76,7 @@ const formatBuilding = (
 ): any => {
   return new Building({
     name: capitalizeWords(building.DESCRIPTION),
+    type: building.USAGE_DESCRIPTION,
     address: capitalizeWords(
       [building.ADDRESS_1, building.ADDRESS_2, building.ADDRESS_3].join(", ")
     ),
