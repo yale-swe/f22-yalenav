@@ -11,6 +11,7 @@ import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
 import { getCourseLocation } from "../utils";
+import { collegesAbbr, diningHallAbbr } from "../utils/campusSpots";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -90,8 +91,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
       <Map
         selectedLocation={selectedLocation}
         origin={origin}
-        buildings={buildings}
-        buildingsToRender={buildingsToRender}
+        buildings={buildingsToRender}
       />
       <View style={styles.header}>
         <View>
@@ -100,6 +100,17 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
             <CampusSpots
               allBuildings={buildings}
               setBuildingsToRender={setBuildingsToRender}
+              libraryBuildings={buildings.filter(
+                (value: Building) => value.type == "LIBRARY"
+              )}
+              collegeBuildings={buildings.filter(
+                (value: Building) =>
+                  collegesAbbr.indexOf(value.abbreviation) > 0
+              )}
+              diningHallBuildings={buildings.filter(
+                (value: Building) =>
+                  diningHallAbbr.indexOf(value.abbreviation) > 0
+              )}
             />
           </View>
         </View>

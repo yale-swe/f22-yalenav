@@ -9,6 +9,7 @@ const piersonMock: Building = {
     longitude: -72.932166,
   },
   name: "Pierson College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.31047533464249,
@@ -322,6 +323,7 @@ const davenportMock: Building = {
     longitude: -72.931252,
   },
   name: "Davenport College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.31050303708805,
@@ -555,6 +557,7 @@ const franklinMock: Building = {
     longitude: -72.925392,
   },
   name: "Benjamin Franklin College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.31518861044923,
@@ -860,6 +863,7 @@ const murrayMock: Building = {
     longitude: -72.925488,
   },
   name: "Pauli Murray College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.31552051134283,
@@ -1253,6 +1257,7 @@ const morseMock: Building = {
     longitude: -72.930124,
   },
   name: "Morse College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.312248771095184,
@@ -2390,6 +2395,7 @@ const stilesMock: Building = {
     longitude: -72.930846,
   },
   name: "Ezra Stiles College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.31303196893939,
@@ -3411,6 +3417,7 @@ const berkleyMock: Building = {
     longitude: -72.928105,
   },
   name: "Berkeley College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.310227523151205,
@@ -3460,6 +3467,7 @@ const hopperMock: Building = {
     longitude: -72.927225,
   },
   name: "Grace Hopper College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.30988246539244,
@@ -3601,6 +3609,7 @@ const trumbellMock: Building = {
     longitude: -72.929112,
   },
   name: "Trumbull College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.3110968739542,
@@ -3722,6 +3731,7 @@ const sillimanMock: Building = {
     longitude: -72.924871,
   },
   name: "Silliman College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.311004197479754,
@@ -4211,6 +4221,7 @@ const saybrookMock: Building = {
     longitude: -72.929603,
   },
   name: "Saybrook College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.310578085472365,
@@ -4500,6 +4511,7 @@ const branfordMock: Building = {
     longitude: -72.928117,
   },
   name: "Branford College",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.30976282094299,
@@ -4777,6 +4789,7 @@ const tdMock: Building = {
     longitude: -72.923764,
   },
   name: "Timothy Dwight Coll.",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.31005375233632,
@@ -5018,6 +5031,7 @@ const jeMock: Building = {
     longitude: -72.930527,
   },
   name: "Jonathan Edwards Col",
+  type: "DORMITORY",
   tile: [
     {
       latitude: 41.30881921069174,

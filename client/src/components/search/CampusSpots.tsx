@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { SpotButton } from "./SpotButton";
 
 import { Building } from "../../../types";
 
-import { colleges } from "../../../__test__/mockData/collegesMock";
-import { diningHalls } from "../../../__test__/mockData/diningHallMock";
-
 interface CampusSpotsInterface {
   setBuildingsToRender: Function;
   allBuildings: Building[];
+  diningHallBuildings: Building[];
+  collegeBuildings: Building[];
+  libraryBuildings: Building[];
 }
 export const CampusSpots: React.FC<CampusSpotsInterface> = ({
   setBuildingsToRender,
   allBuildings,
+  diningHallBuildings,
+  collegeBuildings,
+  libraryBuildings,
 }: CampusSpotsInterface) => {
   const [buttonIsActive, setButtonIsActive] = useState("");
+
+  useEffect(() => {
+    console.log(collegeBuildings);
+  }, []);
 
   const handleFilter = (filter: string) => {
     // If the incoming filter is the same as the active button then unactivate the button by setting state to empty string
@@ -27,15 +34,13 @@ export const CampusSpots: React.FC<CampusSpotsInterface> = ({
 
     switch (filter) {
       case "Dining Halls":
-        setBuildingsToRender(diningHalls);
+        setBuildingsToRender(diningHallBuildings);
         break;
       case "Colleges":
-        setBuildingsToRender(colleges);
+        setBuildingsToRender(collegeBuildings);
         break;
       case "Libraries":
-        setBuildingsToRender(
-          allBuildings.filter((value: Building) => value.type == "LIBRARY")
-        );
+        setBuildingsToRender(libraryBuildings);
         break;
     }
 

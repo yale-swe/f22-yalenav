@@ -10,16 +10,14 @@ import MapBanner from "./MapBanner";
 // resultHandler([{type, duration, distance}]), and it will be called when calculated
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
-  buildings: Building[];
   origin: LatLng | undefined;
-  buildingsToRender: Building[];
+  buildings: Building[];
 }
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   selectedLocation,
   buildings,
   origin,
-  buildingsToRender,
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
   // https://mapstyle.withgoogle.com/
@@ -69,7 +67,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
           />
         ) : null}
         <>
-          {buildingsToRender
+          {buildings
             .filter((b: Building) => b.tile.length)
             .map((b: Building, i: number) => {
               return (
