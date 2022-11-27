@@ -16,6 +16,10 @@ const BuildingSchema = new mongoose.Schema({
     type: "string",
     required: true,
   },
+  type: {
+    type: "string",
+    required: true,
+  },
   abbreviation: {
     type: "string",
     required: true,
