@@ -9,6 +9,7 @@ const commonsMock: Building = {
     latitude: 41.311803,
     longitude: -72.926478,
   },
+  type: "DINING",
   name: "Schwarzman Center",
   tile: [
     {

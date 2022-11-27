@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Building, LatLng, Results } from "../../../types";
-import { YALE_HEX } from "../../constants";
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import { SpotButton } from "./SpotButton";
 
-import { libraries } from "../../../__test__/mockData/librariesMock";
+import { Building } from "../../../types";
+
 import { colleges } from "../../../__test__/mockData/collegesMock";
 import { diningHalls } from "../../../__test__/mockData/diningHallMock";
 
@@ -33,7 +33,9 @@ export const CampusSpots: React.FC<CampusSpotsInterface> = ({
         setBuildingsToRender(colleges);
         break;
       case "Libraries":
-        setBuildingsToRender(libraries);
+        setBuildingsToRender(
+          allBuildings.filter((value: Building) => value.type == "LIBRARY")
+        );
         break;
     }
 
@@ -42,57 +44,21 @@ export const CampusSpots: React.FC<CampusSpotsInterface> = ({
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity
-        onPress={() => handleFilter("Dining Halls")}
-        activeOpacity={0.5}
-        style={[
-          styles.button,
-          buttonIsActive == "Dining Halls" ? styles.button_active : null,
-        ]}
-      >
-        <Text
-          style={[
-            styles.text,
-            buttonIsActive == "Dining Halls" ? styles.text_active : null,
-          ]}
-        >
-          Dining Halls
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => handleFilter("Colleges")}
-        activeOpacity={0.5}
-        style={[
-          styles.button,
-          buttonIsActive == "Colleges" ? styles.button_active : null,
-        ]}
-      >
-        <Text
-          style={[
-            styles.text,
-            buttonIsActive == "Colleges" ? styles.text_active : null,
-          ]}
-        >
-          Colleges
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => handleFilter("Libraries")}
-        activeOpacity={0.5}
-        style={[
-          styles.button,
-          buttonIsActive == "Libraries" ? styles.button_active : null,
-        ]}
-      >
-        <Text
-          style={[
-            styles.text,
-            buttonIsActive == "Libraries" ? styles.text_active : null,
-          ]}
-        >
-          Libraries
-        </Text>
-      </TouchableOpacity>
+      <SpotButton
+        handleFilter={() => handleFilter("Colleges")}
+        spotType="Colleges"
+        buttonIsActive={buttonIsActive}
+      />
+      <SpotButton
+        handleFilter={() => handleFilter("Dining Halls")}
+        spotType="Dining Halls"
+        buttonIsActive={buttonIsActive}
+      />
+      <SpotButton
+        handleFilter={() => handleFilter("Libraries")}
+        spotType="Libraries"
+        buttonIsActive={buttonIsActive}
+      />
     </View>
   );
 };
@@ -102,22 +68,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "80%",
-  },
-  button: {
-    backgroundColor: "white",
-    padding: 7,
-    borderRadius: 40,
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-  },
-  button_active: {
-    backgroundColor: YALE_HEX,
-  },
-  text_active: {
-    color: "white",
-  },
-  text: {
-    color: YALE_HEX,
-    alignSelf: "center",
   },
 });

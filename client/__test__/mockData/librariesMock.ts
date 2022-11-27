@@ -8,6 +8,7 @@ const sterlingLib: Building = {
     latitude: 41.311139,
     longitude: -72.928898,
   },
+  type: "LIBRARY",
   name: "Sterling Mem Library",
   tile: [
     {
@@ -214,6 +215,7 @@ const beineckeLib: Building = {
     longitude: -72.927303,
   },
   name: "Beinecke Library",
+  type: "LIBRARY",
   tile: [
     {
       latitude: 41.311817731841494,
@@ -242,6 +244,7 @@ const bassLib: Building = {
     latitude: 41.310685,
     longitude: -72.927608,
   },
+  type: "LIBRARY",
   name: "Bass Library",
   tile: [
     {
