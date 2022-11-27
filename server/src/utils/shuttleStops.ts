@@ -27,12 +27,12 @@ export const getStops = async (): Promise<typeof ShuttleStop[]> => {
 
       //parse the response based in interface
       let stopList: ShuttleStopObj[] =
-        JSON.parse(body).ServiceResponse.Buildings;
+        JSON.parse(body).ServiceResponse.stops;
 
       // convert each buildings into Building instances
-      let buildings: typeof ShuttleStop[] = formatStops(stopList);
+      let stops: typeof ShuttleStop[] = formatStops(stopList);
 
-      resolve(buildings);
+      resolve(stops);
     });
   });
 };

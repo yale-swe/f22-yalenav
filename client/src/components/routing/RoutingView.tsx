@@ -12,43 +12,114 @@ export const enum RoutingMode {
   biking,
 };
 
-function absDistance(lat1 : number, lon1 : number,
-     lat2 : number, lon2 : number) {
-  return Math.abs(lat1 - lat2) + Math.abs(lon1 - lon2);
+// function absDistance(lat1 : number, lon1 : number,
+//      lat2 : number, lon2 : number) {
+//   return Math.abs(lat1 - lat2) + Math.abs(lon1 - lon2);
+// }
+
+function locFromStop(stop : ShuttleStop) {
+  return {latitude: stop.lat, longitude: stop.lon};
 }
 
-let shuttlestops = Array<ShuttleStop>();
+function absDistance(loc1 : LatLng, loc2 : LatLng) {
+return Math.abs(loc1.latitude - loc2.latitude) + Math.abs(loc1.longitude - loc2.longitude);
+}
 
-function getClosestShuttleStop(x: LatLng) {
-  // TODO
-  // query database for stops
-  if (shuttlestops.length == 0)
+const NUM_SEARCH_STOPS = 5; // The number of stops to look through;
+// for example, explores the 5 closest stops
+let shuttlestops = new Map<Number, ShuttleStop>();
+
+function checkStops() {
+  if (shuttlestops.size == 0)
     useEffect(
       () => {
       axios
         .get<{ shuttlestops: ShuttleStop[] }>(`${BACKEND}/building`)
         .then((res) => {
-          shuttlestops = res.data.shuttlestops;
+          // shuttlestops = res.data.shuttlestops;
+          res.data.shuttlestops.forEach(stop => {
+            shuttlestops.set(stop._id, stop);
+          });
         })
         .catch((err) => {
           console.log(err);
         });
     }, [BACKEND]);
-  
-  let closestStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
-  let minDist = Infinity;
-  shuttlestops.forEach(stop => {
-    let curDist = absDistance(stop.lat, stop.lon, x.latitude, x.longitude);
-    if (curDist < minDist) {
-      minDist = curDist;
-      closestStop = stop;
-    }
-  });
-
-  return closestStop;
 }
 
-function getShuttleRouteBetween(origStop: Number, endStop: Number) {
+function getClosestShuttleStops(x: LatLng) {
+  // TODO
+  // query database for stops
+  checkStops();
+
+  let closestStops = new Array<ShuttleStop>(NUM_SEARCH_STOPS); // length 5
+  let closestStopIDs = new Array<Number>(NUM_SEARCH_STOPS); // length 5
+
+  for (let i = 0; i < NUM_SEARCH_STOPS; ++i) {
+    let closestStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
+    let minDist = Infinity;
+    
+    shuttlestops.forEach(stop => {
+      
+      if (!closestStopIDs.includes(stop._id)) {
+
+        let curDist = absDistance(locFromStop(stop), x);
+        if (curDist < minDist) {
+          minDist = curDist;
+          closestStop = stop;
+        }
+      }
+    });
+
+    closestStops[i] = closestStop;
+    closestStopIDs[i] = closestStop._id;
+  }
+
+  return closestStops;
+}
+
+function getClosestDestinationAndBus(startStopIDs : Array<Number>, dest : LatLng) {
+
+  let closestDests = getClosestShuttleStops(dest);
+  // let stopsUntilDest = [];
+  let minTimeToArrival = 0;
+  let bestDest : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
+  let bestOrig : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
+
+  for (let i = 0; i < NUM_SEARCH_STOPS; ++i)
+    axios.get('https://yaleshuttle.doublemap.com/map/v2/eta', {
+      params: {
+        stop: startStopIDs[i]
+      }
+    })
+    .then(function (response) {
+      // handle success
+      // console.log(response.data.etas);
+      let info = response.data.etas; 
+
+      //////////////////////////////////////////////////////////////////
+      // contains info on all buses; let's just check the soonest one
+      /////////////////////////////////
+      // info.forEach(bus => {
+      //   bus.avg; // time until arrival
+      // });
+      //////////////////////////////////////////////////////////////////
+
+      let route = info[0];
+
+    });
+    // .catch(function (error) {
+    //   // handle error
+    //   console.log(error);
+    // })
+    // .then(function () {
+    //   // always executed
+    // });
+
+  // return [{}, {}, busId, {TimeToStart: 0.0, TimeToDest : 0.0}];
+}
+
+function getShuttleRouteBetween(origStop: Number, endStop: Number, bus_id: Number) {
   // TODO
   // Query DoubleMap API
   axios.get("https://yaleshuttle.doublemap.com/map/v2/eta", 
@@ -58,15 +129,97 @@ function getShuttleRouteBetween(origStop: Number, endStop: Number) {
   return [];
 }
 
-function getRideInfoBetween(origStop: Number, endStop: Number) {
+function getShuttleRoute(origLoc : LatLng, endLoc : LatLng) {
+  // let origStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
+  // let destStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
+  let origStop = -1;
+  let destStop = -1;
+  let routeId = -1;
+  let routeLocations : number[] = [];
+
+  // make sure stops are loaded
+  checkStops();
+
+  axios.get('https://yaleshuttle.doublemap.com/map/v2/routes')
+  .then(function (response) {
+    
+    let minTotDist = Infinity;
+
+    response.data.routes.forEach(function 
+      (route : {id : number, path : number[], stops: number[]}) {
+      let minToDest = Infinity;
+      let minToOrig = Infinity;
+      let tOrigStop = -1;
+      let tDestStop = -1;
+      
+      // gets closest two points to orig, dest, respectively, on route
+      route.stops.forEach(function (stop_id : number) {
+        let stop = shuttlestops.get(stop_id);
+
+        if (stop) {
+          let toOrig = absDistance(locFromStop(stop), origLoc);
+          let toDest = absDistance(locFromStop(stop), endLoc);
+
+          if (toDest < minToDest) {
+            minToDest = toDest;
+            tDestStop = stop_id;
+          } 
+
+          if (toOrig < minToOrig) {
+            minToDest = toDest;
+            tOrigStop = stop_id;
+
+          }
+        }
+      });
+
+      if (minToDest + minToOrig < minTotDist) {
+        minTotDist = minToDest + minToOrig;
+
+        routeId = route.id;
+        routeLocations = route.path;
+        origStop = tOrigStop;
+        destStop = tDestStop;
+      }
+
+    });
+  });
+
+  let ogS = shuttlestops.get(origStop);
+  let dsS = shuttlestops.get(destStop);
+  
+  // should really never be used, but it fixes the annoying red underline squigglies
+  let voidStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
+
+  return {origStop: ogS ? ogS : voidStop, 
+          destStop: dsS ? dsS : voidStop, 
+          route: routeId,
+          routeLocs: routeLocations};
+}
+
+
+function getRideInfoBetween(routeId: number, origStop: number, endStop: number) {
+
+  let duration : number = -1;
+  let distance: number = -1;
+  let bus_id : number = -1;
+
+  axios.get('https://yaleshuttle.doublemap.com/map/v2/etas', {
+    params: {
+      route: routeId
+    }
+  })
+  .then(function (response) {
+
+    bus_id = response.data.etas[origStop][0].bus_id;
+    duration = response.data.etas[endStop][0].avg - response.data.etas[origStop][0].avg;
+
+  });
 
   
-  return { duration: 0.0, distance: 0.0, bus_id: 0 };
+  return { duration: duration, distance: 0.0, bus_id: bus_id };
 }
 
-function locFromStop(stop : ShuttleStop) {
-  return {latitude: stop.lat, longitude: stop.lon};
-}
 
 // routes between locations using specified mode
 interface RoutingInterface {
@@ -85,20 +238,39 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   // UI customizability can be added in here; whether you want
   // the lines to be thicker, a certain color, etc
 
-  let isShuttleRoute = mode == RoutingMode.shuttle;
-  let originStop = getClosestShuttleStop(routeOrigin);
-  let destStop = getClosestShuttleStop(routeDestination);
+  // let originStops = getClosestShuttleStops(routeOrigin);
 
-  if (originStop._id == destStop._id)
-    // closest 
-    isShuttleRoute = false;
+  // let originStopIDs = Array<Number>(NUM_SEARCH_STOPS);
+  // originStops.forEach((stop, index) => {
+  //   originStopIDs[index] = stop._id;
+  // });
 
-  let rideInfo = getRideInfoBetween(originStop._id, destStop._id);
-  let lines = getShuttleRouteBetween(originStop._id, destStop._id, rideInfo.bus_id);
+  // let [originStop, destStop, bus, times] =
+  //    getClosestDestinationAndBus(originStopIDs, routeDestination);
+
+  // if (originStop._id == destStop._id)
+  //   // closest 
+  //   isShuttleRoute = false;
+
+  // let lines = getShuttleRouteBetween(originStop._id, destStop._id, rideInfo.bus_id);
 
   // if (shuttleEnd - shuttleStart < 0) {
   //   isShuttleRoute = false;
   // }
+
+  let {origStop: originStop, destStop: destStop, route: routeId, routeLocs: routeLocations} = 
+    getShuttleRoute(routeOrigin, routeDestination);
+
+    
+  let rideInfo = getRideInfoBetween(routeId, originStop._id, destStop._id);
+
+  let isShuttleRoute = mode == RoutingMode.shuttle && 
+        originStop && destStop && routeId >= 0;
+
+  let routePath = Array<LatLng>(Math.floor(routeLocations.length / 2));
+  for (let i = 0; i < routeLocations.length; i += 2) {
+    routePath[Math.floor(i / 2)] = {latitude: routeLocations[i], longitude: routeLocations[i + 1]};
+  }
 
   let results: Array<Results> = [];
 
@@ -130,7 +302,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
 
       {isShuttleRoute && (
         <Polyline
-          coordinates={[]} // Plot the bus route here!
+          coordinates={routePath} // Plot the bus route here!
           onLayout={(layout) => {
             resultHandler &&
               results.push({
