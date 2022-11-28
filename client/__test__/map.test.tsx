@@ -69,6 +69,12 @@ describe("Testing map functionality", () => {
     console.log(mapview.props.initialRegion);
     expect(mapview.props.initialRegion).toStrictEqual(yaleUni);
   });
+
+  test("Map is zoomable", async () => {
+    const map = renderMap();
+    const mapview = map.queryByTestId("mapview-map");
+    expect(mapview.props.zoomEnabled).toBe(true);
+  });
 });
 
 var yaleUni = {

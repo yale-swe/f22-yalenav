@@ -44,6 +44,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
         followsUserLocation={true}
         initialRegion={yaleUni}
         customMapStyle={mapStyle}
+        zoomEnabled={true}
         testID="mapview-map"
       >
         {selectedLocation && (
