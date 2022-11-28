@@ -10,8 +10,8 @@ import MapBanner from "./MapBanner";
 // resultHandler([{type, duration, distance}]), and it will be called when calculated
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
-  buildings: Building[];
   origin: LatLng | undefined;
+  buildings: Building[];
 }
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
