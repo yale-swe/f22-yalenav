@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import MapView, { Polygon, Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import MapBanner from "./MapBanner";
-import { LatLng, Building, ShuttleStop, Results } from "../../../types";
+import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
+import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
-import { RoutingView, RoutingMode } from "../routing/RoutingView";
+import { RoutingMode, RoutingView } from "../routing/RoutingView";
+import MapBanner from "./MapBanner";
 
 // To get durations, route distance, etc; pass function to
 
 // resultHandler([{type, duration, distance}]), and it will be called when calculated
 interface ReactNativeMapInterface {
   selectedLocation: Building | undefined;
-  buildings: Building[];
   origin: LatLng | undefined;
+  buildings: Building[];
 }
 
 export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
@@ -52,7 +52,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
               longitude: selectedLocation.coords.longitude,
             }}
             title={selectedLocation.name}
-            description={selectedLocation.abbreviation.toUpperCase()}
+            description={selectedLocation.type}
           />
         )}
         {isNavigating && origin && selectedLocation ? (
