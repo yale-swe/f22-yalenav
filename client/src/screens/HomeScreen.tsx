@@ -12,6 +12,8 @@ import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
 import { getCourseLocation } from "../utils";
 import { collegesAbbr, diningHallAbbr } from "../utils/campusSpots";
+import { MapView } from "@rnmapbox/maps";
+import { ReactNativeMap } from "../components/map/ReactNativeMap";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
