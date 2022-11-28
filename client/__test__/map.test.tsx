@@ -51,22 +51,10 @@ const renderMap = () => {
   return result;
 };
 
-// const createMap = () => {
-//   return (
-//     <Map
-//       selectedLocation={mockWatson}
-//       origin={mockCoords}
-//       buildings={[mockWatson]}
-//       //   data-testid="mapview-map"
-//     />
-//   );
-// };
-
 describe("Testing map functionality", () => {
   test("Map renders with initial region centered around Yale University", async () => {
     const map = renderMap();
     const mapview = map.getByTestId("mapview-map");
-    console.log(mapview.props.initialRegion);
     expect(mapview.props.initialRegion).toStrictEqual(yaleUni);
   });
 
