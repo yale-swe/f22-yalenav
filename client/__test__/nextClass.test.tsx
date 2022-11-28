@@ -10,7 +10,6 @@ jest.mock("../src/utils", () => ({
 }));
 import { Alert } from "react-native";
 
-import { User } from "../types";
 import { View } from "react-native";
 import { mockCourse } from "./mockData/courseMock";
 import { userNoCourses, userCourse } from "./mockData/usersMock";
