@@ -2,7 +2,7 @@ module.exports = {
   verbose: true,
   preset: "jest-expo",
   setupFiles: [
-    "./__test__/jest.setup.js",
+    "./jest-setup.js",
     "./node_modules/react-native-gesture-handler/jestSetup.js",
   ],
   transformIgnorePatterns: [
