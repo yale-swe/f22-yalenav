@@ -61,7 +61,7 @@ afterEach(() => {
 
 const mockSelectNextClass = () => {};
 describe("Testing the Homepage's Next Class Button", () => {
-  test("User with no course today clicks the button", async () => {
+  test("A user is signed in, has courses in their schedule, but does not have class for the current day, and clicks next class button", async () => {
     const mockedNextClass = jest.mocked(nextClass);
     mockedNextClass.mockReturnValue(undefined);
 
@@ -73,14 +73,14 @@ describe("Testing the Homepage's Next Class Button", () => {
     );
   });
 
-  test("User not signed in clicks next class button", async () => {
+  test("A user is not signed in, but clicks the next class button", async () => {
     const userNotSignedIn = null;
     await renderedComponent(userNotSignedIn);
 
     expect(Alert.alert).toHaveBeenCalledWith("Sign in to use this feature");
   });
 
-  test("User with no courses clicks the next class button", async () => {
+  test("A user is signed in, but has no courses in their schedule, and clicks the next class button", async () => {
     await renderedComponent(userNoCourses);
 
     expect(Alert.alert).toHaveBeenCalledWith(
@@ -89,7 +89,7 @@ describe("Testing the Homepage's Next Class Button", () => {
     );
   });
 
-  test("User with course for the current day clicks the next class button", async () => {
+  test("A user is signed in, has courses in their schedule, and has class for the current day, and clicks the next class button", async () => {
     const mockedNextClass = jest.mocked(nextClass);
     mockedNextClass.mockReturnValue(mockCourse);
 
