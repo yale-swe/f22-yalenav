@@ -34,7 +34,7 @@ function checkStops() {
     useEffect(
       () => {
       axios
-        .get<{ shuttlestops: ShuttleStop[] }>(`${BACKEND}/building`)
+        .get<{ shuttlestops: ShuttleStop[] }>(`${BACKEND}/shuttlestop`)
         .then((res) => {
           // shuttlestops = res.data.shuttlestops;
           res.data.shuttlestops.forEach(stop => {
@@ -207,7 +207,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   // if (shuttleEnd - shuttleStart < 0) {
   //   isShuttleRoute = false;
   // }
-
+  
   let {origStop: originStop, destStop: destStop, route: routeId, routeLocs: routeLocations} = 
     getShuttleRoute(routeOrigin, routeDestination);
 
@@ -217,12 +217,16 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   let isShuttleRoute = mode == RoutingMode.shuttle && 
         originStop && destStop && routeId >= 0;
 
+  isShuttleRoute = true;
+
   let routePath = Array<LatLng>(Math.floor(routeLocations.length / 2));
   for (let i = 0; i < routeLocations.length; i += 2) {
     routePath[Math.floor(i / 2)] = {latitude: routeLocations[i], longitude: routeLocations[i + 1]};
   }
 
   let results: Array<Results> = [];
+
+  return <></>;
 
   // TODO: implement mode switching
   // Include bycicles, walking, and custom mode for routing.

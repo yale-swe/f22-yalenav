@@ -27,7 +27,11 @@ export const getStops = async (): Promise<typeof ShuttleStop[]> => {
 
       //parse the response based in interface
       let stopList: ShuttleStopObj[] =
-        JSON.parse(body).ServiceResponse.stops;
+        JSON.parse(body).ServiceResponse;
+
+      // console.log(body);
+      // console.log(response);
+      console.log(body[0]);
 
       // convert each buildings into Building instances
       let stops: typeof ShuttleStop[] = formatStops(stopList);
@@ -42,7 +46,7 @@ const formatStops = (stopList: ShuttleStopObj[]): typeof ShuttleStop[] => {
   return stopList
     .filter((s: ShuttleStopObj) => {
       // ensure all have a latitude and longitude
-      return s.name && s.latitude && s.longitude;
+      return s.id && s.latitude && s.longitude;
     })
     .map((s: ShuttleStopObj) => formatStop(s));
 };
