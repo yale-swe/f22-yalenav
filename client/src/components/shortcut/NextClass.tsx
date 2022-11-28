@@ -51,6 +51,7 @@ export const NextClass: React.FC<NextClassInterface> = ({
 
   return (
     <Button
+      testID="NextClassButton"
       style={styles.nextClass}
       type="clear"
       icon={<Icon name="book-outline" size={24} color={YALE_HEX} />}
