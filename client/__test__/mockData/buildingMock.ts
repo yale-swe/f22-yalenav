@@ -1,6 +1,6 @@
 import { Building, LatLng } from "../../types";
 
-const mockCoords: LatLng = { latitude: 40, longitude: -72 };
+export const mockCoords: LatLng = { latitude: 40, longitude: -72 };
 
 export const mockWatson: Building = {
   _id: "636af735cd21662437d3e79d",
