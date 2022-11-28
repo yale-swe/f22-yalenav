@@ -20,10 +20,6 @@ export const CampusSpots: React.FC<CampusSpotsInterface> = ({
 }: CampusSpotsInterface) => {
   const [buttonIsActive, setButtonIsActive] = useState("");
 
-  useEffect(() => {
-    console.log(collegeBuildings);
-  }, []);
-
   const handleFilter = (filter: string) => {
     // If the incoming filter is the same as the active button then unactivate the button by setting state to empty string
     if (filter == buttonIsActive) {
