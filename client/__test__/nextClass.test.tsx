@@ -13,27 +13,7 @@ import { Alert } from "react-native";
 import { User } from "../types";
 import { View } from "react-native";
 import { mockCourse } from "./mockData/courseMock";
-
-const userNoCourses: User = {
-  first_name: "John",
-  last_name: "Doe",
-  netid: "abc123",
-  school: "Franklin",
-  year: "2023",
-  curriculum: "N/a",
-  college: "Franklin",
-};
-
-const userCourse: User = {
-  first_name: "John",
-  last_name: "Doe",
-  netid: "abc123",
-  school: "Franklin",
-  year: "2023",
-  curriculum: "N/a",
-  college: "Franklin",
-  courses: [mockCourse],
-};
+import { userNoCourses, userCourse } from "./mockData/usersMock";
 
 const renderedComponent = async (user: any) => {
   // Mock getUser Function that is used in NextClass component
