@@ -1,0 +1,77 @@
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet } from "react-native";
+import { SpotButton } from "./SpotButton";
+
+import { Building } from "../../../types";
+
+interface CampusSpotsInterface {
+  setBuildingsToRender: Function;
+  allBuildings: Building[];
+  diningHallBuildings: Building[];
+  collegeBuildings: Building[];
+  libraryBuildings: Building[];
+}
+export const CampusSpots: React.FC<CampusSpotsInterface> = ({
+  setBuildingsToRender,
+  allBuildings,
+  diningHallBuildings,
+  collegeBuildings,
+  libraryBuildings,
+}: CampusSpotsInterface) => {
+  const [buttonIsActive, setButtonIsActive] = useState("");
+
+  useEffect(() => {
+    console.log(collegeBuildings);
+  }, []);
+
+  const handleFilter = (filter: string) => {
+    // If the incoming filter is the same as the active button then unactivate the button by setting state to empty string
+    if (filter == buttonIsActive) {
+      setButtonIsActive("");
+      setBuildingsToRender(allBuildings);
+      return;
+    }
+
+    switch (filter) {
+      case "Dining Halls":
+        setBuildingsToRender(diningHallBuildings);
+        break;
+      case "Colleges":
+        setBuildingsToRender(collegeBuildings);
+        break;
+      case "Libraries":
+        setBuildingsToRender(libraryBuildings);
+        break;
+    }
+
+    setButtonIsActive(filter);
+  };
+
+  return (
+    <View style={styles.header}>
+      <SpotButton
+        handleFilter={() => handleFilter("Colleges")}
+        spotType="Colleges"
+        buttonIsActive={buttonIsActive}
+      />
+      <SpotButton
+        handleFilter={() => handleFilter("Dining Halls")}
+        spotType="Dining Halls"
+        buttonIsActive={buttonIsActive}
+      />
+      <SpotButton
+        handleFilter={() => handleFilter("Libraries")}
+        spotType="Libraries"
+        buttonIsActive={buttonIsActive}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+  },
+});

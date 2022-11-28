@@ -1,15 +1,17 @@
 import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
+import { CampusSpots } from "../components/search/CampusSpots";
+import { Map, NavigationBar, Search, Shortcut } from "../components";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button } from "react-native-elements";
 import { Building, Course, LatLng } from "../../types";
-import { Map, NavigationBar, Search } from "../components";
 import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
 import { getCourseLocation } from "../utils";
+import { collegesAbbr, diningHallAbbr } from "../utils/campusSpots";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -24,6 +26,9 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
   const auth = useAuth();
   // Load Yale locations
   const [buildings, setBuildings] = useState<Building[]>([]);
+
+  const [buildingsToRender, setBuildingsToRender] =
+    useState<Array<Building>>(buildings);
 
   const getUserLocation = async () => {
     try {
@@ -58,6 +63,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
       .get<{ buildings: Building[] }>(`${BACKEND}/building`)
       .then((res) => {
         setBuildings(res.data.buildings);
+        setBuildingsToRender(res.data.buildings);
       })
       .catch((err) => {
         console.log(err);
@@ -85,10 +91,29 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
       <Map
         selectedLocation={selectedLocation}
         origin={origin}
-        buildings={buildings}
+        buildings={buildingsToRender}
       />
       <View style={styles.header}>
-        <Search locations={buildings} selectLocation={selectLocation} />
+        <View>
+          <Search locations={buildings} selectLocation={selectLocation} />
+          <View style={{ alignSelf: "center" }}>
+            <CampusSpots
+              allBuildings={buildings}
+              setBuildingsToRender={setBuildingsToRender}
+              libraryBuildings={buildings.filter(
+                (value: Building) => value.type == "LIBRARY"
+              )}
+              collegeBuildings={buildings.filter(
+                (value: Building) =>
+                  collegesAbbr.indexOf(value.abbreviation) > 0
+              )}
+              diningHallBuildings={buildings.filter(
+                (value: Building) =>
+                  diningHallAbbr.indexOf(value.abbreviation) > 0
+              )}
+            />
+          </View>
+        </View>
         <View style={styles.profileComponent}>
           {auth.authData ? (
             <Button
