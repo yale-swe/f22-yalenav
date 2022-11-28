@@ -78,56 +78,6 @@ function getClosestShuttleStops(x: LatLng) {
   return closestStops;
 }
 
-function getClosestDestinationAndBus(startStopIDs : Array<Number>, dest : LatLng) {
-
-  let closestDests = getClosestShuttleStops(dest);
-  // let stopsUntilDest = [];
-  let minTimeToArrival = 0;
-  let bestDest : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
-  let bestOrig : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
-
-  for (let i = 0; i < NUM_SEARCH_STOPS; ++i)
-    axios.get('https://yaleshuttle.doublemap.com/map/v2/eta', {
-      params: {
-        stop: startStopIDs[i]
-      }
-    })
-    .then(function (response) {
-      // handle success
-      // console.log(response.data.etas);
-      let info = response.data.etas; 
-
-      //////////////////////////////////////////////////////////////////
-      // contains info on all buses; let's just check the soonest one
-      /////////////////////////////////
-      // info.forEach(bus => {
-      //   bus.avg; // time until arrival
-      // });
-      //////////////////////////////////////////////////////////////////
-
-      let route = info[0];
-
-    });
-    // .catch(function (error) {
-    //   // handle error
-    //   console.log(error);
-    // })
-    // .then(function () {
-    //   // always executed
-    // });
-
-  // return [{}, {}, busId, {TimeToStart: 0.0, TimeToDest : 0.0}];
-}
-
-function getShuttleRouteBetween(origStop: Number, endStop: Number, bus_id: Number) {
-  // TODO
-  // Query DoubleMap API
-  axios.get("https://yaleshuttle.doublemap.com/map/v2/eta", 
-    {params: [{'stop':'1'}]});
-
-
-  return [];
-}
 
 function getShuttleRoute(origLoc : LatLng, endLoc : LatLng) {
   // let origStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
@@ -166,7 +116,7 @@ function getShuttleRoute(origLoc : LatLng, endLoc : LatLng) {
           } 
 
           if (toOrig < minToOrig) {
-            minToDest = toDest;
+            minToOrig = toOrig;
             tOrigStop = stop_id;
 
           }
