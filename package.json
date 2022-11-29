@@ -25,7 +25,7 @@
     "@expo/webpack-config": "^0.17.3",
     "@rnmapbox/maps": "rnmapbox/maps",
     "expo-constants": "^14.0.2",
-    "react-dom": "18.0.0",
+    "react-dom": "18.2.0",
     "react-native": "0.70.6",
     "react-native-elements": "^3.4.2",
     "react-native-maps-directions": "^1.9.0",
