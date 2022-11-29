@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { YALE_HEX } from "../../constants";
 
 interface SpotButtonInterface {
@@ -36,7 +36,8 @@ export const SpotButton: React.FC<SpotButtonInterface> = ({
 const styles = StyleSheet.create({
   button: {
     backgroundColor: "white",
-    padding: 7,
+    padding: "4%",
+    marginHorizontal: "5%",
     borderRadius: 40,
     borderColor: YALE_HEX,
     borderWidth: 2,
@@ -50,5 +51,6 @@ const styles = StyleSheet.create({
   text: {
     color: YALE_HEX,
     alignSelf: "center",
+    fontSize: 12,
   },
 });
