@@ -4,7 +4,7 @@ import app from "./app";
 const port = process.env.PORT || 4000;
 const mongoUri =
   process.env.MONGO_URI ||
-  "mongodb://user:pass@localhost:27017/mydatabase?authSource=admin";
+  "mongodb://user:pass@mongodb:27017/mydatabase?authSource=admin";
 
 const startApp = async () => {
   try {

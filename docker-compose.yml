@@ -9,6 +9,26 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=pass
       - MONGO_INITDB_DATABASE=mydatabase
     ports:
-      - 27017:27017
+      - "27017:27017"
     volumes:
       - ./tmpdata/mongodb_data:/data/db
+    networks:
+      - node-webapp-network
+  server:
+    container_name: server
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn dev
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    ports:
+      - "4000:4000"
+    networks:
+      - node-webapp-network
+networks:
+  node-webapp-network:
+    driver: bridge
