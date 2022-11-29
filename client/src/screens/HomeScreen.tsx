@@ -9,8 +9,7 @@ import { CampusSpots } from "../components/search/CampusSpots";
 import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
-import { getCourseLocation } from "../utils";
-import { collegesAbbr, diningHallAbbr } from "../utils/campusSpots";
+import { collegesAbbr, diningHallAbbr, getCourseLocation } from "../utils";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
