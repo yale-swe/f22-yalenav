@@ -71,7 +71,7 @@ Running this app locally requires the following technologies:
 
 Run `yarn install:all`. This will install all of the necessary npm packages.
 
-Open a terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine and the REST API on port `4000`. Keep this terminal open.
+Open a terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine and the REST API on port `4000`. Keep this terminal open. First time running this command might take a few minutes since docker has to download the node16 and mongodb images.
 
 Open another terminal window. Run `yarn dev:client`. This will serve the client on port `3000` using Expo Go. From there you'll get to choose whether you'd like to run it on web, iOS, or Android. After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app.
 
