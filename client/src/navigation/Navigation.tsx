@@ -9,7 +9,7 @@ export type RootStackParamList = {
   Home: undefined;
   EditSchedule: { user: User };
   UserProfile: undefined;
-  SignIn: undefined;
+  SignInScreen: undefined;
 };
 
 export const Navigation = () => {
