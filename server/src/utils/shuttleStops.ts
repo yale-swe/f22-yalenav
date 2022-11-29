@@ -1,5 +1,5 @@
-import { ShuttleStop } from "../models";
 import request from "request";
+import { ShuttleStop } from "../models";
 import { capitalizeWords } from "./general";
 
 // From the guide here:

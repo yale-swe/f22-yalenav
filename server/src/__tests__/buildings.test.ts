@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../app";
-import { connectMongoose, disconnectMongoose } from "../testUtils/mongoose";
 import { Building } from "../models";
+import { connectMongoose, disconnectMongoose } from "../testUtils/mongoose";
 import { getBuildings } from "../utils/campusBuildings";
 
 describe("Buildings Tests", () => {

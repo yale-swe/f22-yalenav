@@ -1,9 +1,9 @@
 import cors from "cors";
 import express from "express";
-import { isCI, isDevelopment, isTest } from "./utils/environment";
-import routes from "./routes";
+import session from "express-session";
 import passport from "./passport";
-import session from 'express-session';
+import routes from "./routes";
+import { isCI, isDevelopment, isTest } from "./utils/environment";
 
 const bypassCors = isCI() || isDevelopment() || isTest();
 const allowList = new Set(["http://localhost:3000", "http://10.0.0.139:4000"]);
@@ -28,7 +28,8 @@ const app = express()
       secret: "this is totally secret",
       resave: false,
       saveUninitialized: false,
-    }));
+    })
+  );
 
 passport(app);
 
