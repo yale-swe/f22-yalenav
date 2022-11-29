@@ -1,4 +1,4 @@
 export * from "./Building";
-export * from "./ShuttleStop";
 export * from "./Course";
+export * from "./ShuttleStop";
 export * from "./User";

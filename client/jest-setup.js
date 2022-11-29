@@ -1,6 +1,5 @@
-import "react-native";
 import React from "react";
-
+import "react-native";
 // include this line for mocking react-native-gesture-handler
 import "react-native-gesture-handler/jestSetup";
 

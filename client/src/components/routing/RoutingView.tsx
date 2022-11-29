@@ -1,10 +1,8 @@
-import React, { Component, useEffect } from "react";
+import React from "react";
 import { Polyline } from "react-native-maps";
-import MapViewDirections, {
-  MapDirectionsLegs,
-} from "react-native-maps-directions";
+import MapViewDirections from "react-native-maps-directions";
 import { LatLng, Results } from "../../../types";
-import { APIKEY, YALE_HEX } from "../../constants";
+import { APIKEY } from "../../constants";
 
 export const enum RoutingMode {
   shuttle,
@@ -22,7 +20,6 @@ function getClosestShuttleStop(x: LatLng) {
 function getShuttleRouteBetween(origStop: Number, endStop: Number) {
   // TODO
   // Query DoubleMap API
-  //
 
   return [];
 }
@@ -54,16 +51,11 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   let lines = getShuttleRouteBetween(originStop.stop, destStop.stop);
   let rideInfo = getRideInfoBetween(originStop.stop, destStop.stop);
 
-  // if (shuttleEnd - shuttleStart < 0) {
-  //   isShuttleRoute = false;
-  // }
-
   let results: Array<Results> = [];
 
   // TODO: implement mode switching
   // Include bycicles, walking, and custom mode for routing.
-  ////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////
+
   let RoutingViews = (
     <>
       <MapViewDirections

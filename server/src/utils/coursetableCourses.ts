@@ -1,5 +1,4 @@
 import { Course } from "../models";
-import request from "request";
 
 interface CoursetableObject {
   title: String;
