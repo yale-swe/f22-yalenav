@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { SpotButton } from "./SpotButton";
-
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { Building } from "../../../types";
+import { SpotButton } from "./SpotButton";
 
 interface CampusSpotsInterface {
   setBuildingsToRender: Function;
@@ -67,7 +66,7 @@ export const CampusSpots: React.FC<CampusSpotsInterface> = ({
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    width: "80%",
+    justifyContent: "space-between",
+    width: "65%",
   },
 });

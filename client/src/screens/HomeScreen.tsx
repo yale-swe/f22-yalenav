@@ -1,12 +1,11 @@
 import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
-import { CampusSpots } from "../components/search/CampusSpots";
-import { Map, NavigationBar, Search, Shortcut } from "../components";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
-import { Button } from "react-native-elements";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { Building, Course, LatLng } from "../../types";
+import { Map, NavigationBar, Search } from "../components";
+import { CampusSpots } from "../components/search/CampusSpots";
 import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
@@ -94,9 +93,9 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
         buildings={buildingsToRender}
       />
       <View style={styles.header}>
-        <View>
+        <View style={{ maxWidth: "80%" }}>
           <Search locations={buildings} selectLocation={selectLocation} />
-          <View style={{ alignSelf: "center" }}>
+          <View style={{ paddingLeft: "4%" }}>
             <CampusSpots
               allBuildings={buildings}
               setBuildingsToRender={setBuildingsToRender}
@@ -114,22 +113,25 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
             />
           </View>
         </View>
-        <View style={styles.profileComponent}>
-          {auth.authData ? (
-            <Button
-              style={styles.profile}
-              type="clear"
-              title={auth.authData.netId}
-              onPress={() => navigation.navigate("UserProfile")}
-            />
-          ) : (
-            <Button
-              style={styles.profile}
-              type="clear"
-              title="Sign In"
-              onPress={() => navigation.navigate("SignIn")}
-            />
-          )}
+        <View style={{ maxWidth: "20%", paddingTop: "2%" }}>
+          <Pressable
+            style={styles.profile}
+            onPress={
+              auth.authData
+                ? () => navigation.navigate("UserProfile")
+                : () => navigation.navigate("SignInScreen")
+            }
+          >
+            <Text
+              style={{
+                color: YALE_HEX,
+                fontWeight: "bold",
+                fontSize: 12,
+              }}
+            >
+              {auth.authData ? auth.authData.netId.toString() : "Sign In"}
+            </Text>
+          </Pressable>
         </View>
       </View>
       <NavigationBar selectNextClass={selectNextClass} />
@@ -143,16 +145,15 @@ const styles = StyleSheet.create({
     paddingTop: "12%",
     flex: 1,
     position: "absolute",
-    justifyContent: "space-around",
-  },
-  profileComponent: {
-    padding: "2%",
-    paddingRight: "4%",
+    justifyContent: "space-between",
   },
   profile: {
     borderColor: YALE_HEX,
     borderWidth: 2,
     borderRadius: 40,
     backgroundColor: "white",
+    fontSize: 10,
+    padding: "15%",
+    paddingVertical: "22%",
   },
 });
