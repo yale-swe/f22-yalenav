@@ -25,6 +25,7 @@ export const CourseListing: React.FC<CourseListingInterface> = ({
           </View>
           <View style={styles.listingHeaderDelete}>
             <TouchableOpacity
+              testID="DeleteCourse"
               onPress={() => {
                 editSchedule(user, course, "delete");
               }}

@@ -7,3 +7,11 @@ export const mockCourse: Course = {
   schedule: "MW 1pm-2:15pm + 1",
   title: "Software Engineering",
 };
+
+export const mockCPSC323: Course = {
+  _id: "638410785875cfaa847916d5",
+  course_code: "CPSC 323",
+  locations_summary: "OML 202 - Osborn Memorial Laboratories 202 + 1",
+  schedule: "MW 1pm-2:15pm + 1",
+  title: "Introduction to Systems Programming and Computer Organization",
+};

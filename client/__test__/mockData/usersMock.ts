@@ -9,6 +9,7 @@ export const userNoCourses: User = {
   year: "2023",
   curriculum: "N/a",
   college: "Franklin",
+  courses: [],
 };
 
 export const userCourse: User = {
