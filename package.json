@@ -22,7 +22,7 @@
     "react-test-renderer": "18"
   },
   "dependencies": {
-    "@expo/webpack-config": "^0.16.19",
+    "@expo/webpack-config": "^0.17.3",
     "@rnmapbox/maps": "rnmapbox/maps",
     "expo-constants": "^14.0.2",
     "react-dom": "18.0.0",
