@@ -1,17 +1,16 @@
 import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
-import { CampusSpots } from "../components/search/CampusSpots";
-import { Map, NavigationBar, Search, Shortcut } from "../components";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { Button } from "react-native-elements";
 import { Building, Course, LatLng } from "../../types";
+import { Map, NavigationBar, Search } from "../components";
+import { CampusSpots } from "../components/search/CampusSpots";
 import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
-import { getCourseLocation } from "../utils";
-import { collegesAbbr, diningHallAbbr } from "../utils/campusSpots";
+import { collegesAbbr, diningHallAbbr, getCourseLocation } from "../utils";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 

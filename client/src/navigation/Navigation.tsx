@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { Keyboard, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { User } from "../../types";
 import { useAuth } from "../contexts/Auth";
 import AuthStack from "./AuthStack";
@@ -22,13 +22,5 @@ export const Navigation = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-});
 
 export default Navigation;
