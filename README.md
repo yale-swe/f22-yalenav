@@ -31,8 +31,6 @@ Once you have the above installed, follow these steps.
 
 Run `yarn install:all`. This will install all of the necessary npm packages.
 
-Open a terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine. Keep this terminal open.
-
-Open another terminal window and run `yarn dev:server`. This will run the REST API on port `4000`.
+Open a terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine and the REST API on port `4000`. Keep this terminal open.
 
 Open another terminal window. Run `yarn dev:client`. This will serve the client on port `3000` using Expo Go. From there you'll get to choose whether you'd like to run it on web, ios, or android. After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app.
