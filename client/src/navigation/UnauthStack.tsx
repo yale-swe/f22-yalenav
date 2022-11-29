@@ -1,6 +1,6 @@
-import SignInScreen from "../components/auth/SignInScreen";
-import HomeScreen from "../screens/HomeScreen";
 import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "../screens/HomeScreen";
+import SignInScreen from "../screens/SignInScreen";
 import { RootStackParamList } from "./Navigation";
 
 export const Stack = createStackNavigator<RootStackParamList>();
@@ -12,7 +12,7 @@ export default function UnauthStack() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="SignIn" component={SignInScreen} />
+      <Stack.Screen name="SignInScreen" component={SignInScreen} />
     </Stack.Navigator>
   );
 }
