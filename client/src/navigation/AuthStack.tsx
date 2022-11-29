@@ -1,8 +1,8 @@
+import { createStackNavigator } from "@react-navigation/stack";
+import EditSchedule from "../screens/EditSchedule";
 import HomeScreen from "../screens/HomeScreen";
 import UserProfile from "../screens/UserProfile";
-import EditSchedule from "../screens/EditSchedule";
 import { RootStackParamList } from "./Navigation";
-import { createStackNavigator } from "@react-navigation/stack";
 
 export const Stack = createStackNavigator<RootStackParamList>();
 

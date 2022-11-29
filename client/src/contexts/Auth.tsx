@@ -1,16 +1,15 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import * as AuthSession from "expo-auth-session";
 import React, {
   createContext,
-  useState,
+  ReactNode,
   useContext,
   useEffect,
-  ReactNode,
+  useState,
 } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import { AuthData } from "../../types";
 import { BACKEND } from "../constants";
-import * as AuthSession from "expo-auth-session";
-import axios from "axios";
 
 type AuthContextData = {
   authData?: AuthData;
