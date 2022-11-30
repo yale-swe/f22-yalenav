@@ -12,9 +12,9 @@ YaleNav only vertically-integrated navigation system that offers three features 
 
 &nbsp;
 
-<div style="display: flex; justify-content: center">
+<p align="center">
 <kdb><img style="border-radius:3%" width="200" src=".github/imgs/demo.gif"/></kbd>
-</div>
+</p>
 
 &nbsp;
 
