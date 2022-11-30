@@ -2,13 +2,21 @@
 
 # YaleNav
 
-<font size="4">A mobile app helping **yale** students explore and **navigate** campus seamlessly.</font>
+### 📱 A mobile app helping **yale** students explore and **navigate** campus seamlessly.
 
 YaleNav only vertically-integrated navigation system that offers three features most critical to student life:
 
 1. **A-to-B routing** with Yale-specific transport integration – you’ll finally know whether or not to wait for the shuttle
 2. **Dynamic visualization of campus spots** – you’ll know which butteries are near you and which dining halls are available
 3. Personalized tooling to help you **navigate your class schedule** faster than ever before.
+
+&nbsp;
+
+<div style="display: flex; justify-content: center">
+<kdb><img style="border-radius:3%" width="200" src=".github/imgs/demo.gif"/></kbd>
+</div>
+
+&nbsp;
 
 The following repository was written as part of Yale's Software Engineering class, and contains the most updated code on which the application relies.
 
