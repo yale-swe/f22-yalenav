@@ -2,9 +2,9 @@
 
 # YaleNav
 
-### 📱 A mobile app helping **yale** students explore and **navigate** campus seamlessly.
+### 📱 A mobile app helping **Yale** students explore and **navigate** campus seamlessly.
 
-YaleNav only vertically-integrated navigation system that offers three features most critical to student life:
+YaleNav is the only vertically-integrated navigation system that offers three features most critical to student life:
 
 1. **A-to-B routing** with Yale-specific transport integration – you’ll finally know whether or not to wait for the shuttle.
 2. **Dynamic visualization of campus spots** – you’ll know which butteries are near you and which dining halls are available.
@@ -36,6 +36,7 @@ The following repository was written as part of Yale's Software Engineering clas
 To get a sense of how we've organized the code in front- and back-end, be sure to check out the following READMEs 👇
 
 - [Server](https://github.com/yale-swe/f22-yalenav/tree/main/server#readme)
+- [Client](https://github.com/yale-swe/f22-yalenav/tree/main/client#readme)
 
 ## Stack
 
@@ -72,7 +73,7 @@ Run `yarn install:all`. This will install all of the necessary npm packages.
 
 Open a terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine and the REST API on port `4000`. Keep this terminal open.
 
-Open another terminal window. Run `yarn dev:client`. This will serve the client on port `3000` using Expo Go. From there you'll get to choose whether you'd like to run it on web, ios, or android. After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app.
+Open another terminal window. Run `yarn dev:client`. This will serve the client on port `3000` using Expo Go. From there you'll get to choose whether you'd like to run it on web, iOS, or Android. After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app.
 
 # Acknowledgements
 
