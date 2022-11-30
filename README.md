@@ -12,15 +12,17 @@ YaleNav only vertically-integrated navigation system that offers three features 
 
 &nbsp;
 
+<kdb>
 <p align="center">
-<kdb><img style="border-radius:3%" width="200" src=".github/imgs/demo.gif"/></kbd>
+<img style="border-radius:3%" width="200" src=".github/imgs/demo.gif"/>
 </p>
+</kbd>
 
 &nbsp;
 
 The following repository was written as part of Yale's Software Engineering class, and contains the most updated code on which the application relies.
 
-Code authors:
+👊 Code authors:
 
 - Kyle Zawadski
 - Vincent Schaffer
@@ -40,7 +42,7 @@ Code authors:
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
 
-YaleNav's software architecture is a variation of [MERN](https://www.mongodb.com/mern-stack).
+👨‍💻 YaleNav's software architecture is a variation of [MERN](https://www.mongodb.com/mern-stack).
 
 - [TypeScript](https://www.typescriptlang.org/) (Programming Language)
 - [React Native](https://reactnative.dev/) (Client-side Framework)
@@ -72,7 +74,7 @@ Open another terminal window. Run `yarn dev:client`. This will serve the client 
 
 # Acknowledgements
 
-YaleNav makes use of the following third-paty tools / APIs:
+YaleNav makes use of the following third-party tools / APIs:
 
 - [Passport CAS](https://github.com/yale-swe/passport-cas) –– for authentication and Yale student log in.
 - [Yalies.io](https://yalies.io/apidocs?) –– for developer-friendly interfaces when handling user information.
@@ -84,4 +86,4 @@ YaleNav makes use of the following third-paty tools / APIs:
 
 # Disclaimer
 
-It's a work in progress!
+🚧 W.I.P!
