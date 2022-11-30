@@ -24,7 +24,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
 }: ReactNativeMapInterface) => {
   // medium.com/quick-code/how-to-add-awesome-maps-to-a-react-native-app-%EF%B8%8F-fc7cbde9c7e9
   // https://mapstyle.withgoogle.com/
-  const mapStyle = require("./mapStyle.json");
+  const mapStyle = require("../../css/mapStyle.json");
   const [isNavigating, setIsNavigating] = useState(false);
   const [results, setResults] = useState<Results[]>();
 
