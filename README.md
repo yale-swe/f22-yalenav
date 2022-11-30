@@ -33,6 +33,10 @@ The following repository was written as part of Yale's Software Engineering clas
 
 # Development
 
+To get a sense of how we've organized the code in front- and back-end, be sure to check out the following READMEs 👇
+
+- [Server](https://github.com/yale-swe/f22-yalenav/tree/main/server#readme)
+
 ## Stack
 
 ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
