@@ -31,7 +31,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   // When the user changes the location, toggle off
   useEffect(() => {
     setIsNavigating(false);
-    centerOnEvent();
+    if (selectedLocation) centerOnEvent();
   }, [selectedLocation]);
 
   const passResults = (childData: Array<Results>) => {
