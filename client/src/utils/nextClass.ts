@@ -15,7 +15,7 @@ export const nextClass = (user: User | undefined) => {
 
     // get first letter of today
     const today = now.getDay().toString()[0];
-    const todayCourses = getTodayCourses(user.courses, DUMMY_TODAY);
+    const todayCourses = getTodayCourses(user.courses, today);
 
     // only care about courses happening today
     if (!todayCourses.length) {
@@ -34,7 +34,7 @@ export const nextClass = (user: User | undefined) => {
     // get soonest class happening after current time
     nextClass = coursesStartTimes
       .filter((c: any) => {
-        return DUMMY_TIME < c.startTime;
+        return currTime < c.startTime;
       })
       .sort((c1: any, c2: any) =>
         c1.startTime.localeCompare(c2.startTime)
