@@ -1,7 +1,7 @@
 import React from "react";
-import { render, screen } from "@testing-library/react-native";
+import { render } from "@testing-library/react-native";
 import { ReactNativeMap } from "../src/components/map/ReactNativeMap";
-import { mockWatson, mockCoords } from "./mockData/buildingMock";
+import { mockWatson, mockCoords } from "./mockData";
 
 jest.mock("react-native-maps", () => {
   const React = jest.requireActual("react");
