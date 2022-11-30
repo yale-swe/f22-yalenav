@@ -1,11 +1,8 @@
 # YaleNav Server
 
 ![Digital Ocean](https://img.shields.io/badge/Digital_Ocean-0080FF?style=for-the-badge&logo=DigitalOcean&logoColor=white)
-
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
-
 ![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
-
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 
 ☁️ Our server is currently deployed on [DigitalOcean](https://www.digitalocean.com/products/app-platform).
