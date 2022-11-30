@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
+import { sendLocationNotification } from "../../utils";
 import { RoutingMode, RoutingView } from "../routing/RoutingView";
 import MapBanner from "./MapBanner";
 
@@ -28,11 +31,49 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   // When the user changes the location, toggle off
   useEffect(() => {
     setIsNavigating(false);
+    if (selectedLocation) centerOnEvent();
   }, [selectedLocation]);
 
   const passResults = (childData: Array<Results>) => {
     setResults(childData);
     console.log(childData);
+  };
+
+  let mapRef = useRef();
+
+  const centerOnEvent = async () => {
+    if (mapRef && mapRef.current) {
+      const map = mapRef.current;
+      const latitude = origin?.latitude;
+      const longitude = origin?.longitude;
+      if (!origin) {
+        sendLocationNotification();
+      } else if (
+        origin &&
+        selectedLocation == undefined &&
+        latitude &&
+        longitude
+      ) {
+        (map as MapView).animateToRegion(
+          {
+            latitude,
+            longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          },
+          2000
+        );
+      } else if (origin && selectedLocation)
+        (map as MapView).fitToCoordinates([origin, selectedLocation.coords], {
+          edgePadding: {
+            top: 100,
+            right: 100,
+            bottom: 500,
+            left: 100,
+          },
+          animated: true,
+        });
+    }
   };
 
   return (
@@ -46,6 +87,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
         customMapStyle={mapStyle}
         zoomEnabled={true}
         testID="mapview-map"
+        ref={mapRef}
       >
         {selectedLocation && (
           <Marker
@@ -78,6 +120,33 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
             })}
         </>
       </MapView>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          position: "absolute",
+          bottom: "17%",
+          right: "5%",
+          alignSelf: "flex-end",
+          justifyContent: "space-between",
+          backgroundColor: "white",
+          borderWidth: 2,
+          borderRadius: 40,
+        }}
+      >
+        <TouchableOpacity onPress={centerOnEvent}>
+          <Text
+            style={{
+              paddingHorizontal: 8,
+              fontSize: 40,
+              color: YALE_HEX,
+              transform: [{ rotate: "225deg" }],
+            }}
+          >
+            ➤
+          </Text>
+        </TouchableOpacity>
+      </View>
       {selectedLocation ? (
         <MapBanner
           selectedLocation={selectedLocation}
