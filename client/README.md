@@ -30,9 +30,11 @@ You should be able to run this app on iOS, Android, or a simulator.
 ```
 
 At the this level, we store a number of files to keep the packages and dependencies that back our app in order.
-Notably, we declare all object models that our client will be using from our server, so that our system can interface with it seamlessly (recall that TypeScript is a strongly-typed programming language). We also add some of the testing set up files, and config files to esnure the app compiles correctly. It's worth noting that most of these are auto-generated, so aren't insightful with regards to the frontend's core functionality.
+Notably, we declare all object models (see `types.ts`) that our client will be using from our server, so that our system can interface with it seamlessly (recall that TypeScript is a strongly-typed programming language). We also add some of the testing set up files, and config files to ensure the app compiles correctly. Importantly, the top-level declaration of the React Native app is found in `App.tsx`, which in turn calls the lower-level layers of the app.
 
-For package management, we use `yarn`.
+It's worth noting that most of the other files are auto-generated (e.g., `app.json`, `tsconfig.json`, etc.), so aren't insightful with regards to the frontend's core functionality.
+
+As is the case with the server code, for package management, we use `yarn`.
 
 ### 🎨 Assets
 
@@ -59,7 +61,7 @@ We organize any raster files into the assets directory. This way we don't clog u
 
 ```
 
-The heart of our application. Any code held in constants refers to global variables that we use across the application. Any code held in css relates to our map and components' styling.
+The heart of our application. Any code held in `constants.ts` refers to global variables that we use across the application. Any code held in `css` relates to our map and components' styling.
 
 ### 🧭 Navigation
 
@@ -70,7 +72,7 @@ The heart of our application. Any code held in constants refers to global variab
 │   │ └── UnauthStack.tsx
 ```
 
-This portion of source code governs how our app licenses authenticated and unauthenticated users to navigate across the application, with either unlimited or limited access.
+This portion of source code governs how our app licenses authenticated and unauthenticated users to navigate across the application, with either unlimited or limited access. This is also the first layer called by the top-level `App.tsx` above.
 
 ### 📺 Contexts & Screens
 
@@ -85,7 +87,7 @@ This portion of source code governs how our app licenses authenticated and unaut
 ```
 
 While navigation helps limit views between unauthenticated and authenticated access to the app, it's both `contexts` and `screens` that determines _how_ they get authenticated, and _what_ they see when they do.
-In particular, the app is split up into four screens: one that allows them to sign in, one that renders the map, one that surfaces their profile, one that enables the user to manage their schedule.
+In particular, the app is split up into four screens: one that allows them to sign in (`SignInScreen.tsx`), one that renders the map (`HomeScreen.tsx`), one that surfaces their profile (`UserProfile.tsx`), and one that enables the user to manage their schedule (`EditSchedule.tsx`).
 
 ### 🧱 Components
 
@@ -153,4 +155,4 @@ As in our server, these files house some the complexities that are abstracted aw
 
 ```
 
-We use [jest](https://jestjs.io/) to test our front-end.
+As is the case with the backend, we use [jest](https://jestjs.io/) to test our frontend in order to make sure that each component in React Native is rendered correctly.
