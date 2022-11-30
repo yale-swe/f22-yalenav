@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import { searchResultStyle } from "../../css/styles";
 
 interface SearchResultInterface {
   obj: any;
@@ -26,23 +27,9 @@ export const SearchResult: React.FC<SearchResultInterface> = ({
         ]}
         onPress={() => onDoneSearch(obj)}
       >
-        <Text style={styles.resultTitle}>{title}</Text>
-        <Text style={styles.resultInfo}>{info}</Text>
+        <Text style={searchResultStyle.resultTitle}>{title}</Text>
+        <Text style={searchResultStyle.resultInfo}>{info}</Text>
       </Pressable>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  resultTitle: {
-    padding: "4%",
-    paddingBottom: 0,
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-  resultInfo: {
-    paddingTop: 0,
-    padding: "4%",
-    fontSize: 8,
-  },
-});

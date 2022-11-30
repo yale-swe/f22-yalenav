@@ -1,5 +1,13 @@
 import { StyleSheet } from "react-native";
 import { YALE_HEX } from "../constants";
+import { Dimensions } from "react-native";
+
+// constants used for MapBanner
+export const { width, height } = Dimensions.get("window");
+export const BANNER_HEIGHT = -height / 2.9;
+export const COLLAPSED_BANNER_HEIGHT = -height / 7;
+const CARD_HEIGHT = height / 4;
+const CARD_WIDTH = width;
 
 export const editScheduleStyle = StyleSheet.create({
   header: {
@@ -128,5 +136,227 @@ export const userProfileStyle = StyleSheet.create({
   },
   selection: {
     padding: 20,
+  },
+});
+
+export const mapBannerStyle = StyleSheet.create({
+  timeContainer: {
+    flex: 0.3,
+    padding: 20,
+    paddingLeft: 30,
+    flexDirection: "column",
+  },
+  timeText: {
+    alignSelf: "center",
+    fontWeight: "bold",
+    fontSize: 30,
+  },
+  stepsContainer: {
+    flex: 0.7,
+    alignSelf: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+  text: {
+    margin: 5,
+  },
+  line: {
+    width: 75,
+    height: 4,
+    backgroundColor: "grey",
+    alignSelf: "center",
+    borderRadius: 3,
+    marginTop: 15,
+  },
+  card: {
+    marginVertical: 40,
+    backgroundColor: "#FFF",
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    overflow: "hidden",
+    borderRadius: 20,
+  },
+  scrollView: {
+    zIndex: 1,
+    position: "absolute",
+    width: "100%",
+    height: height,
+    top: height,
+    backgroundColor: "white",
+    borderRadius: 25,
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+  },
+  button: {
+    position: "absolute",
+    bottom: "30%",
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: YALE_HEX,
+    width: "40%",
+    borderRadius: 10,
+    padding: 20,
+  },
+});
+
+export const navigationBarStyle = StyleSheet.create({
+  footer: {
+    zIndex: 999,
+    shadowColor: "black",
+    shadowRadius: 20,
+    marginTop: "197%",
+    flex: 1,
+    position: "absolute",
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+    width: "120%",
+    height: "100%",
+  },
+});
+
+export const courseListingStyle = StyleSheet.create({
+  listingComponent: {
+    paddingTop: 25,
+  },
+  listing: {
+    padding: 10,
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+    borderRadius: 10,
+    width: 300,
+    backgroundColor: "white",
+  },
+  listingHeader: {
+    width: "95%",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: "row",
+  },
+  listingHeaderCode: {
+    fontWeight: "bold",
+  },
+  listingHeaderSchedule: {
+    fontStyle: "normal",
+  },
+  listingHeaderDelete: { width: "10%" },
+  listingTitle: {
+    fontStyle: "italic",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  deleteListing: {
+    color: "red",
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+});
+
+export const scheduleFormStyle = StyleSheet.create({
+  container: {
+    padding: 60,
+    alignItems: "center",
+  },
+  form_title: {
+    textAlign: "center",
+    fontSize: 18,
+  },
+  searchComponent: {
+    padding: "2%",
+    paddingLeft: "4%",
+    flex: 1,
+  },
+  searchBar: {
+    elevation: 0,
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+    borderRadius: 40,
+    width: 300,
+    backgroundColor: "white",
+  },
+  resultsComponent: {
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255, 0.8)",
+  },
+  courseListings: {
+    padding: 10,
+  },
+});
+
+export const campusSpotsStyle = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "65%",
+  },
+});
+
+export const searchStyle = StyleSheet.create({
+  searchComponent: {
+    padding: "2%",
+    paddingLeft: "4%",
+    flex: 1,
+  },
+  searchBar: {
+    elevation: 0,
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+    borderRadius: 40,
+    backgroundColor: "white",
+  },
+  resultsComponent: {
+    paddingLeft: "4%",
+    paddingRight: "4%",
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255, 0.8)",
+  },
+});
+
+export const searchResultStyle = StyleSheet.create({
+  resultTitle: {
+    padding: "4%",
+    paddingBottom: 0,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  resultInfo: {
+    paddingTop: 0,
+    padding: "4%",
+    fontSize: 8,
+  },
+});
+
+export const spotButtonStyle = StyleSheet.create({
+  button: {
+    backgroundColor: "white",
+    padding: "4%",
+    marginHorizontal: "5%",
+    borderRadius: 40,
+    borderColor: YALE_HEX,
+    borderWidth: 2,
+  },
+  button_active: {
+    backgroundColor: YALE_HEX,
+  },
+  text_active: {
+    color: "white",
+  },
+  text: {
+    color: YALE_HEX,
+    alignSelf: "center",
+    fontSize: 12,
+  },
+});
+
+export const nextClassStyle = StyleSheet.create({
+  nextClass: {
+    padding: "2%",
+    backgroundColor: "white",
   },
 });

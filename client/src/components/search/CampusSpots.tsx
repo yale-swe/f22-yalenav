@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { Building } from "../../../types";
 import { SpotButton } from "./SpotButton";
+import { campusSpotsStyle } from "../../css/styles";
 
 interface CampusSpotsInterface {
   setBuildingsToRender: Function;
@@ -43,7 +44,7 @@ export const CampusSpots: React.FC<CampusSpotsInterface> = ({
   };
 
   return (
-    <View style={styles.header}>
+    <View style={campusSpotsStyle.header}>
       <SpotButton
         handleFilter={() => handleFilter("Colleges")}
         spotType="Colleges"
@@ -62,11 +63,3 @@ export const CampusSpots: React.FC<CampusSpotsInterface> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "65%",
-  },
-});

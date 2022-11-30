@@ -1,10 +1,11 @@
 import { Ionicons as Icon } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet } from "react-native";
+import { Alert } from "react-native";
 import { Button } from "react-native-elements";
 import { User } from "../../../types";
 import { YALE_HEX } from "../../constants";
 import { useAuth } from "../../contexts/Auth";
+import { nextClassStyle } from "../../css/styles";
 import { getUser, nextClass } from "../../utils";
 
 interface NextClassInterface {
@@ -52,7 +53,7 @@ export const NextClass: React.FC<NextClassInterface> = ({
   return (
     <Button
       testID="NextClassButton"
-      style={styles.nextClass}
+      style={nextClassStyle.nextClass}
       type="clear"
       icon={<Icon name="book-outline" size={24} color={YALE_HEX} />}
       onPress={() => {
@@ -61,10 +62,3 @@ export const NextClass: React.FC<NextClassInterface> = ({
     />
   );
 };
-
-const styles = StyleSheet.create({
-  nextClass: {
-    padding: "2%",
-    backgroundColor: "white",
-  },
-});
