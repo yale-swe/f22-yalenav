@@ -1,4 +1,20 @@
+import { Alert, Linking } from "react-native";
 import { Building, Course, LatLng } from "../../types";
+
+export const sendLocationNotification = () => {
+  Alert.alert(
+    "Please enable location in settings.",
+    "YaleNav needs your location to provide routing details. The estimated distance is using Yale University's approximate location.",
+    [
+      {
+        text: "Okay",
+        onPress: () => {
+          Linking.openURL("app-settings:");
+        },
+      },
+    ]
+  );
+};
 
 export const searchFilterCourses = (course: Course, searchTerm: String) => {
   // simplest algorithm around: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
