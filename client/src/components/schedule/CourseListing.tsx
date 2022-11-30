@@ -1,6 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { Course, User } from "../../../types";
-import { YALE_HEX } from "../../constants";
+import { courseListingStyle } from "../../css/styles";
 
 interface CourseListingInterface {
   user: User;
@@ -14,65 +14,30 @@ export const CourseListing: React.FC<CourseListingInterface> = ({
   editSchedule,
 }: CourseListingInterface) => {
   return (
-    <View style={styles.listingComponent}>
-      <View style={styles.listing}>
+    <View style={courseListingStyle.listingComponent}>
+      <View style={courseListingStyle.listing}>
         <View style={{ flexDirection: "row" }}>
-          <View style={styles.listingHeader}>
-            <Text style={styles.listingHeaderCode}>
+          <View style={courseListingStyle.listingHeader}>
+            <Text style={courseListingStyle.listingHeaderCode}>
               {course.course_code} •{" "}
             </Text>
-            <Text style={styles.listingHeaderSchedule}>{course.schedule}</Text>
+            <Text style={courseListingStyle.listingHeaderSchedule}>
+              {course.schedule}
+            </Text>
           </View>
-          <View style={styles.listingHeaderDelete}>
+          <View style={courseListingStyle.listingHeaderDelete}>
             <TouchableOpacity
               testID="DeleteCourse"
               onPress={() => {
                 editSchedule(user, course, "delete");
               }}
             >
-              <Text style={styles.deleteListing}>X</Text>
+              <Text style={courseListingStyle.deleteListing}>X</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={styles.listingTitle}>{course.title}</Text>
+        <Text style={courseListingStyle.listingTitle}>{course.title}</Text>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  listingComponent: {
-    paddingTop: 25,
-  },
-  listing: {
-    padding: 10,
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-    borderRadius: 10,
-    width: 300,
-    backgroundColor: "white",
-  },
-  listingHeader: {
-    width: "95%",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    flexDirection: "row",
-  },
-  listingHeaderCode: {
-    fontWeight: "bold",
-  },
-  listingHeaderSchedule: {
-    fontStyle: "normal",
-  },
-  listingHeaderDelete: { width: "10%" },
-  listingTitle: {
-    fontStyle: "italic",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  deleteListing: {
-    color: "red",
-    fontWeight: "bold",
-    fontSize: 17,
-  },
-});
