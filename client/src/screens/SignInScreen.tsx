@@ -1,8 +1,9 @@
 import type { StackScreenProps } from "@react-navigation/stack";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
+import { signInScreenStyle } from "../css/styles";
 
 type SignInProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -15,12 +16,12 @@ export default function SignInScreen({ route, navigation }: SignInProp) {
   };
 
   return (
-    <View style={styles.header}>
-      <View style={styles.view}>
-        <View style={styles.logo}>
+    <View style={signInScreenStyle.header}>
+      <View style={signInScreenStyle.view}>
+        <View style={signInScreenStyle.logo}>
           <Image style={{ width: 110, height: 120 }} source={Logo} />
         </View>
-        <Pressable style={styles.signIn} onPress={handleSignInPress}>
+        <Pressable style={signInScreenStyle.signIn} onPress={handleSignInPress}>
           <Text
             style={{
               fontWeight: "bold",
@@ -31,7 +32,7 @@ export default function SignInScreen({ route, navigation }: SignInProp) {
           </Text>
         </Pressable>
         <Pressable
-          style={styles.noSignIn}
+          style={signInScreenStyle.noSignIn}
           onPress={() => navigation.navigate("Home")}
         >
           <Text
@@ -47,50 +48,3 @@ export default function SignInScreen({ route, navigation }: SignInProp) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    paddingTop: "12%",
-    alignItems: "center",
-    flexDirection: "column",
-    flex: 1,
-    display: "flex",
-    backgroundColor: "white",
-  },
-  signIn: {
-    width: "75%",
-    padding: 20,
-    borderRadius: 5,
-    marginVertical: 5,
-    alignItems: "center",
-    backgroundColor: YALE_HEX,
-    marginBottom: 20,
-  },
-  noSignIn: {
-    width: "75%",
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 5,
-    alignItems: "center",
-    backgroundColor: "white",
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-  },
-  view: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    flexDirection: "column",
-    padding: 25,
-  },
-  logo: {
-    padding: 20,
-  },
-  back: {
-    color: YALE_HEX,
-    borderColor: YALE_HEX,
-    borderRadius: 40,
-    backgroundColor: "white",
-  },
-});

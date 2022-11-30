@@ -1,8 +1,7 @@
 import { SetStateAction, useEffect, useState } from "react";
-import { FlatList, Keyboard, StyleSheet, View } from "react-native";
+import { FlatList, Keyboard, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { Course, User } from "../../../types";
-import { YALE_HEX } from "../../constants";
 import {
   addCourseToSchedule,
   deleteCourseFromSchedule,
@@ -12,6 +11,7 @@ import {
 } from "../../utils";
 import { SearchResult } from "../search/SearchResult";
 import { CourseListing } from "./CourseListing";
+import { scheduleFormStyle } from "../../css/styles";
 
 interface ScheduleFormInterface {
   user: User;
@@ -90,7 +90,7 @@ export const ScheduleForm: React.FC<ScheduleFormInterface> = ({
     <View>
       <Searchbar
         autoCorrect={false}
-        style={styles.searchBar}
+        style={scheduleFormStyle.searchBar}
         inputStyle={{ fontSize: 13 }}
         placeholder="Search for a Yale course..."
         onChangeText={onChangeSearch}
@@ -98,7 +98,7 @@ export const ScheduleForm: React.FC<ScheduleFormInterface> = ({
       />
       {resultsVisible ? (
         <FlatList
-          style={styles.resultsComponent}
+          style={scheduleFormStyle.resultsComponent}
           data={filteredCourses}
           renderItem={({ item }) => (
             <SearchResult
@@ -123,34 +123,3 @@ export const ScheduleForm: React.FC<ScheduleFormInterface> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 60,
-    alignItems: "center",
-  },
-  form_title: {
-    textAlign: "center",
-    fontSize: 18,
-  },
-  searchComponent: {
-    padding: "2%",
-    paddingLeft: "4%",
-    flex: 1,
-  },
-  searchBar: {
-    elevation: 0,
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-    borderRadius: 40,
-    width: 300,
-    backgroundColor: "white",
-  },
-  resultsComponent: {
-    borderRadius: 20,
-    backgroundColor: "rgba(255,255,255, 0.8)",
-  },
-  courseListings: {
-    padding: 10,
-  },
-});

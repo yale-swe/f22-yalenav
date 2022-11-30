@@ -2,9 +2,9 @@ import { SetStateAction, useEffect, useState } from "react";
 import { FlatList, Keyboard, StyleSheet, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { Building } from "../../../types";
-import { YALE_HEX } from "../../constants";
 import { searchFilterBuildings } from "../../utils";
 import { SearchResult } from "./SearchResult";
+import { searchStyle } from "../../css/styles";
 
 interface SearchInterface {
   locations: Building[];
@@ -47,10 +47,10 @@ export const Search: React.FC<SearchInterface> = ({
   }, [searchQuery, queryComplete]);
 
   return (
-    <View style={styles.searchComponent}>
+    <View style={searchStyle.searchComponent}>
       <Searchbar
         autoCorrect={false}
-        style={styles.searchBar}
+        style={searchStyle.searchBar}
         inputStyle={{ fontSize: 13 }}
         placeholder="Search for a Yale Location..."
         onChangeText={onChangeSearch}
@@ -58,7 +58,7 @@ export const Search: React.FC<SearchInterface> = ({
       />
       {resultsVisible && (
         <FlatList
-          style={styles.resultsComponent}
+          style={searchStyle.resultsComponent}
           data={filteredLocations}
           renderItem={({ item }) => (
             <SearchResult
@@ -74,24 +74,3 @@ export const Search: React.FC<SearchInterface> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  searchComponent: {
-    padding: "2%",
-    paddingLeft: "4%",
-    flex: 1,
-  },
-  searchBar: {
-    elevation: 0,
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-    borderRadius: 40,
-    backgroundColor: "white",
-  },
-  resultsComponent: {
-    paddingLeft: "4%",
-    paddingRight: "4%",
-    borderRadius: 20,
-    backgroundColor: "rgba(255,255,255, 0.8)",
-  },
-});

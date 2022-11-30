@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { YALE_HEX } from "../../constants";
+import { Text, TouchableOpacity } from "react-native";
+import { spotButtonStyle } from "../../css/styles";
 
 interface SpotButtonInterface {
   handleFilter: Function;
@@ -17,14 +17,14 @@ export const SpotButton: React.FC<SpotButtonInterface> = ({
       onPress={() => handleFilter()}
       activeOpacity={0.5}
       style={[
-        styles.button,
-        buttonIsActive == spotType ? styles.button_active : null,
+        spotButtonStyle.button,
+        buttonIsActive == spotType ? spotButtonStyle.button_active : null,
       ]}
     >
       <Text
         style={[
-          styles.text,
-          buttonIsActive == spotType ? styles.text_active : null,
+          spotButtonStyle.text,
+          buttonIsActive == spotType ? spotButtonStyle.text_active : null,
         ]}
       >
         {spotType}
@@ -32,25 +32,3 @@ export const SpotButton: React.FC<SpotButtonInterface> = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "white",
-    padding: "4%",
-    marginHorizontal: "5%",
-    borderRadius: 40,
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-  },
-  button_active: {
-    backgroundColor: YALE_HEX,
-  },
-  text_active: {
-    color: "white",
-  },
-  text: {
-    color: YALE_HEX,
-    alignSelf: "center",
-    fontSize: 12,
-  },
-});

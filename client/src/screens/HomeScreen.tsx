@@ -2,7 +2,7 @@ import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, Text, View } from "react-native";
 import { Building, Course, LatLng } from "../../types";
 import { Map, NavigationBar, Search } from "../components";
 import { CampusSpots } from "../components/search/CampusSpots";
@@ -10,6 +10,7 @@ import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { RootStackParamList } from "../navigation/Navigation";
 import { collegesAbbr, diningHallAbbr, getCourseLocation } from "../utils";
+import { homeScreenStyle } from "../css/styles";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -91,7 +92,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
         origin={origin}
         buildings={buildingsToRender}
       />
-      <View style={styles.header}>
+      <View style={homeScreenStyle.header}>
         <View style={{ maxWidth: "80%" }}>
           <Search locations={buildings} selectLocation={selectLocation} />
           <View style={{ paddingLeft: "4%" }}>
@@ -114,7 +115,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
         </View>
         <View style={{ maxWidth: "20%", paddingTop: "2%" }}>
           <Pressable
-            style={styles.profile}
+            style={homeScreenStyle.profile}
             onPress={
               auth.authData
                 ? () => navigation.navigate("UserProfile")
@@ -137,22 +138,3 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    paddingTop: "12%",
-    flex: 1,
-    position: "absolute",
-    justifyContent: "space-between",
-  },
-  profile: {
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-    borderRadius: 40,
-    backgroundColor: "white",
-    fontSize: 10,
-    padding: "15%",
-    paddingVertical: "22%",
-  },
-});

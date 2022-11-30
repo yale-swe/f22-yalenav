@@ -1,14 +1,6 @@
 import * as Loc from "expo-location";
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Dimensions,
-  Linking,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, Linking, Pressable, Text, View } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -20,14 +12,13 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Building, LatLng, Results } from "../../../types";
-import { YALE_HEX } from "../../constants";
 import { computeDistance } from "../../utils";
-
-const { width, height } = Dimensions.get("window");
-const CARD_HEIGHT = height / 4;
-const CARD_WIDTH = width;
-const BANNER_HEIGHT = -height / 2.9;
-const COLLAPSED_BANNER_HEIGHT = -height / 7;
+import {
+  mapBannerStyle,
+  height,
+  BANNER_HEIGHT,
+  COLLAPSED_BANNER_HEIGHT,
+} from "../../css/styles";
 
 const sendSettingNotification = () => {
   Alert.alert(
@@ -195,12 +186,12 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
 
       return (
         <View style={{ flex: 1, flexDirection: "row" }}>
-          <View style={styles.timeContainer}>
-            <Text style={styles.timeText}>{Math.ceil(duration)}</Text>
-            <Text style={styles.timeText}>min</Text>
+          <View style={mapBannerStyle.timeContainer}>
+            <Text style={mapBannerStyle.timeText}>{Math.ceil(duration)}</Text>
+            <Text style={mapBannerStyle.timeText}>min</Text>
           </View>
 
-          <View style={styles.stepsContainer}>{navigationResults}</View>
+          <View style={mapBannerStyle.stepsContainer}>{navigationResults}</View>
         </View>
       );
     }
@@ -208,12 +199,12 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={[styles.scrollView, rBottomSheetStyle]}>
-        <View style={styles.line} />
+      <Animated.View style={[mapBannerStyle.scrollView, rBottomSheetStyle]}>
+        <View style={mapBannerStyle.line} />
         {selectedLocation && !isUserNavigating ? (
-          <View style={styles.card}>
-            <View style={styles.text}>
-              <Text style={styles.title}>{selectedLocation.name}</Text>
+          <View style={mapBannerStyle.card}>
+            <View style={mapBannerStyle.text}>
+              <Text style={mapBannerStyle.title}>{selectedLocation.name}</Text>
               <Text style={{ alignSelf: "center", fontSize: 15, padding: 5 }}>
                 {selectedLocation.address}
               </Text>
@@ -232,7 +223,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
               </Text>
             </View>
             <Pressable
-              style={styles.button}
+              style={mapBannerStyle.button}
               onPress={(r) => {
                 navigationHandler && navigationHandler();
                 setIsUserNavigating(true);
@@ -242,76 +233,13 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
             </Pressable>
           </View>
         ) : selectedLocation && isUserNavigating ? (
-          <ScrollView style={styles.card}>{displayDirections()}</ScrollView>
+          <ScrollView style={mapBannerStyle.card}>
+            {displayDirections()}
+          </ScrollView>
         ) : null}
       </Animated.View>
     </GestureDetector>
   );
 };
-
-const styles = StyleSheet.create({
-  timeContainer: {
-    flex: 0.3,
-    padding: 20,
-    paddingLeft: 30,
-    flexDirection: "column",
-  },
-  timeText: {
-    alignSelf: "center",
-    fontWeight: "bold",
-    fontSize: 30,
-  },
-  stepsContainer: {
-    flex: 0.7,
-    alignSelf: "center",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-  text: {
-    margin: 5,
-  },
-  line: {
-    width: 75,
-    height: 4,
-    backgroundColor: "grey",
-    alignSelf: "center",
-    borderRadius: 3,
-    marginTop: 15,
-  },
-  card: {
-    marginVertical: 40,
-    backgroundColor: "#FFF",
-    height: CARD_HEIGHT,
-    width: CARD_WIDTH,
-    overflow: "hidden",
-    borderRadius: 20,
-  },
-  scrollView: {
-    zIndex: 1,
-    position: "absolute",
-    width: "100%",
-    height: height,
-    top: height,
-    backgroundColor: "white",
-    borderRadius: 25,
-    borderColor: YALE_HEX,
-    borderWidth: 2,
-  },
-  button: {
-    position: "absolute",
-    bottom: "30%",
-    alignSelf: "center",
-    alignItems: "center",
-    backgroundColor: YALE_HEX,
-    width: "40%",
-    borderRadius: 10,
-    padding: 20,
-  },
-});
 
 export default MapBanner;
