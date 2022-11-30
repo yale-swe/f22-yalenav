@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   Dimensions,
-  Linking,
   Pressable,
   StyleSheet,
   Text,
@@ -21,28 +20,13 @@ import Animated, {
 } from "react-native-reanimated";
 import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
-import { computeDistance } from "../../utils";
+import { computeDistance, sendLocationNotification } from "../../utils";
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = height / 4;
 const CARD_WIDTH = width;
 const BANNER_HEIGHT = -height / 2.9;
 const COLLAPSED_BANNER_HEIGHT = -height / 7;
-
-const sendSettingNotification = () => {
-  Alert.alert(
-    "Please enable location in settings.",
-    "YaleNav needs your location to provide routing details. The estimated distance is using Yale University's approximate location.",
-    [
-      {
-        text: "Okay",
-        onPress: () => {
-          Linking.openURL("app-settings:");
-        },
-      },
-    ]
-  );
-};
 
 interface MapBannerInterface {
   selectedLocation: Building | undefined;
@@ -79,7 +63,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     // If the canAskAgain attribute is false then the user should be directed to the settings to change thier permissions
     // per expo-locations documentation
     if (!granted && !canAskAgain) {
-      sendSettingNotification();
+      sendLocationNotification();
 
       // Need to change in the future but couldn't tell when the user would redirect back from settings to the app so used a
       // timeout for 10 seconds and then prompt the user for permission again if they allow us the ability to ask again
