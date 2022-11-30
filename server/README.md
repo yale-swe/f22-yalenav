@@ -58,7 +58,7 @@ These help get our application up and running. It's worth noting that – aside 
 
 Often, functionality / data gets reused across the stack. From API-response parsing to building-footprint calculations, these files house some the complexities that (1) warrant implementation on the server-side, and (2) are intuitively abstracted from our routing handlers.
 
-### 🌐 Routes
+### 🌐 Routes (`routes`)
 
 ```
 │ ├── routes
@@ -73,7 +73,7 @@ Simple: each file in the `routes` module corresponds to the call a user makes as
 
 Given that some of the routs ultimately rely on third-party APIs, our system caches the data in our DB. You'll notice that for some of the routes (e.g. `buildings`), we add a check before the route walks over to our DB. This ensures that the API's data has already been fetched and stored – especially helpful during development (e.g. when making changes to our schema), or running the app locally.
 
-### 🤖 Schema
+### 🤖 Schema (`models`)
 
 ```
 │ ├── models
@@ -88,7 +88,7 @@ While we might've've opted to forgo using certain schemas in favour of the APIs'
 
 We use [mongoose](https://mongoosejs.com/docs/) to connect to our DB (modelled on [Mongo](https://www.mongodb.com/home)).
 
-### 📝 Testing
+### 📝 Testing (`tests`, `testUtils`)
 
 ```
 │ ├── tests
