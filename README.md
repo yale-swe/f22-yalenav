@@ -6,8 +6,8 @@
 
 YaleNav only vertically-integrated navigation system that offers three features most critical to student life:
 
-1. **A-to-B routing** with Yale-specific transport integration – you’ll finally know whether or not to wait for the shuttle
-2. **Dynamic visualization of campus spots** – you’ll know which butteries are near you and which dining halls are available
+1. **A-to-B routing** with Yale-specific transport integration – you’ll finally know whether or not to wait for the shuttle.
+2. **Dynamic visualization of campus spots** – you’ll know which butteries are near you and which dining halls are available.
 3. Personalized tooling to help you **navigate your class schedule** faster than ever before.
 
 &nbsp;
