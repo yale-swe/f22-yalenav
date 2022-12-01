@@ -1,18 +1,15 @@
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import React from "react";
-import { render, fireEvent, act, waitFor } from "@testing-library/react-native";
-
+import { Alert, View } from "react-native";
 import { NextClass } from "../src/components/shortcut/NextClass";
-
 import { getUser, nextClass } from "../src/utils";
+import { mockCourse } from "./mockData/courseMock";
+import { userCourse, userNoCourses } from "./mockData/usersMock";
+
 jest.mock("../src/utils", () => ({
   getUser: jest.fn(),
   nextClass: jest.fn(),
 }));
-import { Alert } from "react-native";
-
-import { View } from "react-native";
-import { mockCourse } from "./mockData/courseMock";
-import { userNoCourses, userCourse } from "./mockData/usersMock";
 
 const renderedComponent = async (user: any) => {
   // Mock getUser Function that is used in NextClass component
