@@ -92,6 +92,8 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
         origin={origin}
         buildings={buildingsToRender}
       />
+      <NavigationBar selectNextClass={selectNextClass} />
+
       <View style={homeScreenStyle.header}>
         <View style={{ maxWidth: "80%" }}>
           <Search locations={buildings} selectLocation={selectLocation} />
@@ -134,7 +136,6 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
           </Pressable>
         </View>
       </View>
-      <NavigationBar selectNextClass={selectNextClass} />
     </>
   );
 }

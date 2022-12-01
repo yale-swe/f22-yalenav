@@ -32,7 +32,7 @@ You should be able to run this app on iOS, Android, or a simulator.
 At the this level, we store a number of files to keep the packages and dependencies that back our app in order.
 Notably, we declare all object models (see `types.ts`) that our client will be using from our server, so that our system can interface with it seamlessly (recall that TypeScript is a strongly-typed programming language). We also add some of the testing set up files, and config files to ensure the app compiles correctly. Importantly, the top-level declaration of the React Native app is found in `App.tsx`, which in turn calls the lower-level layers of the app.
 
-It's worth noting that most of the other files are auto-generated (e.g., `app.json`, `tsconfig.json`, etc.), so aren't insightful with regards to the frontend's core functionality.
+It's worth noting that most of the other files are auto-generated (e.g., `app.json`, `tsconfig.json`, etc.), so they aren't insightful with regards to the frontend's core functionality.
 
 As is the case with the server code, for package management, we use `yarn`.
 
