@@ -22,16 +22,16 @@ interface BuildingsV2Object {
   LONGITUDE?: Number;
 }
 
-const BUILDINGSV2ENDPOINT = `https://gw.its.yale.edu/soa-gateway/buildings/v2/feed?apikey=${YALE_BUILDINGS_AUTH}&type=json`;
+export const BUILDINGSV2ENDPOINT = `https://gw.its.yale.edu/soa-gateway/buildings/v2/feed?apikey=${YALE_BUILDINGS_AUTH}&type=json`;
 
-export const getBuildings = async (): Promise<typeof Building[]> => {
+export const getBuildings = async (): Promise<
+  typeof Building[] | undefined
+> => {
   // get ref to building polygon mapping
   const buildingTiles: BuildingTiles = getPolygons();
   // https://stackoverflow.com/questions/8515872/simple-api-calls-with-node-js-and-express
-  return new Promise((resolve, reject) => {
-    request(BUILDINGSV2ENDPOINT, async (err, response, body) => {
-      if (err || response.statusCode !== 200) reject(err);
-
+  return new Promise((resolve, _reject) => {
+    request(BUILDINGSV2ENDPOINT, async (_err, _response, body) => {
       //parse the response based in interface
       let buildingsList: BuildingsV2Object[] =
         JSON.parse(body).ServiceResponse.Buildings;

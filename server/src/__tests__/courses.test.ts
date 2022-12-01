@@ -5,8 +5,6 @@ import { connectMongoose, disconnectMongoose } from "../testUtils/mongoose";
 import { getCourses } from "../utils/coursetableCourses";
 
 describe("Courses Tests", () => {
-  let testCourses: typeof Course[] = [];
-
   const testCourse = {
     title: "Software Engineering",
     course_code: "CPSC 439",
@@ -19,7 +17,6 @@ describe("Courses Tests", () => {
   });
 
   afterEach(async () => {
-    await Promise.all(testCourses.map((course) => course.remove()));
     await disconnectMongoose();
   });
 
@@ -32,63 +29,65 @@ describe("Courses Tests", () => {
       // fetch courses from db
       const res = await request(app).get("/course");
       expect(res.status).toEqual(200);
+
       // check all are there
       expect(res.body.courses).toHaveLength(n);
+
       // check test course is there
       expect(
         res.body.courses.filter((c: any) => {
           return (
             c &&
             c.title == testCourse.title &&
-            c.course_code == testCourse.title &&
+            c.course_code == testCourse.course_code &&
             c.schedule == testCourse.schedule &&
             c.locations_summary == testCourse.locations_summary
           );
         })
       );
+
+      // fetch buildings from db
+      const res_cached = await request(app).get("/course");
+      expect(res_cached.status).toEqual(200);
+
+      // check that the DB has been loaded in (i.e. not empty!)
+      expect(res_cached.body.courses.length).toBeGreaterThan(0);
     });
   });
 
-  let netid: String = "vs399";
-  let valid_course_code: String = "CPSC 439";
+  let netid = "vs399";
+  let valid_course_code: String = "CPSC 422";
   let invalid_course_code: String = "CPSC 666";
 
   describe("Edit User Schedule", () => {
-    it("should add the valid course to their schedule", async () => {
+    it("Shouled seamlessly edit their schedules", async () => {
       // fetch user
       await request(app).get(`/user?netid=${netid}`);
-
-      const res = await request(app).post(
+      const res_add = await request(app).post(
         `/user?netid=${netid}&course_code=${valid_course_code}`
       );
-      expect(res.status).toEqual(201);
-      expect(res.body.user.courses).toHaveLength(1);
-    });
+      expect(res_add.status).toEqual(201);
+      expect(res_add.body.user.courses).toHaveLength(1);
 
-    it("should not add invalid course to their schedule", async () => {
       // fetch user
-      const res = await request(app).post(
+      const res_failed_add = await request(app).post(
         `/user?netid=${netid}&course_code=${invalid_course_code}`
       );
-      expect(res.status).toEqual(400);
-    });
+      expect(res_failed_add.status).toEqual(400);
 
-    it("should not add duplicate course to their schedule", async () => {
-      // fetch user
-      const res = await request(app).post(
+      // should not add duplicate course to their schedule
+      const res_failed_dup = await request(app).post(
         `/user?netid=${netid}&course_code=${valid_course_code}`
       );
-      expect(res.status).toEqual(400);
-    });
+      expect(res_failed_dup.status).toEqual(400);
 
-    it("should delete course from their schedule", async () => {
-      // fetch user
-      const res = await request(app).delete(
+      // should delete course from their schedule
+      const res_deleted = await request(app).delete(
         `/user?netid=${netid}&course_code=${valid_course_code}`
       );
-      expect(res.status).toEqual(201);
-      // same length
-      expect(res.body.user.courses).toHaveLength(0);
+      expect(res_deleted.status).toEqual(201);
+
+      expect(res_deleted.body.user.courses).toHaveLength(0);
     });
   });
 });

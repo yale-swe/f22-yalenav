@@ -7,9 +7,9 @@ const router = Router();
 module.exports = router;
 
 router.get("/", async (req: Request, res: Response) => {
-  const netid: string = req.query.netid.toString();
-  if (!netid)
+  if (!Object.keys(req.query).length)
     return res.status(400).send({ message: "Please provide a netid." });
+  const netid: string = req.query.netid.toString();
   let result = await User.find({ netid: netid });
   if (result.length !== 0) {
     let user = result[0];
