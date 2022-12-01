@@ -13,7 +13,7 @@ import { Alert } from "react-native";
 import { View } from "react-native";
 import { mockCourse } from "./mockData/courseMock";
 import { userNoCourses, userCourse } from "./mockData/usersMock";
-
+import { AuthProvider } from "../src/contexts/Auth";
 const renderedComponent = async (user: any) => {
   // Mock getUser Function that is used in NextClass component
   const mockedGetUser = jest.mocked(getUser);
@@ -23,7 +23,11 @@ const renderedComponent = async (user: any) => {
 
   await act(async () => {
     await waitFor(() => {
-      result = render(<NextClass selectNextClass={mockSelectNextClass} />);
+      result = render(
+        <AuthProvider>
+          <NextClass selectNextClass={mockSelectNextClass} />
+        </AuthProvider>
+      );
     });
   });
   fireEvent.press(result.getByTestId("NextClassButton"));

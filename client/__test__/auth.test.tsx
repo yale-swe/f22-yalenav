@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import { render, fireEvent, act, waitFor } from "@testing-library/react-native";
-import { AuthProvider } from "../src/contexts/Auth";
+import { AuthProvider, useAuth } from "../src/contexts/Auth";
 import SignInScreen from "../src/screens/SignInScreen";
 import { startAsync } from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -42,6 +42,17 @@ const renderScreen = async (component: any) => {
 };
 
 describe("Testing the Auth Component", () => {
+  test("Component not in AuthProvider calls useAuth", async () => {
+    const Component = () => {
+      useAuth();
+      return <></>;
+    };
+
+    expect(() => {
+      render(<Component />);
+    }).toThrow("useAuth must be used within an AuthProvider");
+  });
+
   test("Non-logged in user clicks on the sign in button and successfully logs into CAS", async () => {
     // Mock expo-auth-session's startAsync function and return a successful login message
     jest.mocked(startAsync).mockResolvedValue(result);
