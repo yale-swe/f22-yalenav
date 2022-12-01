@@ -79,7 +79,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   return (
     <>
       <MapView
-        style={{ alignSelf: "stretch", height: "125%" }}
+        style={{ alignSelf: "auto", height: "91%" }}
         provider={PROVIDER_GOOGLE}
         showsUserLocation={true}
         followsUserLocation={true}

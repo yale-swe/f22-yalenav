@@ -176,7 +176,11 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
             <Text style={mapBannerStyle.timeText}>min</Text>
           </View>
 
-          <View style={mapBannerStyle.stepsContainer}>{navigationResults}</View>
+          <View style={mapBannerStyle.stepsContainer}>
+            <View style={mapBannerStyle.directions}>
+              <ScrollView>{navigationResults}</ScrollView>
+            </View>
+          </View>
         </View>
       );
     }
@@ -218,9 +222,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
             </Pressable>
           </View>
         ) : selectedLocation && isUserNavigating ? (
-          <ScrollView style={mapBannerStyle.card}>
-            {displayDirections()}
-          </ScrollView>
+          <View style={mapBannerStyle.card}>{displayDirections()}</View>
         ) : null}
       </Animated.View>
     </GestureDetector>
