@@ -8,6 +8,7 @@ export const BANNER_HEIGHT = -height / 2.9;
 export const COLLAPSED_BANNER_HEIGHT = -height / 7;
 const CARD_HEIGHT = height / 4;
 const CARD_WIDTH = width;
+const MAX_PADDING_BUTTON = Math.max(15, height / 70);
 
 export const editScheduleStyle = StyleSheet.create({
   header: {
@@ -198,13 +199,13 @@ export const mapBannerStyle = StyleSheet.create({
   },
   button: {
     position: "absolute",
-    bottom: "30%",
+    bottom: height / 12,
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: YALE_HEX,
     width: "40%",
     borderRadius: 10,
-    padding: 20,
+    padding: MAX_PADDING_BUTTON,
   },
 });
 
