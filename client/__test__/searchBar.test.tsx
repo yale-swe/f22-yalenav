@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Search } from "../src/components/search/Search";
 import { Building } from "../types";
-import { mockWatson } from "./mockData/buildingMock";
+import { mockWatson } from "./mockData";
 
 const enterQuery = (query: string) => {
   const result = render(
