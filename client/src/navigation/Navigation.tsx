@@ -16,9 +16,7 @@ export const Navigation = () => {
   const auth = useAuth();
   return (
     <NavigationContainer>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        {auth.authData ? <AuthStack /> : <UnauthStack />}
-      </TouchableWithoutFeedback>
+      {auth.authData ? <AuthStack /> : <UnauthStack />}
     </NavigationContainer>
   );
 };

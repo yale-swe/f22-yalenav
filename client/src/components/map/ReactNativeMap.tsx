@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Text, View } from "react-native";
+import { Keyboard, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { Building, LatLng, Results } from "../../../types";
@@ -87,6 +87,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
         customMapStyle={mapStyle}
         zoomEnabled={true}
         testID="mapview-map"
+        onPress={Keyboard.dismiss}
         ref={mapRef}
       >
         {selectedLocation && (
