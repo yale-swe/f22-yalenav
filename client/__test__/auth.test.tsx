@@ -43,11 +43,13 @@ const renderScreen = async (component: any) => {
 
 describe("Testing the Auth Component", () => {
   test("Component not in AuthProvider calls useAuth", async () => {
+    // Create component that calls useAuth but is not in AuthProvider
     const Component = () => {
       useAuth();
       return <></>;
     };
 
+    // Auth.tsx should throw the following error
     expect(() => {
       render(<Component />);
     }).toThrow("useAuth must be used within an AuthProvider");
