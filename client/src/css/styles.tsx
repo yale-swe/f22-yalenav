@@ -1,6 +1,5 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { YALE_HEX } from "../constants";
-import { Dimensions } from "react-native";
 
 // constants used for MapBanner
 export const { width, height } = Dimensions.get("window");

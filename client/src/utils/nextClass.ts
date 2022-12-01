@@ -14,7 +14,15 @@ export const nextClass = (user: User | undefined) => {
     const now = new Date();
 
     // get first letter of today
-    const today = now.getDay().toString()[0];
+    const today = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ][now.getDay() - 1];
     const todayCourses = getTodayCourses(user.courses, today);
 
     // only care about courses happening today
@@ -73,8 +81,23 @@ const getCoursesStartTime = (courses: Course[]) => {
 const getTodayCourses = (courses: Course[], today: string) => {
   return courses.filter((c: Course) => {
     const courseDays = c.schedule.split(" ", 2)[0];
-    // check if course schedule includes today
-    return courseDays.includes(today);
+
+    // check if course schedule includes today -- all scenarios
+    if (courseDays === "TTh") return ["Tuesday", "Thursday"].includes(today);
+    else if (courseDays == "MW") return ["Monday", "Wednesday"].includes(today);
+    else if (courseDays == "MWF")
+      return ["Monday", "Wednesday", "Friday"].includes(today);
+    else if (courseDays == "M-F")
+      return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].includes(
+        today
+      );
+    else if (courseDays == "M") return ["Monday"].includes(today);
+    else if (courseDays == "T") return ["Tuesday"].includes(today);
+    else if (courseDays == "W") return ["Wednesday"].includes(today);
+    else if (courseDays == "Th") return ["Thursday"].includes(today);
+    else if (courseDays == "F") return ["Friday"].includes(today);
+
+    return false;
   });
 };
 
