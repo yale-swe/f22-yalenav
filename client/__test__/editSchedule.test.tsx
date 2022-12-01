@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { render, fireEvent, act, waitFor } from "@testing-library/react-native";
-import { mockCourse, mockCPSC323 } from "./mockData/courseMock";
-import { userCourse, userNoCourses } from "./mockData/usersMock";
+import { mockCourse, mockCPSC323, userCourse, userNoCourses } from "./mockData";
 import { ScheduleForm } from "../src/components";
 
 import {

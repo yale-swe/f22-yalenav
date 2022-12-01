@@ -1,8 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { MapBanner } from "../src/components/map/MapBanner";
-import { mockWatson } from "./mockData/buildingMock";
-import { mockResultWatson } from "./mockData/resultsMockData";
+import { mockWatson, mockResultWatson } from "./mockData";
 
 const mockNavigationHandler = () => {};
 

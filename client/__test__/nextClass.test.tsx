@@ -11,8 +11,7 @@ jest.mock("../src/utils", () => ({
 import { Alert } from "react-native";
 
 import { View } from "react-native";
-import { mockCourse } from "./mockData/courseMock";
-import { userNoCourses, userCourse } from "./mockData/usersMock";
+import { mockCourse, userCourse, userNoCourses } from "./mockData";
 
 const renderedComponent = async (user: any) => {
   // Mock getUser Function that is used in NextClass component
