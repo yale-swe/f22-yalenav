@@ -9,10 +9,10 @@ import { capitalizeWords } from "./general";
 // doublemap-application-programming-interface-api-3.pdf
 interface ShuttleStopObj {
   id: Number;
-  name: String;
-  description: String;
-  latitude?: Number;
-  longitude?: Number;
+  lat: Number;
+  lon: Number;
+  name?: String;
+  description?: String;
   buddy?: String;
   fields?: String;
 }
@@ -27,14 +27,19 @@ export const getStops = async (): Promise<typeof ShuttleStop[]> => {
 
       //parse the response based in interface
       let stopList: ShuttleStopObj[] =
-        JSON.parse(body).ServiceResponse;
+        JSON.parse(body);
 
       // console.log(body);
       // console.log(response);
-      console.log(body[0]);
+      // console.log(body);
+      // console.log("\n\n\n\n\n\n\n\n\n\n\n\n");
 
       // convert each buildings into Building instances
       let stops: typeof ShuttleStop[] = formatStops(stopList);
+
+
+
+      // console.log(stops);
 
       resolve(stops);
     });
@@ -46,7 +51,7 @@ const formatStops = (stopList: ShuttleStopObj[]): typeof ShuttleStop[] => {
   return stopList
     .filter((s: ShuttleStopObj) => {
       // ensure all have a latitude and longitude
-      return s.id && s.latitude && s.longitude;
+      return s.id && s.lat && s.lon;
     })
     .map((s: ShuttleStopObj) => formatStop(s));
 };
@@ -54,8 +59,8 @@ const formatStops = (stopList: ShuttleStopObj[]): typeof ShuttleStop[] => {
 const formatStop = (stop: ShuttleStopObj): any => {
   return new ShuttleStop({
     name: capitalizeWords(stop.name),
-    lat: stop.latitude,
-    lon: stop.longitude,
+    lat: stop.lat,
+    lon: stop.lon,
     id: stop.id,
   });
 };

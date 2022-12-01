@@ -57,6 +57,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
     axios
       .get<{ buildings: Building[] }>(`${BACKEND}/building`)
       .then((res) => {
+        // console.log(res.data.buildings);
         setBuildings(res.data.buildings);
       })
       .catch((err) => {

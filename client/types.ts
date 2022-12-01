@@ -15,7 +15,7 @@ export type Building = {
 };
 
 export type ShuttleStop = {
-  _id: number;
+  id: number;
   name: string;
   lat: number;
   lon: number;

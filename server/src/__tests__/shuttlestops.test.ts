@@ -39,8 +39,10 @@ describe("ShuttleStop Tests", () => {
       // fetch buildings from db
       const res = await request(app).get("/shuttlestop");
       expect(res.status).toEqual(200);
+
+      // console.log(res.body);
       // check all are there
-      expect(res.body.shuttlestop).toHaveLength(n);
+      expect(res.body.stops).toHaveLength(n);
     });
   });
 });

@@ -12,25 +12,11 @@ router.get("/", async (_req: Request, res: Response) => {
     res.send({ stops });
     return;
   }
-  // cache all buildings; add them all to db on start up
+  // cache all shuttlestops; add them all to db on start up
   let allStops: typeof ShuttleStop[] = await getStops();
   await ShuttleStop.create(allStops);
   stops = await ShuttleStop.find();
   res.send({ stops });
-});
-
-router.post("/", async (req: Request, res: Response) => {
-  const { name, address, abbreviation, lat, lon } = req.body;
-  const stop = await ShuttleStop.create({
-    name,
-    address,
-    abbreviation,
-    lat,
-    lon,
-  });
-  res.status(201).send({
-    stop,
-  });
 });
 
 export default router;
