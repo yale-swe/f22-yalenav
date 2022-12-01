@@ -192,7 +192,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
     .catch((err) => {
       console.log(err);
     });
-  }, []);
+  }, [routes]);
 
   useEffect(() => {
     axios
@@ -217,12 +217,14 @@ export const RoutingView: React.FC<RoutingInterface> = ({
 
   let [originStop, setOrigin] = useState<ShuttleStop>({ id: -1, lat: 0.0, lon: 0.0, name: ""});
   let [destStop, setDest] = useState<ShuttleStop>({ id: -1, lat: 0.0, lon: 0.0, name: ""}); 
-  let [routeId, setRouteID] = useState<number>(-1);
+  // let [routeId, setRouteID] = useState<number>(-1);
   let [routeLocations, setLocations] = useState<Array<LatLng>>([]);
   let [rideInfo, setRideInfo] = useState<{duration: number,
      distance: number, bus_id: number}>();
 
   let isShuttleRoute = mode == RoutingMode.shuttle;
+  
+  isShuttleRoute = true;
 
   function RideInfoCallback(info : {duration: number,
   distance: number, bus_id: number}) {
@@ -236,8 +238,6 @@ export const RoutingView: React.FC<RoutingInterface> = ({
     });
     }
 
-
-
   function callbackFunction(oS : ShuttleStop, dS : ShuttleStop, routeID : number,
      routeLocs : Array<number>, altOriginStation : ShuttleStop, altDestStation : ShuttleStop) {
         
@@ -249,7 +249,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
 
         setOrigin(oS);
         setDest(dS);
-        setRouteID(routeID);
+        // setRouteID(routeID);
 
         let locsArr = Array<LatLng>(Math.floor(routeLocations.length / 2));
         for (let i = 0; i < routeLocations.length; i += 2)
@@ -268,14 +268,17 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   // let destStopID = -1;
   // let routeId = -1;
   // let routeLocations : number[] = [];
-  
-  // useEffect(() => getShuttleRoute(routeOrigin, routeDestination, routes, shuttlestops, callbackFunction));
-  getShuttleRoute(routeOrigin, routeDestination, routes, shuttlestops, callbackFunction);
+  if (isShuttleRoute)
+    useEffect(() => {
+      getShuttleRoute(routeOrigin, routeDestination,
+        routes, shuttlestops, callbackFunction)
+      }, [routes, shuttlestops, routeOrigin, routeDestination]);
+  // getShuttleRoute(routeOrigin, routeDestination, routes, shuttlestops, callbackFunction);
     
   // let rideInfo = getRideInfoBetween(routeId, originStop._id, destStop._id);
 
 
-  isShuttleRoute = true;
+  // isShuttleRoute = true;
   
   // console.log(shuttlestops);
   // console.log(shuttlestops);
