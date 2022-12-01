@@ -140,6 +140,10 @@ export const userProfileStyle = StyleSheet.create({
 });
 
 export const mapBannerStyle = StyleSheet.create({
+  directions: {
+    height: "75%",
+    marginBottom: "25%",
+  },
   timeContainer: {
     flex: 0.3,
     padding: 20,
