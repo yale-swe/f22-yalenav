@@ -76,7 +76,7 @@ const getTodayCourses = (courses: Course[], today: string) => {
     const courseDays = c.schedule.split(" ", 2)[0];
     // either everyday, or one day
     return (
-      searchSubstring("-", courseDays) || searchSubstring(today, courseDays)
+      searchSubstring(courseDays, "-") || searchSubstring(courseDays, today)
     );
   });
 };
