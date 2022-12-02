@@ -1,5 +1,13 @@
 ![header](.github/imgs/header.png)
 
+---
+
+🚧 Please be patient as this repo is under construction over the next couple days.
+
+If you have any questions, reach out to vincent.schaffer@yale.edu.
+
+---
+
 # YaleNav
 
 ### 📱 A mobile app helping **Yale** students explore and **navigate** campus seamlessly.
