@@ -1,4 +1,5 @@
 import moment from "moment";
+import { searchSubstring } from ".";
 import { Building, Course, User } from "../../types";
 import { capitalizeWords } from "./general";
 
@@ -14,7 +15,7 @@ export const nextClass = (user: User | undefined) => {
     const now = new Date();
 
     // get first letter of today
-    const today = now.getDay().toString()[0];
+    const today = ["M", "T", "W", "Th", "F", "S", "Su"][now.getDay() - 1];
     const todayCourses = getTodayCourses(user.courses, today);
 
     // only care about courses happening today
@@ -73,8 +74,10 @@ const getCoursesStartTime = (courses: Course[]) => {
 const getTodayCourses = (courses: Course[], today: string) => {
   return courses.filter((c: Course) => {
     const courseDays = c.schedule.split(" ", 2)[0];
-    // check if course schedule includes today
-    return courseDays.includes(today);
+    // either everyday, or one day
+    return (
+      searchSubstring(courseDays, "-") || searchSubstring(courseDays, today)
+    );
   });
 };
 

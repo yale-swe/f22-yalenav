@@ -1,9 +1,10 @@
 import type { StackScreenProps } from "@react-navigation/stack";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
-import { RootStackParamList } from "../navigation/Navigation";
 import { signInScreenStyle } from "../css/styles";
+import { RootStackParamList } from "../navigation/Navigation";
 
 type SignInProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -21,7 +22,10 @@ export default function SignInScreen({ route, navigation }: SignInProp) {
         <View style={signInScreenStyle.logo}>
           <Image style={{ width: 110, height: 120 }} source={Logo} />
         </View>
-        <Pressable style={signInScreenStyle.signIn} onPress={handleSignInPress}>
+        <TouchableOpacity
+          style={signInScreenStyle.signIn}
+          onPress={handleSignInPress}
+        >
           <Text
             style={{
               fontWeight: "bold",
@@ -30,8 +34,8 @@ export default function SignInScreen({ route, navigation }: SignInProp) {
           >
             Sign In
           </Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={signInScreenStyle.noSignIn}
           onPress={() => navigation.navigate("Home")}
         >
@@ -43,7 +47,7 @@ export default function SignInScreen({ route, navigation }: SignInProp) {
           >
             Maybe Later
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

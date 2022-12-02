@@ -28,14 +28,15 @@ export const searchFilterCourses = (course: Course, searchTerm: String) => {
     : 0;
 };
 
+// simplest algorithm around: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
+export const searchSubstring = (str1: String, str2: String) => {
+  return str1.toUpperCase().indexOf(str2.toUpperCase()) > -1;
+};
+
 export const searchFilterBuildings = (
   location: Building,
   searchTerm: String
 ) => {
-  // simplest algorithm around: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
-  const searchSubstring = (str1: String, str2: String) => {
-    return str1.toUpperCase().indexOf(str2.toUpperCase()) > -1;
-  };
   // search across name, address, and abbreviation
   return searchTerm
     ? searchSubstring(location.name, searchTerm) ||
