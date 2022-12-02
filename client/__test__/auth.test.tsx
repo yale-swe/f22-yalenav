@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { render, fireEvent, act, waitFor } from "@testing-library/react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
+import axios from "axios";
+import { startAsync } from "expo-auth-session";
+import React from "react";
 import { AuthProvider, useAuth } from "../src/contexts/Auth";
 import SignInScreen from "../src/screens/SignInScreen";
-import { startAsync } from "expo-auth-session";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import UserProfile from "../src/screens/UserProfile";
-import { userNoCourses } from "./mockData/usersMock";
 import { getUser } from "../src/utils";
-import axios from "axios";
+import { userNoCourses } from "./mockData/usersMock";
 
 let mockNavigation: any = { navigate: jest.fn() };
 const mockRoute: any = {};
@@ -49,18 +49,23 @@ describe("Testing the Auth Component", () => {
       return <></>;
     };
 
+    // mock away error log
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => jest.fn());
+
     // Auth.tsx should throw the following error
     expect(() => {
       render(<Component />);
     }).toThrow("useAuth must be used within an AuthProvider");
+
+    // restore
+    consoleError.mockRestore();
   });
 
   test("Non-logged in user clicks on the sign in button and successfully logs into CAS", async () => {
     // Mock expo-auth-session's startAsync function and return a successful login message
     jest.mocked(startAsync).mockResolvedValue(result);
-
-    // Spy on AsyncStorage.setItem. This function is called in Auth.tsx at the end of a successful login flow
-    jest.spyOn(AsyncStorage, "setItem");
 
     // Render the Sign In screen
     const signInScreen = (
