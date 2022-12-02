@@ -26,42 +26,12 @@ return Math.abs(loc1.latitude - loc2.latitude) + Math.abs(loc1.longitude - loc2.
 }
 
 
-function getClosestShuttleStops(x: LatLng) {
-  // TODO
-  // query database for stops
-  checkStops();
-
-  let closestStops = new Array<ShuttleStop>(NUM_SEARCH_STOPS); // length 5
-  let closestStopIDs = new Array<Number>(NUM_SEARCH_STOPS); // length 5
-
-  for (let i = 0; i < NUM_SEARCH_STOPS; ++i) {
-    let closestStop : ShuttleStop = { id: -1, lat: 0.0, lon: 0.0, name: ""};
-    let minDist = Infinity;
-    
-    shuttlestops.forEach(stop => {
-      
-      if (!closestStopIDs.includes(stop._id)) {
-
-        let curDist = absDistance(locFromStop(stop), x);
-        if (curDist < minDist) {
-          minDist = curDist;
-          closestStop = stop;
-        }
-      }
-    });
-
-    closestStops[i] = closestStop;
-    closestStopIDs[i] = closestStop.id;
-  }
-
-  return closestStops;
-}
-
-
 function getShuttleRoute(origLoc : LatLng, endLoc : LatLng, 
   routes_response : Array<{id : number, path : number[], stops: number[]}>,
   shuttlestops : Map<Number, ShuttleStop>,
     callback : Function) {
+
+  console.log("this function was called");
   
     // let origStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
   // let destStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
@@ -73,12 +43,19 @@ function getShuttleRoute(origLoc : LatLng, endLoc : LatLng,
   let altOrig = -1;
   let altDest = -1;
 
-  if (shuttlestops.size == 0)
+  if (shuttlestops.size == 0) {
+    console.log("ShuttleStops not found.");
+    return;
+  }
+
+  if (routes_response.length == 0) {
+      console.log("Routes not found.");
       return;
+  }
     
   let minTotDist = Infinity;
 
-  console.log(routes_response);
+  // console.log(routes_response);
 
   routes_response.forEach(function (route:
      {id : number, path : number[], stops: number[]}) {
@@ -183,18 +160,26 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   //   isShuttleRoute = false;
 
   
+
   useEffect(() => {
+    // console.log("route effect goin");
     axios
     .get('https://yaleshuttle.doublemap.com/map/v2/routes')
-    .then((res) => {
-        setRoutes(res.data);
+    .then((res : {data : {id: number, path: number[], active: boolean, stops : number[]}[]}) => {
+        setRoutes(res.data.filter(
+          (value : {id: number, path: number[], active: boolean, stops: number[]}) => 
+              {return value.stops.length > 0 && value.active; 
+        }));
     })
     .catch((err) => {
       console.log(err);
     });
-  }, [routes]);
+  }, []);
+
+  setRoutes([]);
 
   useEffect(() => {
+    // console.log("shuttlestop effect goin");
     axios
     .get<{stops : ShuttleStop[]}>(`${BACKEND}/shuttlestop`)
     .then((res) => {
@@ -255,7 +240,9 @@ export const RoutingView: React.FC<RoutingInterface> = ({
         for (let i = 0; i < routeLocations.length; i += 2)
           locsArr[Math.floor(i / 2)] = {latitude: routeLocs[i], longitude: routeLocs[i + 1]};
         
-        setLocations(locsArr);
+        // useEffect(() => {
+          setLocations(locsArr);
+        // }, []);
 
         getRideInfoBetween(routeID, oS.id, dS.id, RideInfoCallback);
 
@@ -268,13 +255,15 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   // let destStopID = -1;
   // let routeId = -1;
   // let routeLocations : number[] = [];
-  if (isShuttleRoute)
-    useEffect(() => {
-      getShuttleRoute(routeOrigin, routeDestination,
-        routes, shuttlestops, callbackFunction)
-      }, [routes, shuttlestops, routeOrigin, routeDestination]);
-  // getShuttleRoute(routeOrigin, routeDestination, routes, shuttlestops, callbackFunction);
-    
+  // if (isShuttleRoute)
+  //   useEffect(() => {
+  //     getShuttleRoute(routeOrigin, routeDestination,
+  //       routes, shuttlestops, callbackFunction)
+  //     }, [routes, shuttlestops, routeOrigin, routeDestination]);
+
+  useEffect(() => {
+    getShuttleRoute(routeOrigin, routeDestination, routes, shuttlestops, callbackFunction);
+  }, ); // [routeOrigin, routeDestination]);
   // let rideInfo = getRideInfoBetween(routeId, originStop._id, destStop._id);
 
 
@@ -283,7 +272,9 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   // console.log(shuttlestops);
   // console.log(shuttlestops);
 
-  setLocations([routeOrigin, routeDestination]);
+  // useEffect(() => {
+  //   setLocations([routeOrigin, routeDestination]);
+  // }, []);
 
   return <Polyline
   coordinates={routeLocations} // Plot the bus route here!

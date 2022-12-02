@@ -29,17 +29,8 @@ export const getStops = async (): Promise<typeof ShuttleStop[]> => {
       let stopList: ShuttleStopObj[] =
         JSON.parse(body);
 
-      // console.log(body);
-      // console.log(response);
-      // console.log(body);
-      // console.log("\n\n\n\n\n\n\n\n\n\n\n\n");
-
       // convert each buildings into Building instances
       let stops: typeof ShuttleStop[] = formatStops(stopList);
-
-
-
-      // console.log(stops);
 
       resolve(stops);
     });

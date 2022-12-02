@@ -55,12 +55,12 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
             description={selectedLocation.abbreviation.toUpperCase()}
           />
         )}
-        {isNavigating && origin && selectedLocation ? (
+        {origin || (isNavigating && origin && selectedLocation) ? (
           <RoutingView
             routeOrigin={origin}
             routeDestination={{
-              latitude: selectedLocation.coords.latitude,
-              longitude: selectedLocation.coords.longitude,
+              latitude: yaleUni.latitude, // selectedLocation.coords.latitude,
+              longitude: yaleUni.longitude // selectedLocation.coords.longitude,
             }}
             resultHandler={passResults}
             mode={RoutingMode.walkonly}
