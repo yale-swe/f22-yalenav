@@ -1,10 +1,8 @@
 import React, { Component, useEffect, useState } from "react";
-import { Polyline } from "react-native-maps";
 import MapViewDirections, { MapDirectionsLegs}
  from "react-native-maps-directions";
-import axios from "axios";
-import { Building, LatLng, Results, ShuttleStop } from "../../../types";
-import { APIKEY, BACKEND, YALE_HEX } from "../../constants";
+import { LatLng, Results } from "../../../types";
+import { APIKEY, YALE_HEX } from "../../constants";
 import {ShuttleRouteView} from "./ShuttleRouteView";
 
 export const enum RoutingMode {
@@ -33,80 +31,58 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   
   // UI customizability can be added in here; whether you want
   // the lines to be thicker, a certain color, etc
-  let noneStop : ShuttleStop = { id: -1, lat: 0.0, lon: 0.0, name: ""};
+  let noneLoc : LatLng = {latitude: 0, longitude: 0};
 
-  let [useShuttle, setUseShuttle] = useState<boolean>(mode == RoutingMode.shuttle);
+  let [useShuttle, setUseShuttle] = useState<boolean>(false);
   let [shuttleInfo, setShuttleInfo] = useState<{
-    timeUntilStart: number, duration: number, originStop: ShuttleStop, destStop: ShuttleStop
-  }>({timeUntilStart: -1.0, duration: -1.0, originStop: noneStop, destStop: noneStop});
+    timeUntilStart: number, duration: number, originStopLoc: LatLng, destStopLoc: LatLng
+  }>({timeUntilStart: -1.0, duration: -1.0, originStopLoc: noneLoc, destStopLoc: noneLoc});
 
 
   function shuttleCallback(shouldUseShuttle : boolean, 
-    tshuttleInfo : {timeUntilStart: number, duration: number, originStop: ShuttleStop, destStop: ShuttleStop}) {
+    tshuttleInfo : {timeUntilStart: number, duration: number, originStopLoc: LatLng, destStopLoc: LatLng}) {
 
     setUseShuttle(shouldUseShuttle);
-    setShuttleInfo(tshuttleInfo);
+    shouldUseShuttle && setShuttleInfo(tshuttleInfo);
 
 
     return;
   }
 
-  // function RideInfoCallback(info : {duration: number,
-  // distance: number, bus_id: number}) {
-    
-  //   setRideInfo(info);
-    
-  //   results.push({
-  //     type: "SHUTTLE",
-  //     duration: info.duration,
-  //     distance: info.distance,
-  //   });
-  //   }
+  let shuttleView = (mode == RoutingMode.shuttle) ? (<ShuttleRouteView 
+    routeOrigin={routeOrigin}
+    routeDestination={routeDestination}
 
-  // function callbackFunction(oS : ShuttleStop, dS : ShuttleStop, routeID : number,
-  //    routeLocs : Array<number>, altOriginStation : ShuttleStop, altDestStation : ShuttleStop) {
-        
-  //     // console.log(oS, dS);
-  //     if (!dS || !oS || routeID == -1) {
-  //       isShuttleRoute = false;
-  //       return;
-  //     } 
+    // callback={shuttleCallback}
 
-  //       setOrigin(oS);
-  //       setDest(dS);
-  //       // setRouteID(routeID);
+    /*
 
-  //       let locsArr = Array<LatLng>(Math.floor(routeLocations.length / 2));
-  //       for (let i = 0; i < routeLocations.length; i += 2)
-  //         locsArr[Math.floor(i / 2)] = {latitude: routeLocs[i], longitude: routeLocs[i + 1]};
-        
-  //       // useEffect(() => {
-  //         setLocations(locsArr);
-  //       // }, []);
+    So, this callback function is supposed to work. It causes an infinite loop. I'm tired. If someone wants to fix it,
+    it'll allow Google Maps to route to the bus stop you need to get onto the bus on, and from where you get 
+    off to the destination.
 
-  //       getRideInfoBetween(routeID, oS.id, dS.id, RideInfoCallback);
+    */
 
-  //       return;
-  //     // Use the second-closest locations as alternatives -- for example, if you're
-  //     // in Morse and request the closest stop, you might get the PWG one. Maybe you want 
-  // }
 
-  return <ShuttleRouteView 
-      routeOrigin={routeOrigin}
-      routeDestination={routeDestination}
-      callback={shuttleCallback}
-    />
-  // Return a SECOND polyline -- do:
+  />) : (<></>);
 
-  // Polyline 1: FULL BUS ROUTE
-  // slightly translucent! It's not the route you're taking, but it shows the full route of the bus
+  if (mode == RoutingMode.shuttle)
+    return shuttleView;
+
+  // // Return a SECOND polyline -- do:
+
+  // // Polyline 1: FULL BUS ROUTE
+  // // slightly translucent! It's not the route you're taking, but it shows the full route of the bus
   
-  // Polyline 2 -- over Polyline 1: THE ROUTE YOU'RE TAKING, start stop to end
-  // Full color! You'll be on the bus along this route.
+  // // Polyline 2 -- over Polyline 1: THE ROUTE YOU'RE TAKING, start stop to end
+  // // Full color! You'll be on the bus along this route.
 
-  // Also find a way to display where the bus is along the route!! Use a box or something. Do it.
-  // It'll make things easier! 
-  // And make sure to keep them updated on the amount of time unitl the thing comes.
+  // // Also find a way to display where the bus is along the route!! Use a box or something. Do it.
+  // // It'll make things easier! 
+  // // And make sure to keep them updated on the amount of time unitl the thing comes.
+
+  //   if (mode == RoutingMode.shuttle)
+  //     return shuttleView;
 
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
@@ -114,7 +90,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
     <>
       <MapViewDirections
         origin={routeOrigin}
-        destination={isShuttleRoute ? locFromStop(originStop) : routeDestination}
+        destination={useShuttle ? shuttleInfo.originStopLoc : routeDestination}
         apikey={APIKEY}
         strokeColor="#FF0000"
         strokeWidth={4}
@@ -132,23 +108,11 @@ export const RoutingView: React.FC<RoutingInterface> = ({
         }}
       />
 
-      {isShuttleRoute && (
-        <Polyline
-          coordinates={routePath} // Plot the bus route here!
-          onLayout={(layout) => {
-            resultHandler &&
-              results.push({
-                type: "SHUTTLE",
-                duration: rideInfo.duration,
-                distance: rideInfo.distance,
-              });
-          }}
-        />
-      )}
+      {(useShuttle && shuttleView)}
 
-      {isShuttleRoute && (
+      {useShuttle && (
         <MapViewDirections
-          origin={locFromStop(destStop)}
+          origin={shuttleInfo.destStopLoc}
           destination={routeDestination}
           apikey={APIKEY}
           mode={"WALKING"} // if it's a shuttle route, it must be walking

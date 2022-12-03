@@ -63,7 +63,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
               longitude: yaleUni.longitude // selectedLocation.coords.longitude,
             }}
             resultHandler={passResults}
-            mode={RoutingMode.walkonly}
+            mode={RoutingMode.shuttle}
           />
         ) : null}
         <>

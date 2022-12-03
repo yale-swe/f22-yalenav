@@ -1,9 +1,18 @@
 
 import React, { Component, useEffect, useState } from "react";
-import { Polyline, Circle } from "react-native-maps";
+import { Polyline, Circle, Marker } from "react-native-maps";
 import axios from "axios";
 import { LatLng, Results, ShuttleStop } from "../../../types";
 import { BACKEND, YALE_HEX } from "../../constants";
+
+
+type Route = {
+    id: number,
+    path: number[],
+    active: boolean,
+    stops: number[],
+    color: string
+};
 
 function absDistance(loc1 : LatLng, loc2 : LatLng) {
     return Math.abs(loc1.latitude - loc2.latitude) + Math.abs(loc1.longitude - loc2.longitude);
@@ -14,18 +23,15 @@ function locFromStop(stop : ShuttleStop) {
 }
 
 function getShuttleRoute(origLoc : LatLng, endLoc : LatLng, 
-    routes_response : Array<{id : number, path : number[], stops: number[]}>,
+    routes_response : Array<Route>,
     shuttlestops : Map<Number, ShuttleStop>,
     callback : Function) {
 
-    console.log("this function was called");
-    
-    // let origStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
-    // let destStop : ShuttleStop = { _id: -1, lat: 0.0, lon: 0.0, name: ""};
     let origStop = -1;
     let destStop = -1;
     let routeId = -1;
     let routeLocations : number[] = [];
+    let routeColor : string = "";
     
     let altOrig = -1;
     let altDest = -1;
@@ -44,8 +50,7 @@ function getShuttleRoute(origLoc : LatLng, endLoc : LatLng,
 
     // console.log(routes_response);
 
-    routes_response.forEach(function (route:
-        {id : number, path : number[], stops: number[]}) {
+    routes_response.forEach(function (route: Route) {
     let minToDest = Infinity;
     let minToOrig = Infinity;
     let tOrigStop = -1;
@@ -84,23 +89,19 @@ function getShuttleRoute(origLoc : LatLng, endLoc : LatLng,
         minTotDist = minToDest + minToOrig;
 
         routeId = route.id;
+        routeColor = route.color;
         routeLocations = route.path;
         origStop = tOrigStop;
         destStop = tDestStop;
     }
 
-    // console.log(origStop, destStop);
-
     let ogS = shuttlestops.get(origStop);
     let dsS = shuttlestops.get(destStop);
     
-    callback(ogS, dsS, routeId, routeLocations, 
+    callback(ogS, dsS, routeId, routeColor, routeLocations, 
         shuttlestops.get(altOrig), shuttlestops.get(altDest));
 
     });
-    // }).catch(err => {
-    //   console.log(err);
-    // });
 }
 
 
@@ -108,15 +109,23 @@ function getRideInfoBetween(routeId: number, origStop: number,
             endStop: number, callback : Function) {
 
 
-    // axios.get('https://yaleshuttle.doublemap.com/map/v2/etas', {
-    //   params: {route: routeId}
-    // })
-    // .then(function (response) {
+    axios.get('https://yaleshuttle.doublemap.com/map/v2/etas', {
+      params: {route: routeId}
+    })
+    .then(function (response) {
 
     //   let bus_id = response.data.etas[origStop][0].bus_id;
+      let ogbus : {avg: number, bus_id: number} = response.data.etas[origStop][0];
     //   let duration = response.data.etas[endStop][0].avg - response.data.etas[origStop][0].avg;
-    //   callback({ duration: duration, distance: 0.0, bus_id: bus_id });
-    // });
+
+      let endTime = -1.0;
+      response.data.etas[endStop].forEach((bus : {avg : number, bus_id: number}) => {
+        if (bus.bus_id == ogbus.bus_id) 
+            endTime = bus.avg;
+        });
+
+      callback({ duration: endTime - ogbus.avg, tminus: ogbus.avg});
+    });
 }
 
 
@@ -137,24 +146,18 @@ interface ShuttleRouteInterface {
   
     let results: Array<Results> = [];
     let [shuttlestops, setStops] = useState(new Map<Number, ShuttleStop>());
-    let [routes, setRoutes] = useState(new Array<{id : number, path : number[], stops: number[]}>());
+    let [routes, setRoutes] = useState(new Array<Route>());
     
     // UI customizability can be added in here; whether you want
     // the lines to be thicker, a certain color, etc
-  
-    // if (originStop._id == destStop._id)
-    //   // closest 
-    //   isShuttleRoute = false;
-  
-    
   
     useEffect(() => {
       // console.log("route effect goin");
       axios
       .get('https://yaleshuttle.doublemap.com/map/v2/routes')
-      .then((res : {data : {id: number, path: number[], active: boolean, stops : number[]}[]}) => {
+      .then((res : {data : Route[]}) => {
           setRoutes(res.data.filter(
-            (value : {id: number, path: number[], active: boolean, stops: number[]}) => 
+            (value : Route) => 
                 {return value.stops.length > 0 && value.active; 
           }));
       })
@@ -191,33 +194,33 @@ interface ShuttleRouteInterface {
     let [destStop, setDest] = useState<ShuttleStop>({ id: -1, lat: 0.0, lon: 0.0, name: ""}); 
     let [routeId, setRouteID] = useState<number>(-1);
     let [routeLocations, setLocations] = useState<Array<LatLng>>([]);
+    let [routeColor, setRouteColor] = useState<string>("black");
     let [fullBusRoute, setFullBusRoute] = useState<Array<LatLng>>([]);
 
     let [busesCircles, setBusCircles] = useState<Array<LatLng>>([]);
     let [rideInfo, setRideInfo] = useState<{duration: number,
-       distance: number, bus_id: number}>();
+       distance: number, tminus: number}>({duration: -1,
+        distance: -1, tminus: -1});
   
     function RideInfoCallback(info : {duration: number,
-    distance: number, bus_id: number}) {
+    distance: number, tminus: number}) {
       
       setRideInfo(info);
       
-      results.push({
-        type: "SHUTTLE",
-        duration: info.duration,
-        distance: info.distance,
-      });
+    //   results.push({
+    //     type: "SHUTTLE",
+    //     duration: info.duration,
+    //     distance: info.distance,
+    //   });
       }
   
-    function callbackFunction(oS : ShuttleStop, dS : ShuttleStop, routeID : number,
+    function callbackFunction(oS : ShuttleStop, dS : ShuttleStop, routeID : number, routeColor : string,
        routeLocs : Array<number>, altOriginStation : ShuttleStop, altDestStation : ShuttleStop) {
           
         // console.log(oS, dS);
         if (!dS || !oS || routeID == -1) {
           return;
         } 
-
-        // console.log(locFromStop(oS));
   
         setOrigin(oS);
         setDest(dS);
@@ -225,13 +228,12 @@ interface ShuttleRouteInterface {
 
         let locsArr = Array<LatLng>(Math.floor(routeLocs.length / 2));
         for (let i = 0; i < routeLocs.length; i += 2) {
-            locsArr[Math.floor(i / 2)] = {latitude: routeLocs[i], longitude: routeLocs[i + 1]};
+            const ind = Math.floor(i / 2);
+            locsArr[ind] = {latitude: routeLocs[i], longitude: routeLocs[i + 1]};
         }
 
-        // useEffect(() => {
         setLocations(locsArr);
-        // }, []);
-        // console.log(routeLocs);
+        setRouteColor(routeColor);
 
         getRideInfoBetween(routeID, oS.id, dS.id, RideInfoCallback);
 
@@ -241,11 +243,8 @@ interface ShuttleRouteInterface {
     }
   
     useEffect(() => {
-        // console.log(routes.length);
-        // console.log(shuttlestops.size);
       getShuttleRoute(routeOrigin, routeDestination, routes, shuttlestops, callbackFunction);
-    }, [shuttlestops, routes]); // [routeOrigin, routeDestination]);
-    // let rideInfo = getRideInfoBetween(routeId, originStop._id, destStop._id);
+    }, [shuttlestops, routes]);
   
     useEffect(() => {
 
@@ -257,10 +256,6 @@ interface ShuttleRouteInterface {
                 (value : {id: number, route: number, lat: number, lon: number}) => 
                     {return value.route == routeId; 
                 });
-
-                
-                // console.log(res.data);
-                // console.log(locs);
 
                 let l : Array<LatLng> = [];
 
@@ -275,62 +270,53 @@ interface ShuttleRouteInterface {
             });
         }, 1000);
 
-        console.log(busesCircles);
-
         return () => clearInterval(interval);
 
     }, [routeId])
-
-    // isShuttleRoute = true;
-    
-    // console.log(shuttlestops);
-    // console.log(shuttlestops);
   
-    // useEffect(() => {
-    //   setLocations([routeOrigin, routeDestination]);
-    // }, []);
+    callback && callback(true, {timeUntilStart: rideInfo.tminus, duration: rideInfo.duration, 
+        originStopLoc: locFromStop(originStop), destStopLoc: locFromStop(destStop)});
 
-    // console.log(busesCircles);
-  
     return (
             <>
+
                 <Polyline
-                coordinates={routeLocations} // Plot the bus route here!
-                strokeWidth={2}
-                strokeColor="rgba(255,0,0,0.5)"/>
-
-                {/* <Polyline
-                    coordinates={[]}
+                    coordinates={routeLocations} // Plot the bus route here!
                     strokeWidth={4}
-                    strokeColor={'red'}
-                    fillColor="rgba(255,0,0,1.0)"
-                /> */}
-                
+                    strokeColor={routeColor}
+                />  
 
-                <Circle
-                    center={locFromStop(originStop)}
-                    radius={10}
-                    strokeWidth={5}
-                    strokeColor={"red"}
-                    fillColor={"red"}
+                <Marker
+                    coordinate = {locFromStop(originStop)}
+                    pinColor={"green"}
+                    // center={locFromStop(originStop)}
+                    // radius={10}
+                    // strokeWidth={5}
+                    // strokeColor={"red"}
+                    // fillColor={"red"}
                 />
 
                 {
-                    busesCircles.map((loc) => <Circle 
+                    busesCircles.map((loc, ind) => <Circle 
+                        key={ind}
                         center={loc}
                         radius={25}
                         strokeWidth={5}
-                        strokeColor={"red"}
-                        fillColor={"red"}
+                        strokeColor={"black"}
+                        fillColor={routeColor}
                     />)
-                    }
+                }
 
 
-                <Circle
-                    center={locFromStop(destStop)}
-                    radius={25}
-                    strokeColor={"red"}
+                <Marker // Circle
+                    coordinate = {locFromStop(destStop)}
+                    pinColor={"blue"}
+                    // center={locFromStop(destStop)}
+                    // radius={25}
+                    // strokeColor={"red"}
                 />
 
+                
+            
         </>);
 }
