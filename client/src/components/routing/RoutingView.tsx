@@ -22,27 +22,33 @@ export const RoutingView: React.FC<RoutingInterface> = ({
   // UI customizability can be added in here; whether you want
   // the lines to be thicker, a certain color, etc
 
-  const [isShuttleRoute, setIsShuttleRoute] = useState<boolean>(
-    mode == RoutingMode.shuttle
-  );
   const [route, setRoute] = useState<any>(undefined);
 
+  const [toShuttleRoute, setToShuttleRoute] = useState<Results>();
+  const [shuttleRoute, setShuttleRoute] = useState<Results>();
+  const [fromShuttleRoute, setFromShuttleRoute] = useState<Results>();
+
+  const [walkRoute, setWalkRoute] = useState<Results>();
+
   useEffect(() => {
+    const isShuttleRoute = mode == RoutingMode.shuttle;
     const handleShuttleRoute = async () => {
       let res = await getShuttleRouteBetween(routeOrigin, routeDestination);
-      console.log(res);
       setRoute(res);
     };
-    setIsShuttleRoute(mode == RoutingMode.shuttle);
-    if (isShuttleRoute) handleShuttleRoute();
-    else setRoute(undefined);
+    if (isShuttleRoute == true && resultHandler) {
+      handleShuttleRoute();
+      if (toShuttleRoute && shuttleRoute && fromShuttleRoute)
+        resultHandler([toShuttleRoute, shuttleRoute, fromShuttleRoute]);
+    } else if (resultHandler && walkRoute) {
+      setRoute(undefined);
+      resultHandler([walkRoute]);
+    }
   }, [mode]);
-
-  let results: Array<Results> = [];
 
   return (
     <>
-      {(!isShuttleRoute || !route) && (
+      {(!(mode == RoutingMode.shuttle) || !route) && (
         <MapViewDirections
           origin={routeOrigin}
           destination={routeDestination}
@@ -51,19 +57,17 @@ export const RoutingView: React.FC<RoutingInterface> = ({
           strokeWidth={4}
           mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
           onReady={(result) => {
-            resultHandler &&
-              results.push({
-                step: 0,
-                type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
-                duration: result.duration,
-                distance: result.distance,
-                legs: result.legs,
-              });
-            resultHandler && resultHandler(results);
+            setWalkRoute({
+              step: 0,
+              type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
+              duration: result.duration,
+              distance: result.distance,
+              legs: result.legs,
+            });
           }}
         />
       )}
-      {isShuttleRoute && route && (
+      {mode == RoutingMode.shuttle && route && (
         <>
           <MapViewDirections
             origin={routeOrigin}
@@ -71,18 +75,15 @@ export const RoutingView: React.FC<RoutingInterface> = ({
             apikey={APIKEY}
             strokeColor="#FF0000"
             strokeWidth={4}
-            mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
+            mode={"WALKING"}
             onReady={(result) => {
-              resultHandler &&
-                results.push({
-                  step: 0,
-                  type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
-                  duration: result.duration,
-                  distance: result.distance,
-                  legs: result.legs,
-                });
-              console.log(`Plain result:`, result);
-              resultHandler && resultHandler(results);
+              setToShuttleRoute({
+                step: 0,
+                type: "WALKING",
+                duration: result.duration,
+                distance: result.distance,
+                legs: result.legs,
+              });
             }}
           />
           <Polyline
@@ -90,14 +91,13 @@ export const RoutingView: React.FC<RoutingInterface> = ({
             strokeColor="#808080"
             strokeWidth={4}
             onLayout={(_layout) => {
-              resultHandler &&
-                results.push({
-                  step: 1,
-                  type: "SHUTTLE",
-                  routeName: route.routeName,
-                  duration: route.duration,
-                  distance: 0,
-                });
+              setShuttleRoute({
+                step: 1,
+                type: "SHUTTLE",
+                routeName: route.routeName,
+                duration: route.duration,
+                distance: 0,
+              });
             }}
           />
           <MapViewDirections
@@ -108,14 +108,13 @@ export const RoutingView: React.FC<RoutingInterface> = ({
             apikey={APIKEY}
             mode={"WALKING"} // if it's a shuttle route, it must be walking
             onReady={(result) => {
-              resultHandler &&
-                results.push({
-                  step: 2,
-                  type: "WALKING",
-                  duration: result.duration,
-                  distance: result.distance,
-                  legs: result.legs,
-                });
+              setFromShuttleRoute({
+                step: 2,
+                type: "WALKING",
+                duration: result.duration,
+                distance: result.distance,
+                legs: result.legs,
+              });
             }}
           />
         </>
