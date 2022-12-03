@@ -4,8 +4,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
-import { sendLocationNotification } from "../../utils";
-import { RoutingMode, RoutingView } from "../routing/RoutingView";
+import { RoutingMode, sendLocationNotification } from "../../utils";
+import { RoutingView } from "../routing/RoutingView";
 import MapBanner from "./MapBanner";
 
 // To get durations, route distance, etc; pass function to
@@ -107,7 +107,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
               longitude: selectedLocation.coords.longitude,
             }}
             resultHandler={passResults}
-            mode={RoutingMode.noshuttle}
+            mode={RoutingMode.shuttle}
           />
         ) : null}
         <>

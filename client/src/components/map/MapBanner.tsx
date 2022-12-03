@@ -1,11 +1,7 @@
 import * as Loc from "expo-location";
 import React, { useEffect, useState } from "react";
 import { Alert, Pressable, Text, View } from "react-native";
-import {
-  Gesture,
-  GestureDetector,
-  ScrollView,
-} from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -19,6 +15,7 @@ import {
   mapBannerStyle,
 } from "../../css/styles";
 import { computeDistance, sendLocationNotification } from "../../utils";
+import { DirectionsResultView } from "./DirectionsResultsView";
 
 interface MapBannerInterface {
   selectedLocation: Building | undefined;
@@ -141,49 +138,9 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
     };
   });
 
+  // format content within banner
   const displayDirections = () => {
-    if (results && results[0] && results[0].legs && results[0].legs[0].steps) {
-      const duration = results[0].duration;
-
-      const navigationResults = results[0].legs[0].steps.map(
-        (step: any, i: number) => {
-          // Replace all html tags with a space. Add a space because some tags don't have spaces between and causes the text to
-          // not have any space between.
-          let instructions = step.html_instructions.replace(
-            /(<([^>]+)>)/gi,
-            " "
-          );
-          // Replace mutliple spaces with a single space
-          instructions = instructions.replace(/\s\s+/g, " ");
-          instructions = instructions.replace("Restricted usage road", " ");
-          return (
-            <View key={i} style={{ flexDirection: "column" }}>
-              <Text style={{ alignSelf: "center", padding: 10 }}>
-                {instructions}
-              </Text>
-              <Text style={{ alignSelf: "center", padding: 5, color: "grey" }}>
-                {step.duration.text} ↓ {step.distance.text}
-              </Text>
-            </View>
-          );
-        }
-      );
-
-      return (
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <View style={mapBannerStyle.timeContainer}>
-            <Text style={mapBannerStyle.timeText}>{Math.ceil(duration)}</Text>
-            <Text style={mapBannerStyle.timeText}>min</Text>
-          </View>
-
-          <View style={mapBannerStyle.stepsContainer}>
-            <View style={mapBannerStyle.directions}>
-              <ScrollView>{navigationResults}</ScrollView>
-            </View>
-          </View>
-        </View>
-      );
-    }
+    return <DirectionsResultView results={results} />;
   };
 
   return (

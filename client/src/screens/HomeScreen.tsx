@@ -8,9 +8,9 @@ import { Map, NavigationBar, Search } from "../components";
 import { CampusSpots } from "../components/search/CampusSpots";
 import { BACKEND, YALE_HEX } from "../constants";
 import { useAuth } from "../contexts/Auth";
+import { homeScreenStyle } from "../css/styles";
 import { RootStackParamList } from "../navigation/Navigation";
 import { collegesAbbr, diningHallAbbr, getCourseLocation } from "../utils";
-import { homeScreenStyle } from "../css/styles";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -47,6 +47,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
           latitude: loc.coords.latitude,
           longitude: loc.coords.longitude,
         });
+        console.log("Pinpointed current location!");
       }
     } catch (error) {
       console.log(error);
