@@ -28,6 +28,7 @@ export type AuthData = {
 };
 
 export type Results = {
+  step: number;
   type: string;
   duration: number;
   distance: number;

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { LatLng, ShuttleStop } from "../../types";
 import { BACKEND } from "../constants";
-import { computeDistance } from "../utils/general";
 
 export const enum RoutingMode {
   shuttle,
@@ -194,4 +193,30 @@ export const getShuttleRouteBetween = async (origin: LatLng, dest: LatLng) => {
   });
   // return shortest
   return sortedRoutes[0];
+};
+
+// Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
+const computeDistance = (loc1: LatLng, loc2: LatLng): number => {
+  // The math module contains a function
+  // named toRadians which converts from
+  // degrees to radians.
+
+  let lon1 = (loc1.longitude * Math.PI) / 180;
+  let lon2 = (loc2.longitude * Math.PI) / 180;
+  let lat1 = (loc2.latitude * Math.PI) / 180;
+  let lat2 = (loc2.latitude * Math.PI) / 180;
+
+  // Haversine formula
+  let dlon = lon2 - lon1;
+  let dlat = lat2 - lat1;
+  let a =
+    Math.pow(Math.sin(dlat / 2), 2) +
+    Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
+
+  let c = 2 * Math.asin(Math.sqrt(a));
+
+  // Radius of earth in kilometers. Use 3956
+  // for miles
+  let r = 3956;
+  return c * r;
 };

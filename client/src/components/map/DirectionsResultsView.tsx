@@ -28,61 +28,70 @@ export const DirectionsResultView: React.FC<DirectionsResultViewInterface> = ({
           <View style={mapBannerStyle.stepsContainer}>
             <View style={mapBannerStyle.directions}>
               <ScrollView>
-                {results.map((result: any) => {
-                  console.log(result);
-                  if (result && result.type == "SHUTTLE") {
-                    return (
-                      <View style={{ flexDirection: "column" }}>
-                        <Text style={{ alignSelf: "center", padding: 10 }}>
-                          Hop on the shuttle... 🚎
-                        </Text>
-                        <Text
-                          style={{
-                            alignSelf: "center",
-                            padding: 5,
-                            color: "grey",
-                          }}
+                {results
+                  .sort((r1: Results, r2: Results) => {
+                    return r1.step > r2.step ? 1 : -1;
+                  })
+                  .map((result: any) => {
+                    console.log(result);
+                    if (result && result.type == "SHUTTLE") {
+                      return (
+                        <View
+                          key={result.distance} // no id yet
+                          style={{ flexDirection: "column" }}
                         >
-                          {result.routeName} ↓ {result.duration} min
-                        </Text>
-                      </View>
-                    );
-                  } else if (result && result.legs && result.legs[0].steps) {
-                    const navigationResults = result.legs[0].steps.map(
-                      (step: any, i: number) => {
-                        // Replace all html tags with a space. Add a space because some tags don't have spaces between and causes the text to
-                        // not have any space between.
-                        let instructions = step.html_instructions.replace(
-                          /(<([^>]+)>)/gi,
-                          " "
-                        );
-                        // Replace mutliple spaces with a single space
-                        instructions = instructions.replace(/\s\s+/g, " ");
-                        instructions = instructions.replace(
-                          "Restricted usage road",
-                          " "
-                        );
-                        return (
-                          <View key={i} style={{ flexDirection: "column" }}>
-                            <Text style={{ alignSelf: "center", padding: 10 }}>
-                              {instructions}
-                            </Text>
-                            <Text
-                              style={{
-                                alignSelf: "center",
-                                padding: 5,
-                                color: "grey",
-                              }}
-                            >
-                              {step.duration.text} ↓ {step.distance.text}
-                            </Text>
-                          </View>
-                        );
-                      }
-                    );
-                    return navigationResults;
-                  }
-                })}
+                          <Text style={{ alignSelf: "center", padding: 10 }}>
+                            Hop on the shuttle... 🚎
+                          </Text>
+                          <Text
+                            style={{
+                              alignSelf: "center",
+                              padding: 5,
+                              color: "grey",
+                            }}
+                          >
+                            {result.routeName} ↓ {result.duration} min
+                          </Text>
+                        </View>
+                      );
+                    } else if (result && result.legs && result.legs[0].steps) {
+                      const navigationResults = result.legs[0].steps.map(
+                        (step: any, i: number) => {
+                          // Replace all html tags with a space. Add a space because some tags don't have spaces between and causes the text to
+                          // not have any space between.
+                          let instructions = step.html_instructions.replace(
+                            /(<([^>]+)>)/gi,
+                            " "
+                          );
+                          // Replace mutliple spaces with a single space
+                          instructions = instructions.replace(/\s\s+/g, " ");
+                          instructions = instructions.replace(
+                            "Restricted usage road",
+                            " "
+                          );
+                          return (
+                            <View key={i} style={{ flexDirection: "column" }}>
+                              <Text
+                                style={{ alignSelf: "center", padding: 10 }}
+                              >
+                                {instructions}
+                              </Text>
+                              <Text
+                                style={{
+                                  alignSelf: "center",
+                                  padding: 5,
+                                  color: "grey",
+                                }}
+                              >
+                                {step.duration.text} ↓ {step.distance.text}
+                              </Text>
+                            </View>
+                          );
+                        }
+                      );
+                      return navigationResults;
+                    }
+                  })}
               </ScrollView>
             </View>
           </View>

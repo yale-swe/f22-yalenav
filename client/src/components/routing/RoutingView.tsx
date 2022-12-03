@@ -53,6 +53,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
           onReady={(result) => {
             resultHandler &&
               results.push({
+                step: 0,
                 type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
                 duration: result.duration,
                 distance: result.distance,
@@ -74,6 +75,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
             onReady={(result) => {
               resultHandler &&
                 results.push({
+                  step: 0,
                   type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
                   duration: result.duration,
                   distance: result.distance,
@@ -90,6 +92,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
             onLayout={(_layout) => {
               resultHandler &&
                 results.push({
+                  step: 1,
                   type: "SHUTTLE",
                   routeName: route.routeName,
                   duration: route.duration,
@@ -107,6 +110,7 @@ export const RoutingView: React.FC<RoutingInterface> = ({
             onReady={(result) => {
               resultHandler &&
                 results.push({
+                  step: 2,
                   type: "WALKING",
                   duration: result.duration,
                   distance: result.distance,
