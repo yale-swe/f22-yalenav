@@ -44,6 +44,7 @@ export const getDistance = (location1: Building, location2: Building) => {
   return Math.sqrt(Math.pow(latDelta, 2) + Math.pow(lonDelta, 2));
 };
 
+
 // Algorithm for computing disance between two points taken from: https://www.geeksforgeeks.org/program-distance-two-points-earth/
 export const computeDistance = (loc1: LatLng, loc2: LatLng): number => {
   // The math module contains a function
