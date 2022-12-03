@@ -221,7 +221,7 @@ interface ShuttleRouteInterface {
   
         setOrigin(oS);
         setDest(dS);
-        // setRouteID(routeID);
+        setRouteID(routeID);
 
         let locsArr = Array<LatLng>(Math.floor(routeLocs.length / 2));
         for (let i = 0; i < routeLocs.length; i += 2) {
@@ -249,25 +249,35 @@ interface ShuttleRouteInterface {
   
     useEffect(() => {
 
-        axios
-        .get('https://yaleshuttle.doublemap.com/map/v2/routes')
-        .then((res : {data : {id: number, route: number, lat: number, lon: number}[]}) => {
-            let locs = res.data.filter(
-            (value : {id: number, route: number, lat: number, lon: number}) => 
-                {return value.route == routeId; 
+        const interval = setInterval(() => {
+            axios
+            .get('https://yaleshuttle.doublemap.com/map/v2/buses')
+            .then((res : {data : {id: number, route: number, lat: number, lon: number}[]}) => {
+                let locs = res.data.filter(
+                (value : {id: number, route: number, lat: number, lon: number}) => 
+                    {return value.route == routeId; 
+                });
+
+                
+                // console.log(res.data);
+                // console.log(locs);
+
+                let l : Array<LatLng> = [];
+
+                locs.forEach((value) => {
+                    l.push({latitude: value.lat, longitude: value.lon});
+                });
+
+                setBusCircles(l);
+            })
+            .catch((err) => {
+                console.log(err);
             });
+        }, 1000);
 
-            let l : Array<LatLng> = [];
+        console.log(busesCircles);
 
-            locs.forEach((value) => {
-                l.push({latitude: value.lat, longitude: value.lon});
-            });
-
-            setBusCircles(l);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        return () => clearInterval(interval);
 
     }, [routeId])
 
@@ -279,18 +289,22 @@ interface ShuttleRouteInterface {
     // useEffect(() => {
     //   setLocations([routeOrigin, routeDestination]);
     // }, []);
+
+    // console.log(busesCircles);
   
-    return (<Polyline
+    return (
+            <>
+                <Polyline
                 coordinates={routeLocations} // Plot the bus route here!
                 strokeWidth={2}
-                strokeColor="rgba(255,0,0,0.5)">
+                strokeColor="rgba(255,0,0,0.5)"/>
 
-                <Polyline
+                {/* <Polyline
                     coordinates={[]}
                     strokeWidth={4}
                     strokeColor={'red'}
                     fillColor="rgba(255,0,0,1.0)"
-                />
+                /> */}
                 
 
                 <Circle
@@ -305,6 +319,9 @@ interface ShuttleRouteInterface {
                     busesCircles.map((loc) => <Circle 
                         center={loc}
                         radius={25}
+                        strokeWidth={5}
+                        strokeColor={"red"}
+                        fillColor={"red"}
                     />)
                     }
 
@@ -315,5 +332,5 @@ interface ShuttleRouteInterface {
                     strokeColor={"red"}
                 />
 
-        </Polyline>);
+        </>);
 }
