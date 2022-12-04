@@ -132,6 +132,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
       />
       {selectedLocation ? (
         <MapBanner
+          origin={origin}
           selectedLocation={selectedLocation}
           navigationHandler={() => {
             setIsNavigating(true);

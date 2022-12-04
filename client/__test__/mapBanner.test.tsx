@@ -1,13 +1,14 @@
+import { fireEvent, render } from "@testing-library/react-native";
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
 import { MapBanner } from "../src/components/map/MapBanner";
-import { mockWatson, mockResultWatson } from "./mockData";
+import { mockResultWatson, mockWatson } from "./mockData";
 
 const mockNavigationHandler = () => {};
 
 const clickDirectionButton = () => {
   const result = render(
     <MapBanner
+      origin={{ latitude: 41.3163083, longitude: -72.922607 }}
       selectedLocation={mockWatson}
       navigationHandler={mockNavigationHandler}
       results={mockResultWatson}

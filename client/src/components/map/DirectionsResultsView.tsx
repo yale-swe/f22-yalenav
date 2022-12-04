@@ -33,7 +33,6 @@ export const DirectionsResultView: React.FC<DirectionsResultViewInterface> = ({
                     return r1.step > r2.step ? 1 : -1;
                   })
                   .map((result: any) => {
-                    console.log(result);
                     if (result && result.type == "SHUTTLE") {
                       return (
                         <View

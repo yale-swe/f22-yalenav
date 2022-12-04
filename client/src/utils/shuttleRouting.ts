@@ -31,6 +31,7 @@ export const getShuttleStops = async () => {
     })
     .catch((err) => {
       console.log(err);
+      return [];
     });
 };
 
@@ -57,7 +58,6 @@ export const calculateTravelTime = (
   origStop: ShuttleStop,
   endStop: ShuttleStop,
   allStopsOnRoute: ShuttleStop[]
-  // etas: Map<string, any>
 ) => {
   return allStopsOnRoute.length;
 };
@@ -76,7 +76,36 @@ export const getRideInfoBetween = (
       },
     })
     .then(function (response) {
-      return {};
+      //   let bus_id = response.data.etas[origStop][0].bus_id;
+      if (!Array(response.data.etas).length) return 15;
+
+      const origStopEtas = response.data.etas[origStop.id];
+      if (
+        origStopEtas == undefined ||
+        origStopEtas[0] == undefined ||
+        origStopEtas[0].bus_id
+      )
+        return 15;
+
+      const busId = origStopEtas[0].bus_id;
+
+      const endStopEtas = response.data.etas[endStop.id];
+
+      const busIdEndStopArrival = endStopEtas.filter((eta: any) => {
+        return eta.bus_id != busId;
+      });
+
+      // The bus we're getting on takes us all the way there
+      if (busIdEndStopArrival.length) {
+        return busIdEndStopArrival[0].avg - origStopEtas[0].avg;
+      }
+
+      // Temporary: if we have to switch bus, assume whole ride is 15 mins
+      return 15;
+    })
+    .catch((err) => {
+      console.log(err);
+      return 15;
     });
 };
 
@@ -91,13 +120,11 @@ export const getClosestLatLng = (origin: LatLng, coords: LatLng[]) => {
 
 export const formatPath = (path: number[]): LatLng[] => {
   // format: [ 41.297862, -72.926627, 41.29785, ...]
-
   const slicePath = (path: number[]): number[][] => {
     let res = [];
     for (let i = 0; i < path.length; i += 2) res.push(path.slice(i, i + 2));
     return res;
   };
-
   return slicePath(path).map((coord: any) => {
     return { latitude: coord[0], longitude: coord[1] };
   });
@@ -139,40 +166,18 @@ export const getShuttleRouteBetween = async (origin: LatLng, dest: LatLng) => {
       }
 
       // naive: duration correlates with number of stops
-      const duration = calculateTravelTime(
+      let duration = await getRideInfoBetween(
+        route.id,
         closestToOrigin,
         closestToDest,
         stopsOnRoute
       );
 
+      if (duration == undefined) duration = 15;
+
       // get coordiantes of entire shuttle route
       const completeRoutePath = formatPath(route.path);
-      // get index of closest coordinate on route path
-      const closestToStart = getClosestLatLng(
-        { latitude: closestToOrigin.lat, longitude: closestToOrigin.lon },
-        completeRoutePath
-      );
-      let startCoord = 0;
-      for (let i = 0; i < completeRoutePath.length; i++) {
-        if (completeRoutePath[i] == closestToStart) startCoord = i;
-      }
-      const closestToEnd = getClosestLatLng(
-        { latitude: closestToDest.lat, longitude: closestToDest.lon },
-        completeRoutePath
-      );
-      let endCoord = 0;
-      for (let i = 0; i < completeRoutePath.length; i++) {
-        if (completeRoutePath[i] == closestToStart) endCoord = i;
-      }
 
-      // get coords along the user's path
-      let routePath: LatLng[] = [];
-      for (let i = 0; i < completeRoutePath.length; i++) {
-        let coord =
-          completeRoutePath[(startCoord + i) % completeRoutePath.length];
-        if (coord == closestToEnd) break;
-        routePath.push(coord);
-      }
       return {
         startStopCoords: {
           latitude: closestToOrigin.lat,
@@ -182,8 +187,8 @@ export const getShuttleRouteBetween = async (origin: LatLng, dest: LatLng) => {
           latitude: closestToDest.lat,
           longitude: closestToDest.lon,
         },
-        routeCoords: formatPath(route.path), // to change (cuurently, whole route. want, part of route)
-        duration: 15, // assume 15 or so mins for all
+        routeCoords: completeRoutePath, // to change (cuurently, whole route. want, part of route)
+        duration: duration, // assume 15 or so mins for all
         routeName: route.name,
       };
     });

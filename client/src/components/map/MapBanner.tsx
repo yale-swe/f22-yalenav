@@ -18,12 +18,14 @@ import { computeDistance, sendLocationNotification } from "../../utils";
 import { DirectionsResultView } from "./DirectionsResultsView";
 
 interface MapBannerInterface {
+  origin: LatLng | undefined;
   selectedLocation: Building | undefined;
   navigationHandler: Function | undefined;
   results: Array<Results> | undefined;
 }
 
 export const MapBanner: React.FC<MapBannerInterface> = ({
+  origin,
   selectedLocation,
   navigationHandler,
   results,
@@ -180,7 +182,20 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
           </View>
         ) : selectedLocation && isUserNavigating ? (
           <View style={mapBannerStyle.card}>{displayDirections()}</View>
-        ) : null}
+        ) : (
+          <View
+            style={{
+              margin: 20,
+            }}
+          >
+            <Text style={mapBannerStyle.title}>
+              We need your location for that...
+            </Text>
+            <Text style={{ alignSelf: "center", fontSize: 15, padding: 5 }}>
+              📍 Turn it on in settings.
+            </Text>
+          </View>
+        )}
       </Animated.View>
     </GestureDetector>
   );
