@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Keyboard } from "react-native";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
@@ -91,6 +92,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
         customMapStyle={mapStyle}
         zoomEnabled={true}
         testID="mapview-map"
+        onPress={Keyboard.dismiss}
         ref={mapRef}
       >
         {selectedLocation && (

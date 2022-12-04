@@ -2,12 +2,14 @@
   "expo": {
     "name": "YaleNav",
     "slug": "YaleNav",
+    "owner": "yalenav",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "com.yalenav.yalenav",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/yalenav.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,7 +28,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/yalenav-favicon.png"
+      "favicon": "./assets/yalenav.png"
     },
     "extra": {
       "eas": {
