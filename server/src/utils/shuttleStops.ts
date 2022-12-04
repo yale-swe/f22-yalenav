@@ -21,9 +21,8 @@ const SHUTTLESTOPENDPOINT = "https://yaleshuttle.doublemap.com/map/v2/stops";
 
 export const getStops = async (): Promise<typeof ShuttleStop[]> => {
   // https://stackoverflow.com/questions/8515872/simple-api-calls-with-node-js-and-express
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     request(SHUTTLESTOPENDPOINT, async (err, response, body) => {
-      if (err || response.statusCode !== 200) reject(err);
       //parse the response based in interface
       let stopList: ShuttleStopObj[] = JSON.parse(body);
       let stops: typeof ShuttleStop[] = formatStops(stopList);
