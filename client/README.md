@@ -6,9 +6,7 @@
 
 📱 Our app's client runs on Expo.
 
-To run a local instance of the server, make sure to follow the instructions in our main [README](https://github.com/yale-swe/f22-yalenav#readme).
-
-You should be able to run this app on iOS, Android, or a simulator.
+> ### Looking to run a local instance of the server? Follow the instructions in our main [README](https://github.com/yale-swe/f22-yalenav#readme).
 
 ---
 
@@ -29,7 +27,7 @@ You should be able to run this app on iOS, Android, or a simulator.
 └── yarn.lock
 ```
 
-At the this level, we store a number of files to keep the packages and dependencies that back our app in order.
+At this level, we store a number of files to keep the packages and dependencies that back our app in order.
 Notably, we declare all object models (see `types.ts`) that our client will be using from our server, so that our system can interface with it seamlessly (recall that TypeScript is a strongly-typed programming language). We also add some of the testing set up files, and config files to ensure the app compiles correctly. Importantly, the top-level declaration of the React Native app is found in `App.tsx`, which in turn calls the lower-level layers of the app.
 
 It's worth noting that most of the other files are auto-generated (e.g., `app.json`, `tsconfig.json`, etc.), so they aren't insightful with regards to the frontend's core functionality.
@@ -80,10 +78,10 @@ This portion of source code governs how our app licenses authenticated and unaut
 │   ├── contexts
 │   │   └── Auth.tsx
 │   ├── screens
-│   │ ├── EditSchedule.tsx
-│   │ ├── HomeScreen.tsx
-│   │ ├── SignInScreen.tsx
-│   │ └── UserProfile.tsx
+│   │   ├── EditSchedule.tsx
+│   │   ├── HomeScreen.tsx
+│   │   ├── SignInScreen.tsx
+│   │   └── UserProfile.tsx
 ```
 
 While navigation helps limit views between unauthenticated and authenticated access to the app, it's both `contexts` and `screens` that determines _how_ they get authenticated, and _what_ they see when they do.
@@ -93,26 +91,29 @@ In particular, the app is split up into four screens: one that allows them to si
 
 ```
 
-│   ├──  components
-│   │ ├── index.ts
-│   │ ├── map
-│   │ │ ├── MapBanner.tsx
-│   │ │ ├── Map.tsx
-│   │ │ └── ReactNativeMap.tsx
-│   │ ├── navigation-bar
-│   │ │ └── NavigationBar.tsx
-│   │ ├── routing
-│   │ │ └── RoutingView.tsx
-│   │ ├── schedule
-│   │ │ ├── CourseListing.tsx
-│   │ │ └── ScheduleForm.tsx
-│   │ ├── search
-│   │ │ ├── CampusSpots.tsx
-│   │ │ ├── SearchResult.tsx
-│   │ │ ├── Search.tsx
-│   │ │ └── SpotButton.tsx
-│   │ └── shortcut
-│   │ └── NextClass.tsx
+│   ├── components
+│   │   ├── index.ts
+│   │   ├── map
+│   │   │   ├── DirectionsResultsView.tsx
+│   │   │   ├── MapBanner.tsx
+│   │   │   ├── Map.tsx
+│   │   │   └── ReactNativeMap.tsx
+│   │   ├── navigation-bar
+│   │   │   ├── NavigationBar.tsx
+│   │   │   └── SideBar.tsx
+│   │   ├── routing
+│   │   │   └── RoutingView.tsx
+│   │   ├── schedule
+│   │   │   ├── CourseListing.tsx
+│   │   │   └── ScheduleForm.tsx
+│   │   ├── search
+│   │   │   ├── CampusSpots.tsx
+│   │   │   ├── SearchResult.tsx
+│   │   │   ├── Search.tsx
+│   │   │   └── SpotButton.tsx
+│   │   └── shortcut
+│   │       ├── NextClass.tsx
+│   │       └── ProfileButton.tsx
 
 ```
 
@@ -121,13 +122,14 @@ All the building blocks of YaleNav. There's a lot to go through so we'll spare g
 ### 🤲 Auxiliary (`utils`)
 
 ```
-│ └── utils
-│   ├── campusSpots.ts
-│   ├── courseHandlers.ts
-│   ├── general.ts
-│   ├── index.ts
-│   ├── nextClass.ts
-│   └── userHandlers.ts
+│   └── utils
+│       ├── campusSpots.ts
+│       ├── courseHandlers.ts
+│       ├── general.ts
+│       ├── index.ts
+│       ├── nextClass.ts
+│       ├── shuttleRouting.ts
+│       └── userHandlers.ts
 
 ```
 
@@ -137,22 +139,37 @@ As in our server, these files house some the complexities that are abstracted aw
 
 ```
 
-├── test
-│   ├──  base.test.tsx
-│   ├──  editSchedule.test.tsx
-│   ├──  mapBanner.test.tsx
-│   ├──  map.test.tsx
-│   ├──  mockData
-│   │ ├── buildingMock.ts
-│   │ ├── collegesMock.ts
-│   │ ├── courseMock.tsx
-│   │ ├── diningHallMock.ts
-│   │ ├── librariesMock.ts
-│   │ ├── resultsMockData.ts
-│   │ └── usersMock.ts
-│   ├──  nextClass.test.tsx
+├── __test__
+│   ├── auth.test.tsx
+│   ├── base.test.tsx
+│   ├── campusSpots.test.tsx
+│   ├── editSchedule.test.tsx
+│   ├── mapBanner.test.tsx
+│   ├── map.test.tsx
+│   ├── mockData
+│   │   ├── authContextMock.ts
+│   │   ├── buildingMock.ts
+│   │   ├── collegesMock.ts
+│   │   ├── courseMock.tsx
+│   │   ├── diningHallMock.ts
+│   │   ├── index.ts
+│   │   ├── librariesMock.ts
+│   │   ├── resultsMockData.ts
+│   │   └── usersMock.ts
+│   ├── navigation.test.tsx
+│   ├── nextClass.test.tsx
+│   ├── profileButton.test.tsx
+│   ├── routing.test.tsx
 │   └── searchBar.test.tsx
 
 ```
 
 As is the case with the backend, we use [jest](https://jestjs.io/) to test our frontend in order to make sure that each component in React Native is rendered correctly.
+
+> While our frontend was mainly QA tested, we strived to get a decent amount of coverage. Some components were tricky (read: virtually impossible) to test since they render child components variably, depending on the component's state (based on React's `useState`.) Since React should not be mocked away, these components appear to have less coverage (as with `RoutingView`, for instance.) This demanded for additional QA testing. If you have any suggestions for how to circumvent this issue, [please submit an issue](https://github.com/yale-swe/f22-yalenav/issues). We'd love to hear from you!
+
+<p align="center">
+<kbd>
+<img width="450" src="https://user-images.githubusercontent.com/40321598/205523376-95b4a1de-97f6-4d63-96e7-7b143ed626c6.png"/>
+</kbd>
+</p>
