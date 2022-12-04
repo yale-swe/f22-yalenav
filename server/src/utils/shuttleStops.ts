@@ -11,8 +11,8 @@ interface ShuttleStopObj {
   id: Number;
   name: String;
   description: String;
-  latitude?: Number;
-  longitude?: Number;
+  lat?: Number;
+  lon?: Number;
   buddy?: String;
   fields?: String;
 }
@@ -21,18 +21,12 @@ const SHUTTLESTOPENDPOINT = "https://yaleshuttle.doublemap.com/map/v2/stops";
 
 export const getStops = async (): Promise<typeof ShuttleStop[]> => {
   // https://stackoverflow.com/questions/8515872/simple-api-calls-with-node-js-and-express
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     request(SHUTTLESTOPENDPOINT, async (err, response, body) => {
-      if (err || response.statusCode !== 200) reject(err);
-
       //parse the response based in interface
-      let stopList: ShuttleStopObj[] =
-        JSON.parse(body).ServiceResponse.Buildings;
-
-      // convert each buildings into Building instances
-      let buildings: typeof ShuttleStop[] = formatStops(stopList);
-
-      resolve(buildings);
+      let stopList: ShuttleStopObj[] = JSON.parse(body);
+      let stops: typeof ShuttleStop[] = formatStops(stopList);
+      resolve(stops);
     });
   });
 };
@@ -42,7 +36,7 @@ const formatStops = (stopList: ShuttleStopObj[]): typeof ShuttleStop[] => {
   return stopList
     .filter((s: ShuttleStopObj) => {
       // ensure all have a latitude and longitude
-      return s.name && s.latitude && s.longitude;
+      return s.name && s.id && s.lat && s.lon;
     })
     .map((s: ShuttleStopObj) => formatStop(s));
 };
@@ -50,8 +44,8 @@ const formatStops = (stopList: ShuttleStopObj[]): typeof ShuttleStop[] => {
 const formatStop = (stop: ShuttleStopObj): any => {
   return new ShuttleStop({
     name: capitalizeWords(stop.name),
-    lat: stop.latitude,
-    lon: stop.longitude,
+    lat: stop.lat,
+    lon: stop.lon,
     id: stop.id,
   });
 };

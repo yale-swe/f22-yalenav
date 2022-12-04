@@ -1,32 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Polyline } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { LatLng, Results } from "../../../types";
 import { APIKEY } from "../../constants";
-
-export const enum RoutingMode {
-  shuttle,
-  noshuttle,
-  biking,
-}
-
-function getClosestShuttleStop(x: LatLng) {
-  // TODO
-  // query database for stops
-
-  return { stop: -1, loc: { longitude: 0.0, latitude: 0.0 } };
-}
-
-function getShuttleRouteBetween(origStop: Number, endStop: Number) {
-  // TODO
-  // Query DoubleMap API
-
-  return [];
-}
-
-function getRideInfoBetween(origStop: Number, endStop: Number) {
-  return { duration: 0.0, distance: 0.0 };
-}
+import { getShuttleRouteBetween, RoutingMode } from "../../utils";
 
 // routes between locations using specified mode
 interface RoutingInterface {
@@ -37,85 +14,111 @@ interface RoutingInterface {
 }
 
 export const RoutingView: React.FC<RoutingInterface> = ({
-  routeDestination: routeDestination,
   mode,
-  routeOrigin: routeOrigin,
-  resultHandler: resultHandler,
+  routeDestination,
+  routeOrigin,
+  resultHandler,
 }: RoutingInterface) => {
   // UI customizability can be added in here; whether you want
   // the lines to be thicker, a certain color, etc
 
-  let isShuttleRoute = mode == RoutingMode.shuttle;
-  let originStop = getClosestShuttleStop(routeOrigin);
-  let destStop = getClosestShuttleStop(routeDestination);
-  let lines = getShuttleRouteBetween(originStop.stop, destStop.stop);
-  let rideInfo = getRideInfoBetween(originStop.stop, destStop.stop);
+  const [isShuttleRoute, setIsShuttleRoute] = useState<boolean>(
+    mode == RoutingMode.shuttle
+  );
+  const [route, setRoute] = useState<any>(undefined);
+
+  useEffect(() => {
+    const handleShuttleRoute = async () => {
+      let res = await getShuttleRouteBetween(routeOrigin, routeDestination);
+      setRoute(res);
+    };
+    setIsShuttleRoute(mode == RoutingMode.shuttle);
+    if (isShuttleRoute) handleShuttleRoute();
+    results = [];
+  }, [mode]);
 
   let results: Array<Results> = [];
 
-  // TODO: implement mode switching
-  // Include bycicles, walking, and custom mode for routing.
-
-  let RoutingViews = (
+  return (
     <>
-      <MapViewDirections
-        origin={routeOrigin}
-        destination={isShuttleRoute ? originStop.loc : routeDestination}
-        apikey={APIKEY}
-        strokeColor="#FF0000"
-        strokeWidth={4}
-        mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
-        onReady={(result) => {
-          resultHandler &&
-            results.push({
-              type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
-              duration: result.duration,
-              distance: result.distance,
-              legs: result.legs,
-            });
-          console.log(`Plain result:`, result);
-          resultHandler && resultHandler(results);
-        }}
-      />
-
-      {isShuttleRoute && (
-        <Polyline
-          coordinates={[]} // Plot the bus route here!
-          onLayout={(layout) => {
-            resultHandler &&
-              results.push({
-                type: "SHUTTLE",
-                duration: rideInfo.duration,
-                distance: rideInfo.distance,
-              });
-          }}
-        />
-      )}
-
-      {isShuttleRoute && (
+      {(!isShuttleRoute || !route) && (
         <MapViewDirections
-          origin={destStop.loc}
+          origin={routeOrigin}
           destination={routeDestination}
           apikey={APIKEY}
-          mode={"WALKING"} // if it's a shuttle route, it must be walking
+          strokeColor="#FF0000"
+          strokeWidth={4}
+          mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
           onReady={(result) => {
             resultHandler &&
               results.push({
-                type: "WALKING",
+                step: 0,
+                type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
                 duration: result.duration,
                 distance: result.distance,
                 legs: result.legs,
               });
+            resultHandler && resultHandler(results);
           }}
         />
       )}
+      {isShuttleRoute && route && (
+        <>
+          <MapViewDirections
+            origin={routeOrigin}
+            destination={route.startStopCoords}
+            apikey={APIKEY}
+            strokeColor="#FF0000"
+            strokeWidth={4}
+            mode={mode == RoutingMode.biking ? "BICYCLING" : "WALKING"}
+            onReady={(result) => {
+              resultHandler &&
+                results.push({
+                  step: 0,
+                  type: mode == RoutingMode.biking ? "BICYCLING" : "WALKING",
+                  duration: result.duration,
+                  distance: result.distance,
+                  legs: result.legs,
+                });
+              console.log(`Plain result:`, result);
+              resultHandler && resultHandler(results);
+            }}
+          />
+          <Polyline
+            coordinates={route.routeCoords} // Plot the bus route here!
+            strokeColor="#808080"
+            strokeWidth={4}
+            onLayout={(_layout) => {
+              resultHandler &&
+                results.push({
+                  step: 1,
+                  type: "SHUTTLE",
+                  routeName: route.routeName,
+                  duration: route.duration,
+                  distance: 0,
+                });
+            }}
+          />
+          <MapViewDirections
+            origin={route.endStopCoords}
+            destination={routeDestination}
+            strokeColor="#FF0000"
+            strokeWidth={4}
+            apikey={APIKEY}
+            mode={"WALKING"} // if it's a shuttle route, it must be walking
+            onReady={(result) => {
+              resultHandler &&
+                results.push({
+                  step: 2,
+                  type: "WALKING",
+                  duration: result.duration,
+                  distance: result.distance,
+                  legs: result.legs,
+                });
+            }}
+          />
+        </>
+      )}
     </>
   );
-
-  // // Calls the result handler with the information; presented in
-  // // [{type, duration, distance}, {...}, ...]
-  // resultHandler && resultHandler(results);
-
-  return RoutingViews;
 };
-export default RoutingView;
