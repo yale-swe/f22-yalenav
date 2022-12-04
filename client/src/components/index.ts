@@ -1,5 +1,6 @@
 export { Map } from "./map/Map";
 export { NavigationBar } from "./navigation-bar/NavigationBar";
+export { SideBar } from "./navigation-bar/SideBar";
 export { RoutingView } from "./routing/RoutingView";
 export { ScheduleForm } from "./schedule/ScheduleForm";
 export { Search } from "./search/Search";
