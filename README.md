@@ -1,13 +1,5 @@
 ![header](.github/imgs/header.png)
 
----
-
-🚧 Please be patient as this repo is under construction over the next couple days.
-
-If you have any questions, reach out to vincent.schaffer@yale.edu.
-
----
-
 # YaleNav
 
 ### 📱 A mobile app helping **Yale** students explore and **navigate** campus seamlessly.
@@ -20,13 +12,24 @@ YaleNav is the only vertically-integrated navigation system that offers three fe
 
 &nbsp;
 
-<kdb>
 <p align="center">
-<img style="border-radius:3%" width="200" src=".github/imgs/demo.gif"/>
-</p>
+<kbd>
+<img width="200" src=".github/imgs/demo.gif"/>
 </kbd>
+</p>
 
 &nbsp;
+
+> ### Interested in trying the app out for yourself? 👇
+>
+> - **Send vincent.schaffer@yale.edu an email** –– he'll add you to our beta user group on Expo. You should get an invite via email within a few hours.
+> - In the meantime, **download [Expo Go](https://apps.apple.com/us/app/expo-go/id982107779)**. Once you've successfuly joined the beta user group, **sign into the app**.
+> - **Scan the QR code below, follow the link, and enjoy!** 🎉
+> <p align="center">
+> <img width="200" alt="Screen Shot 2022-12-04 at 18 06 40" src="https://user-images.githubusercontent.com/40321598/205521096-a5edf531-473b-4bda-9767-30dfcd7c547b.png">
+> </p>
+
+# Development
 
 The following repository was written as part of Yale's Software Engineering class, and contains the most updated code on which the application relies.
 
@@ -38,8 +41,6 @@ The following repository was written as part of Yale's Software Engineering clas
 - Jonathan Yu
 - Petru Neagu
 - Ali Hafez
-
-# Development
 
 To get a sense of how we've organized the code in front- and back-end, be sure to check out the following READMEs 👇
 
@@ -64,7 +65,7 @@ To get a sense of how we've organized the code in front- and back-end, be sure t
 - [MongoDB](https://www.mongodb.com/home) (NoSQL Database)
 - [Expo](https://expo.dev/) (Mobile App Platform)
 
-## Quick start
+## Quick start – 6 step set-up
 
 Running this app locally requires the following technologies:
 
@@ -73,17 +74,31 @@ Running this app locally requires the following technologies:
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 - [Expo Go](https://expo.dev/client)
 
-## Directions
-
 > **Note**: The following won't work without first installing the above!
 
-Run `yarn install:all`. This will install all of the necessary npm packages.
+1. Clone the repo with `git clone https://github.com/yale-swe/f22-yalenav.git`
 
-Open a terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine. Keep this terminal open.
+2. Run `yarn install:all` in the root directory (`f22-yalenav`). This will install all of the necessary npm packages.
 
-Open another terminal window and run `yarn dev:server`. This will run the REST API on port `4000`.
+3. In `client/src/constants.ts` change the IP address from the default (our DigitalOcean) to your own. You can find your IP in [system preferences](https://discussions.apple.com/thread/8421538) (or, alternatively on Mac, hold `Ctrl + Option` and click on the wifi icon at the top of your screen.) For an IP like `123.45.789.0`, the `BACKEND` look like this:
 
-Open another terminal window. Run `yarn dev:client`. This will serve the client on port `3000` using Expo Go. From there you'll get to choose whether you'd like to run it on web, iOS, or Android. After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app.
+```
+export const BACKEND = "http://123.45.789.0:4000";
+```
+
+4. Open a _first_ terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine. Keep this terminal open.
+
+5. Open a _second_ (and final) terminal window and run `yarn dev:server`. This will run the REST API on port `4000`.
+
+6. Open a _third_ (and final) terminal window. Run `yarn dev:client`. This will serve the client on your IP address (this is why we changed the `BACKEND` constant above) using [Expo Go](https://expo.dev/accounts/yalenav). From there you'll get to choose whether you'd like to run it on web, iOS, or Android simulators. This app will only work on iOS and Android. **We recommend that you simply scan the QR code provided in the terminal and run the app straight on your phone**.
+
+After you run these 6 steps, your IDE (if you use one) should look something like this...
+
+</kbd>
+<p align="center">
+<img width="1250" alt="Terminal" src="https://user-images.githubusercontent.com/40321598/205522764-1050c394-4472-4904-bcaa-e5a4b3119a03.png">
+</p>
+</kbd>
 
 # Acknowledgements
 
@@ -99,4 +114,4 @@ YaleNav makes use of the following third-party tools / APIs:
 
 # Disclaimer
 
-🚧 W.I.P!
+This is a W.I.P.! Any suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues) on our Github
