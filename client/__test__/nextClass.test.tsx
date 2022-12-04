@@ -5,6 +5,7 @@ import { NextClass } from "../src/components/shortcut/NextClass";
 import { getUser, nextClass } from "../src/utils";
 import { mockCourse } from "./mockData/courseMock";
 import { userCourse, userNoCourses } from "./mockData/usersMock";
+import { AuthProvider } from "../src/contexts/Auth";
 
 jest.mock("../src/utils", () => ({
   getUser: jest.fn(),
@@ -20,7 +21,11 @@ const renderedComponent = async (user: any) => {
 
   await act(async () => {
     await waitFor(() => {
-      result = render(<NextClass selectNextClass={mockSelectNextClass} />);
+      result = render(
+        <AuthProvider>
+          <NextClass selectNextClass={mockSelectNextClass} />
+        </AuthProvider>
+      );
     });
   });
   fireEvent.press(result.getByTestId("NextClassButton"));

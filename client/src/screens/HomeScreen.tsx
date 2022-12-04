@@ -2,11 +2,12 @@ import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Building, Course, LatLng } from "../../types";
 import { Map, NavigationBar, Search } from "../components";
 import { CampusSpots } from "../components/search/CampusSpots";
-import { BACKEND, YALE_HEX } from "../constants";
+import { ProfileButton } from "../components/shortcut/ProfileButton";
+import { BACKEND } from "../constants";
 import { useAuth } from "../contexts/Auth";
 import { homeScreenStyle } from "../css/styles";
 import { RootStackParamList } from "../navigation/Navigation";
@@ -116,26 +117,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
             />
           </View>
         </View>
-        <View style={{ maxWidth: "20%", paddingTop: "2%" }}>
-          <Pressable
-            style={homeScreenStyle.profile}
-            onPress={
-              auth.authData
-                ? () => navigation.navigate("UserProfile")
-                : () => navigation.navigate("SignInScreen")
-            }
-          >
-            <Text
-              style={{
-                color: YALE_HEX,
-                fontWeight: "bold",
-                fontSize: 12,
-              }}
-            >
-              {auth.authData ? auth.authData.netId.toString() : "Sign In"}
-            </Text>
-          </Pressable>
-        </View>
+        <ProfileButton navigation={navigation} route={route} />
       </View>
     </>
   );
