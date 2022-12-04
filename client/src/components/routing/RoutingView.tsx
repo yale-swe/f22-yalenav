@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Polyline } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
-import { LatLng, Results } from "../../../types";
+import { LatLng, Results, RoutingMode } from "../../../types";
 import { APIKEY } from "../../constants";
-import { getShuttleRouteBetween, RoutingMode } from "../../utils";
+import { getShuttleRouteBetween } from "../../utils";
 
 // routes between locations using specified mode
 interface RoutingInterface {
@@ -122,3 +122,5 @@ export const RoutingView: React.FC<RoutingInterface> = ({
     </>
   );
 };
+
+export default RoutingView;

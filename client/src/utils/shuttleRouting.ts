@@ -2,12 +2,6 @@ import axios from "axios";
 import { LatLng, ShuttleStop } from "../../types";
 import { BACKEND } from "../constants";
 
-export const enum RoutingMode {
-  shuttle,
-  noshuttle,
-  biking,
-}
-
 const SHUTTLE_ROUTE_ENDPOINT =
   "https://yaleshuttle.doublemap.com/map/v2/routes";
 const SHUTTLE_ETA_ENDPOINT = "https://yaleshuttle.doublemap.com/map/v2/eta";

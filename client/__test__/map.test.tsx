@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react-native";
 import React from "react";
-import { ReactNativeMap } from "../src/components/map/ReactNativeMap";
+import { Map } from "../src/components/map/Map";
 import { mockCoords, mockWatson } from "./mockData/buildingMock";
 
 jest.mock("react-native-maps", () => {
@@ -42,7 +42,7 @@ jest.mock("react-native-maps", () => {
 
 const renderMap = () => {
   const result = render(
-    <ReactNativeMap
+    <Map
       selectedLocation={mockWatson}
       origin={mockCoords}
       buildings={[mockWatson]}
