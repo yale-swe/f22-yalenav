@@ -17,6 +17,7 @@ export type Building = {
 
 export type ShuttleStop = {
   _id: number;
+  id: number;
   name: string;
   lat: number;
   lon: number;
@@ -27,9 +28,11 @@ export type AuthData = {
 };
 
 export type Results = {
+  step: number;
   type: string;
   duration: number;
   distance: number;
+  routeName?: string;
   legs?: MapDirectionsLegs;
 };
 
@@ -48,6 +51,6 @@ export type User = {
   school: String;
   year: String;
   curriculum: String;
-  college: String;
+  college?: String;
   courses?: Course[];
 };

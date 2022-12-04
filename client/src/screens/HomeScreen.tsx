@@ -2,16 +2,16 @@ import type { StackScreenProps } from "@react-navigation/stack";
 import axios from "axios";
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Alert, View } from "react-native";
 import { Building, Course, LatLng } from "../../types";
 import { Map, NavigationBar, Search } from "../components";
 import { CampusSpots } from "../components/search/CampusSpots";
-import { BACKEND, YALE_HEX } from "../constants";
+import { ProfileButton } from "../components/shortcut/ProfileButton";
+import { BACKEND } from "../constants";
 import { useAuth } from "../contexts/Auth";
+import { homeScreenStyle } from "../css/styles";
 import { RootStackParamList } from "../navigation/Navigation";
 import { collegesAbbr, diningHallAbbr, getCourseLocation } from "../utils";
-import { homeScreenStyle } from "../css/styles";
-import { ProfileButton } from "../components/shortcut/ProfileButton";
 
 type HomeProp = StackScreenProps<RootStackParamList, "Home">;
 
@@ -48,6 +48,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
           latitude: loc.coords.latitude,
           longitude: loc.coords.longitude,
         });
+        console.log("Pinpointed current location!");
       }
     } catch (error) {
       console.log(error);
@@ -116,7 +117,7 @@ export default function HomeScreen({ route, navigation }: HomeProp) {
             />
           </View>
         </View>
-        <ProfileButton navigation={navigation} />
+        <ProfileButton navigation={navigation} route={route} />
       </View>
     </>
   );

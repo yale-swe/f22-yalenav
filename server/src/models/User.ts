@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
   },
   college: {
     type: "string",
-    required: true,
+    required: false,
   },
   courses: [
     {

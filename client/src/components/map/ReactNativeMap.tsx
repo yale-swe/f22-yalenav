@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Keyboard, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Keyboard } from "react-native";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { Building, LatLng, Results } from "../../../types";
 import { YALE_HEX } from "../../constants";
-import { sendLocationNotification } from "../../utils";
-import { RoutingMode, RoutingView } from "../routing/RoutingView";
+import { RoutingMode, sendLocationNotification } from "../../utils";
+import { SideBar } from "../navigation-bar/SideBar";
+import { RoutingView } from "../routing/RoutingView";
 import MapBanner from "./MapBanner";
 
 // To get durations, route distance, etc; pass function to
@@ -27,12 +27,17 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
   const mapStyle = require("../../css/mapStyle.json");
   const [isNavigating, setIsNavigating] = useState(false);
   const [results, setResults] = useState<Results[]>();
+  const [shuttleEnabled, setShuttleEnabled] = useState(false);
+  const toggleSwitch = () =>
+    setShuttleEnabled((previousState) => !previousState);
 
   // When the user changes the location, toggle off
   useEffect(() => {
     setIsNavigating(false);
     if (selectedLocation) centerOnEvent();
   }, [selectedLocation]);
+
+  useEffect(() => {}, [shuttleEnabled]);
 
   const passResults = (childData: Array<Results>) => {
     setResults(childData);
@@ -108,7 +113,7 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
               longitude: selectedLocation.coords.longitude,
             }}
             resultHandler={passResults}
-            mode={RoutingMode.noshuttle}
+            mode={shuttleEnabled ? RoutingMode.shuttle : RoutingMode.noshuttle}
           />
         ) : null}
         <>
@@ -121,35 +126,15 @@ export const ReactNativeMap: React.FC<ReactNativeMapInterface> = ({
             })}
         </>
       </MapView>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          position: "absolute",
-          bottom: "17%",
-          right: "5%",
-          alignSelf: "flex-end",
-          justifyContent: "space-between",
-          backgroundColor: "white",
-          borderWidth: 2,
-          borderRadius: 40,
-        }}
-      >
-        <TouchableOpacity onPress={centerOnEvent}>
-          <Text
-            style={{
-              paddingHorizontal: 8,
-              fontSize: 40,
-              color: YALE_HEX,
-              transform: [{ rotate: "225deg" }],
-            }}
-          >
-            ➤
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <SideBar
+        origin={origin}
+        shuttleEnabled={shuttleEnabled}
+        toggleSwitch={toggleSwitch}
+        centerOnEvent={centerOnEvent}
+      />
       {selectedLocation ? (
         <MapBanner
+          origin={origin}
           selectedLocation={selectedLocation}
           navigationHandler={() => {
             setIsNavigating(true);

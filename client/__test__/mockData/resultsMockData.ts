@@ -1,5 +1,5 @@
-import { Results, LatLng } from "../../types";
 import { MapDirectionsLegs } from "react-native-maps-directions";
+import { Results } from "../../types";
 
 const mockWatsonLegs: MapDirectionsLegs = [
   {
@@ -31,7 +31,7 @@ export const mockResultWatson: Array<Results> = [
   {
     distance: 0.124,
     duration: 1.5666666666666667,
-
+    step: 1,
     type: "WALKING",
     legs: mockWatsonLegs,
   },
