@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Keyboard } from "react-native";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
-import { Building, LatLng, Results } from "../../../types";
+import { Building, LatLng, Results, RoutingMode } from "../../../types";
 import { YALE_HEX } from "../../constants";
-import { RoutingMode, sendLocationNotification } from "../../utils";
+import { sendLocationNotification } from "../../utils";
 import { SideBar } from "../navigation-bar/SideBar";
 import { RoutingView } from "../routing/RoutingView";
 import MapBanner from "./MapBanner";

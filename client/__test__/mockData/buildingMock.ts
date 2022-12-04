@@ -11,6 +11,7 @@ export const mockWatson: Building = {
     longitude: -72.92372,
   },
   name: "Watson Center",
+  type: "ACADEMIC",
   tile: [
     {
       latitude: 41.315903124652614,
@@ -88,6 +89,7 @@ export const hhMock: Building = {
     longitude: -72.923594,
   },
   name: "Hillhouse Ave,46",
+  type: "ACADEMIC",
   tile: [
     {
       latitude: 41.315116085598014,
@@ -141,6 +143,7 @@ export const roseHouseMock: Building = {
     longitude: -72.931056,
   },
   name: "Rose Alumni House",
+  type: "ACADEMIC",
   tile: [
     {
       latitude: 41.30994243803472,
@@ -178,6 +181,7 @@ export const evansHallMock: Building = {
     longitude: -72.923332,
   },
   name: "Evans Hall, Thomas M.",
+  type: "ACADEMIC",
   tile: [
     {
       latitude: 41.31566203457868,

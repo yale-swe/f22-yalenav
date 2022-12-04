@@ -54,3 +54,9 @@ export type User = {
   college?: String;
   courses?: Course[];
 };
+
+export const enum RoutingMode {
+  shuttle,
+  noshuttle,
+  biking,
+}
