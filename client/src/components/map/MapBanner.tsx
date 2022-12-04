@@ -180,7 +180,7 @@ export const MapBanner: React.FC<MapBannerInterface> = ({
               <Text style={{ color: "white" }}>Directions</Text>
             </Pressable>
           </View>
-        ) : selectedLocation && isUserNavigating ? (
+        ) : selectedLocation && isUserNavigating && origin ? (
           <View style={mapBannerStyle.card}>{displayDirections()}</View>
         ) : (
           <View
