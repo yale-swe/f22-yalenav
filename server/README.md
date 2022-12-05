@@ -69,7 +69,7 @@ Often, functionality / data gets reused across the stack. From API-response pars
 │ │ └── user.ts
 ```
 
-Simple: each file in the `routes` module corresponds to the call a user makes as they play around with our app. Here, the [Express](https://expressjs.com/) does a lot of the heavy-lifting.
+Simple: each file in the `routes` module corresponds to the call a user makes as they play around with our app. Here, [Express](https://expressjs.com/) does a lot of the heavy-lifting.
 
 Given that some of the routes ultimately rely on third-party APIs, our system caches the data in our DB. You'll notice that for some of the routes (e.g. `buildings`), we add a check before the route walks over to our DB. This ensures that the API's data has already been fetched and stored – especially helpful during development (e.g. when making changes to our schema), or running the app locally.
 
