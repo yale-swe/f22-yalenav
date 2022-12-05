@@ -118,4 +118,4 @@ YaleNav makes use of the following third-party tools / APIs:
 
 # Disclaimer
 
-This is a W.I.P.! Any suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues) on our Github
+This is a W.I.P.! Any suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues).
