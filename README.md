@@ -7,7 +7,7 @@
 YaleNav is the only vertically-integrated navigation system that offers three features most critical to student life:
 
 1. **A-to-B routing** with Yale-specific transport integration – you’ll finally know whether or not to wait for the shuttle.
-2. **Dynamic visualization of campus spots** – you’ll know which butteries are near you and which dining halls are available.
+2. **Dynamic visualization of campus spots** – you’ll know which colleges, libraries, and dining halls are near you.
 3. Personalized tooling to help you **navigate your class schedule** faster than ever before.
 
 &nbsp;
@@ -20,18 +20,16 @@ YaleNav is the only vertically-integrated navigation system that offers three fe
 
 &nbsp;
 
-> ### Interested in trying the app out for yourself? 👇
+> ### Interested in trying the app out for yourself?
 >
-> - **Send vincent.schaffer@yale.edu an email** –– he'll add you to our beta user group on Expo. You should get an invite via email within a few hours.
-> - In the meantime, **download [Expo Go](https://apps.apple.com/us/app/expo-go/id982107779)**. Once you've successfuly joined the beta user group, **sign into the app**.
-> - **Scan the QR code below, follow the link, and enjoy!** 🎉
+> - Send vincent.schaffer@yale.edu an email. He'll add you to our beta user group on Expo. You'll get an invite via email within a few hours.
+> - In the meantime, download [Expo Go](https://apps.apple.com/us/app/expo-go/id982107779). Once you've successfuly joined the beta user group, sign into the app.
+> - Scan the QR code below, follow the link, and enjoy! 🎉
 > <p align="center">
 > <img width="200" alt="Screen Shot 2022-12-04 at 18 06 40" src="https://user-images.githubusercontent.com/40321598/205521096-a5edf531-473b-4bda-9767-30dfcd7c547b.png">
 > </p>
 
 # Development
-
-The following repository was written as part of Yale's Software Engineering class, and contains the most updated code on which the application relies.
 
 👊 Code authors:
 
@@ -42,7 +40,7 @@ The following repository was written as part of Yale's Software Engineering clas
 - Petru Neagu
 - Ali Hafez
 
-To get a sense of how we've organized the code in front- and back-end, be sure to check out the following READMEs 👇
+We wrote this app as part of Yale's Software Engineering class. To get a sense of how we've organized the code, be sure to check out the following READMEs 👇
 
 - [Server](https://github.com/yale-swe/f22-yalenav/tree/main/server#readme)
 - [Client](https://github.com/yale-swe/f22-yalenav/tree/main/client#readme)
@@ -67,7 +65,7 @@ To get a sense of how we've organized the code in front- and back-end, be sure t
 
 ## CI/CD
 
-No likes a broken app. We've configured [Github Actions](https://github.com/yale-swe/f22-yalenav/actions) to automatically run tests (linting, `server` tests ,and `client` tests) on every PR and every commit to main.
+No one likes a broken app. We've configured [Github Actions](https://github.com/yale-swe/f22-yalenav/actions) to automatically run tests (linting, `server` tests ,and `client` tests) on every PR and every commit to main.
 
 ## Quick start – 6 step set-up
 
@@ -84,7 +82,7 @@ Running this app locally requires the following technologies:
 
 2. Run `yarn install:all` in the root directory (`f22-yalenav`). This will install all of the necessary npm packages.
 
-3. In `client/src/constants.ts` change the IP address from the default (our DigitalOcean) to your own. You can find your IP in [system preferences](https://discussions.apple.com/thread/8421538) (or, alternatively on Mac, hold `Ctrl + Option` and click on the wifi icon at the top of your screen.) For an IP like `123.45.789.0`, the `BACKEND` look like this:
+3. In `client/src/constants.ts`, change the IP address from the default (DigitalOcean deployment IP) to your own. You can find your IP in [system preferences](https://discussions.apple.com/thread/8421538) (or, alternatively on Mac, hold `Ctrl + Option` and click on the wifi icon at the top of your screen.) For an IP such as `123.45.789.0`, the `BACKEND` constant should look like this:
 
 ```
 export const BACKEND = "http://123.45.789.0:4000";
@@ -94,9 +92,9 @@ export const BACKEND = "http://123.45.789.0:4000";
 
 5. Open a _second_ (and final) terminal window and run `yarn dev:server`. This will run the REST API on port `4000`.
 
-6. Open a _third_ (and final) terminal window. Run `yarn dev:client`. This will serve the client on your IP address (this is why we changed the `BACKEND` constant above) using [Expo Go](https://expo.dev/accounts/yalenav). From there you'll get to choose whether you'd like to run it on web, iOS, or Android simulators. This app will only work on iOS and Android. **We recommend that you simply scan the QR code provided in the terminal and run the app straight on your phone**.
+6. Open a _third_ (and final) terminal window. Run `yarn dev:client`. This will serve the client on your IP address (that's why we changed the `BACKEND` constant ☝️) using [Expo Go](https://expo.dev/accounts/yalenav). From there, you'll have the option to run it on web, iOS, or Android simulators. Not that this app will only work on iOS and Android. **We recommend that you simply scan the QR code provided in the terminal and run the app straight on your phone**.
 
-After you run these 6 steps, your IDE (if you use one) should look something like this...
+Completed all 6 steps? Your IDE (if you use one) should look something like this...
 
 </kbd>
 <p align="center">
@@ -118,4 +116,4 @@ YaleNav makes use of the following third-party tools / APIs:
 
 # Disclaimer
 
-This is a W.I.P.! Any suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues).
+This is a W.I.P.! Suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues).
