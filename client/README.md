@@ -6,7 +6,7 @@
 
 📱 Our app's client runs on Expo.
 
-> ### Looking to run a local instance of the server? Follow the instructions in our main [README](https://github.com/yale-swe/f22-yalenav#readme).
+> ### Looking to run a local instance of the client? Follow the instructions in our main [README](https://github.com/yale-swe/f22-yalenav#readme).
 
 ---
 
