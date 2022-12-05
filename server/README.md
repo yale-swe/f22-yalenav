@@ -7,7 +7,7 @@
 
 ☁️ Our server is currently deployed on [DigitalOcean](https://www.digitalocean.com/products/app-platform).
 
-To run a local instance of the server, make sure to follow the instructions in our main [README](https://github.com/yale-swe/f22-yalenav#readme).
+> ### Looking to run a local instance of the server? Follow the instructions in our main [README](https://github.com/yale-swe/f22-yalenav#readme).
 
 ---
 
@@ -91,14 +91,24 @@ We use [mongoose](https://mongoosejs.com/docs/) to connect to our DB (modelled o
 ### 📝 Testing (`tests`, `testUtils`)
 
 ```
-│ ├── tests
-│ │ ├── buildings.test.ts
-│ │ ├── courses.test.ts
-│ │ └── user.test.ts
-│ ├── testUtils
-│ │ ├── jest.config.js
-│ │ ├── mongoose.ts
-└─└─└── setup.ts
+│   ├── __tests__
+│   │   ├── api.test.ts
+│   │   ├── app.test.ts
+│   │   ├── buildings.test.ts
+│   │   ├── courses.test.ts
+│   │   ├── shuttles.test.ts
+│   │   └── user.test.ts
+│   ├── testUtils
+│   │   ├── jest.config.js
+│   │   ├── mongoose.ts
+└── └── └── setup.ts
 ```
 
 Everyone's favorite! We use [jest](https://jestjs.io/) to test the APIs, the functionality of our routes, and our schema. To dive deeper into how our server is being tested, we suggest you check the files out for yourselves.
+
+> Make sure that whem you run the tests, you've set the `BACKEND` constant to your own IP, as suggested in the main README, and that your server's db has been cleared.
+
+<p align="center">
+<kbd>
+<img width="450" src="https://user-images.githubusercontent.com/40321598/205523741-6cbd8354-0d44-4482-a6b7-033e63cca884.png">
+</kbd>
