@@ -25,6 +25,7 @@ YaleNav is the only vertically-integrated navigation system that offers three fe
 > - Send vincent.schaffer@yale.edu an email. He'll add you to our beta user group on Expo. You'll get an invite via email within a few hours.
 > - In the meantime, download [Expo Go](https://apps.apple.com/us/app/expo-go/id982107779). Once you've successfuly joined the beta user group, sign into the app.
 > - Scan the QR code below, follow the link, and enjoy! 🎉
+> - **Note**: Our app currently only supports undergrads for now, since we leverage the Yalies API (see below)
 > <p align="center">
 > <img width="200" alt="Screen Shot 2022-12-04 at 18 06 40" src="https://user-images.githubusercontent.com/40321598/205521096-a5edf531-473b-4bda-9767-30dfcd7c547b.png">
 > </p>
