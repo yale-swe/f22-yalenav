@@ -82,7 +82,7 @@ Running this app locally requires the following technologies:
 
 2. Run `yarn install:all` in the root directory (`f22-yalenav`). This will install all of the necessary npm packages.
 
-3. In `client/src/constants.ts`, change the IP address from the default (DigitalOcean deployment IP) to your own. You can find your IP in [system preferences](https://discussions.apple.com/thread/8421538) (or, alternatively on Mac, hold `Ctrl + Option` and click on the wifi icon at the top of your screen.) For an IP such as `123.45.789.0`, the `BACKEND` constant should look like this:
+3. In `client/src/constants.ts`, change the IP address from the default (DigitalOcean deployment IP) to your own. You can find your IP in [system preferences](https://discussions.apple.com/thread/8421538) (or, alternatively on Mac, hold `Ctrl + Option` and click on the WiFi icon at the top of your screen.) For an IP such as `123.45.789.0`, the `BACKEND` constant should look like this:
 
 ```
 export const BACKEND = "http://123.45.789.0:4000";
