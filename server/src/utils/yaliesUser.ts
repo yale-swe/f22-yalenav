@@ -28,6 +28,18 @@ export const getUser = async (netid: String): Promise<IUser> => {
     .then((people: any) => {
       yalie = people[0];
       return formatUser(yalie);
+    })
+    .catch((_err: any) => {
+      const yalie: YaliesUserObject = {
+        first_name: "You're not an undergrad",
+        last_name: "Placeholder",
+        netid: netid,
+        school: "🤷‍♂️",
+        year: "🤷2022",
+        curriculum: "🤷‍♂️",
+        college: "🤷‍♂️",
+      };
+      return formatUser(yalie);
     });
 };
 
