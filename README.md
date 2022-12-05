@@ -67,7 +67,7 @@ We wrote this app as part of Yale's Software Engineering class. To get a sense o
 
 No one likes a broken app. We've configured [Github Actions](https://github.com/yale-swe/f22-yalenav/actions) to automatically run tests (linting, `server` tests ,and `client` tests) on every PR and every commit to main.
 
-## Quick start – 6 step set-up
+## Quick start – 6 Step Set Up
 
 Running this app locally requires the following technologies:
 
@@ -116,4 +116,4 @@ YaleNav makes use of the following third-party tools / APIs:
 
 # Disclaimer
 
-This is a W.I.P.! Suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues).
+🚧 This is a W.I.P.! Suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues).
