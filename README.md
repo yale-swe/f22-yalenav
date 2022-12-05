@@ -65,6 +65,10 @@ To get a sense of how we've organized the code in front- and back-end, be sure t
 - [MongoDB](https://www.mongodb.com/home) (NoSQL Database)
 - [Expo](https://expo.dev/) (Mobile App Platform)
 
+## CI/CD
+
+No likes a broken app. We've configured [Github Actions](https://github.com/yale-swe/f22-yalenav/actions) to automatically run tests (linting, `server` tests ,and `client` tests) on every PR and every commit to main.
+
 ## Quick start – 6 step set-up
 
 Running this app locally requires the following technologies:
