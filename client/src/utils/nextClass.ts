@@ -33,13 +33,13 @@ export const nextClass = (user: User | undefined) => {
     const currTime = hour + ":" + minutes;
 
     // get soonest class happening after current time
-    nextClass = coursesStartTimes
+    const nextClasses = coursesStartTimes
       .filter((c: any) => {
         return currTime < c.startTime;
       })
-      .sort((c1: any, c2: any) =>
-        c1.startTime.localeCompare(c2.startTime)
-      )[0].course;
+      .sort((c1: any, c2: any) => c1.startTime.localeCompare(c2.startTime));
+
+    if (nextClasses.length) nextClass = nextClasses[0].course;
   }
   return nextClass;
 };
@@ -63,6 +63,7 @@ export const getCourseLocation = (
 
 // expected format is for a course schedule is [DD] [H:M(am/pm)-H:M(am/pm)]
 const getCoursesStartTime = (courses: Course[]) => {
+  if (!courses) return [];
   return courses.map((c: Course) => {
     return {
       course: c,
@@ -72,8 +73,10 @@ const getCoursesStartTime = (courses: Course[]) => {
 };
 
 const getTodayCourses = (courses: Course[], today: string) => {
+  if (!courses) return [];
   return courses.filter((c: Course) => {
     const courseDays = c.schedule.split(" ", 2)[0];
+    if (courseDays == undefined || today == undefined) return true;
     // either everyday, or one day
     return (
       searchSubstring(courseDays, "-") || searchSubstring(courseDays, today)

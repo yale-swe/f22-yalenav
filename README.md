@@ -1,13 +1,5 @@
 ![header](.github/imgs/header.png)
 
----
-
-🚧 Please be patient as this repo is under construction over the next couple days.
-
-If you have any questions, reach out to vincent.schaffer@yale.edu.
-
----
-
 # YaleNav
 
 ### 📱 A mobile app helping **Yale** students explore and **navigate** campus seamlessly.
@@ -15,20 +7,30 @@ If you have any questions, reach out to vincent.schaffer@yale.edu.
 YaleNav is the only vertically-integrated navigation system that offers three features most critical to student life:
 
 1. **A-to-B routing** with Yale-specific transport integration – you’ll finally know whether or not to wait for the shuttle.
-2. **Dynamic visualization of campus spots** – you’ll know which butteries are near you and which dining halls are available.
+2. **Dynamic visualization of campus spots** – you’ll know which colleges, libraries, and dining halls are near you.
 3. Personalized tooling to help you **navigate your class schedule** faster than ever before.
 
 &nbsp;
 
-<kdb>
 <p align="center">
-<img style="border-radius:3%" width="200" src=".github/imgs/demo.gif"/>
-</p>
+<kbd>
+<img width="200" src=".github/imgs/demo.gif"/>
 </kbd>
+</p>
 
 &nbsp;
 
-The following repository was written as part of Yale's Software Engineering class, and contains the most updated code on which the application relies.
+> ### Interested in trying the app out for yourself?
+>
+> - Send vincent.schaffer@yale.edu an email. He'll add you to our beta user group on Expo. You'll get an invite via email within a few hours.
+> - In the meantime, download [Expo Go](https://apps.apple.com/us/app/expo-go/id982107779). Once you've successfuly joined the beta user group, sign into the app.
+> - Scan the QR code below, or [follow this link](exp://exp.host/@yalenav/YaleNav?release-channel=default), and enjoy! 🎉
+> - **Note**: Our app currently only supports undergrads for now, since we leverage the Yalies API (see below)
+> <p align="center">
+> <img width="200" alt="Screen Shot 2022-12-04 at 18 06 40" src="https://user-images.githubusercontent.com/40321598/205521096-a5edf531-473b-4bda-9767-30dfcd7c547b.png">
+> </p>
+
+# Development
 
 👊 Code authors:
 
@@ -39,9 +41,7 @@ The following repository was written as part of Yale's Software Engineering clas
 - Petru Neagu
 - Ali Hafez
 
-# Development
-
-To get a sense of how we've organized the code in front- and back-end, be sure to check out the following READMEs 👇
+We wrote this app as part of Yale's Software Engineering class. To get a sense of how we've organized the code, be sure to check out the following READMEs 👇
 
 - [Server](https://github.com/yale-swe/f22-yalenav/tree/main/server#readme)
 - [Client](https://github.com/yale-swe/f22-yalenav/tree/main/client#readme)
@@ -64,7 +64,11 @@ To get a sense of how we've organized the code in front- and back-end, be sure t
 - [MongoDB](https://www.mongodb.com/home) (NoSQL Database)
 - [Expo](https://expo.dev/) (Mobile App Platform)
 
-## Quick start
+## CI/CD
+
+No one likes a broken app. We've configured [Github Actions](https://github.com/yale-swe/f22-yalenav/actions) to automatically run tests (linting, `server` tests ,and `client` tests) on every PR and every commit to main.
+
+## Quick start – 6 Step Set Up
 
 Running this app locally requires the following technologies:
 
@@ -73,17 +77,31 @@ Running this app locally requires the following technologies:
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 - [Expo Go](https://expo.dev/client)
 
-## Directions
-
 > **Note**: The following won't work without first installing the above!
 
-Run `yarn install:all`. This will install all of the necessary npm packages.
+1. Clone the repo with `git clone https://github.com/yale-swe/f22-yalenav.git`
 
-Open a terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine. Keep this terminal open.
+2. Run `yarn install:all` in the root directory (`f22-yalenav`). This will install all of the necessary npm packages.
 
-Open another terminal window and run `yarn dev:server`. This will run the REST API on port `4000`.
+3. In `client/src/constants.ts`, change the IP address from the default (DigitalOcean deployment IP) to your own. You can find your IP in [system preferences](https://discussions.apple.com/thread/8421538) (or, alternatively on Mac, hold `Ctrl + Option` and click on the WiFi icon at the top of your screen.) For an IP such as `123.45.789.0`, the `BACKEND` constant should look like this:
 
-Open another terminal window. Run `yarn dev:client`. This will serve the client on port `3000` using Expo Go. From there you'll get to choose whether you'd like to run it on web, iOS, or Android. After completing the steps above, you should be able to go to `http://localhost:3000` on your browser and see the app.
+```
+export const BACKEND = "http://123.45.789.0:4000";
+```
+
+4. Open a _first_ terminal window and run `yarn dev:env`. This will run a MongoDB container on your local machine. Keep this terminal open.
+
+5. Open a _second_ (and final) terminal window and run `yarn dev:server`. This will run the REST API on port `4000`.
+
+6. Open a _third_ (and final) terminal window. Run `yarn dev:client`. This will serve the client on your IP address (that's why we changed the `BACKEND` constant ☝️) using [Expo Go](https://expo.dev/accounts/yalenav). From there, you'll have the option to run it on web, iOS, or Android simulators. Not that this app will only work on iOS and Android. **We recommend that you simply scan the QR code provided in the terminal and run the app straight on your phone**.
+
+Completed all 6 steps? Your IDE (if you use one) should look something like this...
+
+</kbd>
+<p align="center">
+<img width="1250" alt="Terminal" src="https://user-images.githubusercontent.com/40321598/205522764-1050c394-4472-4904-bcaa-e5a4b3119a03.png">
+</p>
+</kbd>
 
 # Acknowledgements
 
@@ -99,4 +117,4 @@ YaleNav makes use of the following third-party tools / APIs:
 
 # Disclaimer
 
-🚧 W.I.P!
+🚧 This is a W.I.P.! Suggestions for improvement? [Please submit an issue](https://github.com/yale-swe/f22-yalenav/issues).
