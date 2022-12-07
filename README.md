@@ -34,7 +34,7 @@ YaleNav is the only vertically-integrated navigation system that offers three fe
 
 👊 Code authors:
 
-- Kyle Zawadski
+- Kyle Zawadzki
 - Vincent Schaffer
 - Graham Hardcastle
 - Jonathan Yu
