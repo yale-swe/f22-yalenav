@@ -34,12 +34,12 @@ YaleNav is the only vertically-integrated navigation system that offers three fe
 
 👊 Code authors:
 
-- Kyle Zawadzki
-- Vincent Schaffer
-- Graham Hardcastle
-- Jonathan Yu
-- Petru Neagu
 - Ali Hafez
+- Graham Hardcastle
+- Petru Neagu
+- Vincent Schaffer
+- Jonathan Yu
+- Kyle Zawadzki
 
 We wrote this app as part of Yale's Software Engineering class. To get a sense of how we've organized the code, be sure to check out the following READMEs 👇
 
